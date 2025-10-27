@@ -1,0 +1,897 @@
+fileFormatVersion: 2
+guid: 41e396ab393d16449984de5014843b2c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1087732991155680423
+    second: Cr9_0
+  - first:
+      213: -8811699362630326078
+    second: Cr9_1
+  - first:
+      213: 80401649034113517
+    second: Cr9_2
+  - first:
+      213: -3156094133012866852
+    second: Cr9_3
+  - first:
+      213: 9053093462505981594
+    second: Cr9_4
+  - first:
+      213: 3728252842597448744
+    second: Cr9_5
+  - first:
+      213: -8943608311246920195
+    second: Cr9_6
+  - first:
+      213: 5283370539980887271
+    second: Cr9_7
+  - first:
+      213: -8305170239330564223
+    second: Cr9_8
+  - first:
+      213: -7426830311985129577
+    second: Cr9_9
+  - first:
+      213: 9186437699017879313
+    second: Cr9_10
+  - first:
+      213: 7566149507683495814
+    second: Cr9_11
+  - first:
+      213: 7011667665919492617
+    second: Cr9_12
+  - first:
+      213: -9100135684743367408
+    second: Cr9_13
+  - first:
+      213: -4408547795656163221
+    second: Cr9_14
+  - first:
+      213: 7250840022140814316
+    second: Cr9_15
+  - first:
+      213: -6986464943269876357
+    second: Cr9_16
+  - first:
+      213: 2234086638643851300
+    second: Cr9_17
+  - first:
+      213: -8257489672589896098
+    second: Cr9_18
+  - first:
+      213: -8263910318191192058
+    second: Cr9_19
+  - first:
+      213: -2913148115683760700
+    second: Cr9_20
+  - first:
+      213: -1886525657029707883
+    second: Cr9_21
+  - first:
+      213: -2013374356047363915
+    second: Cr9_22
+  - first:
+      213: 8550264392257851912
+    second: Cr9_23
+  - first:
+      213: 5912218126634610683
+    second: Cr9_24
+  - first:
+      213: -1611450916989450675
+    second: Cr9_25
+  - first:
+      213: 2124478225053004002
+    second: Cr9_26
+  - first:
+      213: -918379622925647504
+    second: Cr9_27
+  - first:
+      213: 5720620597515943276
+    second: Cr9_28
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Cr9_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 252
+        height: 252
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95b41bb8b9897e0f0800000000000000
+      internalID: -1087732991155680423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_1
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 245
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c822e6bd1e86b580800000000000000
+      internalID: -8811699362630326078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_2
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 211
+        width: 46
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de1b802bfd4ad1100800000000000000
+      internalID: 80401649034113517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_3
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 245
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd8d2149b1d4334d0800000000000000
+      internalID: -3156094133012866852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_4
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 240
+        width: 15
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a96841fe98c03ad70800000000000000
+      internalID: 9053093462505981594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_5
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 223
+        width: 38
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82c7cdb053a6db330800000000000000
+      internalID: 3728252842597448744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_6
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 243
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df565ed40abe1e380800000000000000
+      internalID: -8943608311246920195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_7
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 241
+        width: 8
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e4135c738d425940800000000000000
+      internalID: 5283370539980887271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_8
+      rect:
+        serializedVersion: 2
+        x: 379
+        y: 214
+        width: 42
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1874e858bab1ebc80800000000000000
+      internalID: -8305170239330564223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_9
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 227
+        width: 38
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 797d5072e299ee890800000000000000
+      internalID: -7426830311985129577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_10
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 220
+        width: 13
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11fa7395a68cc7f70800000000000000
+      internalID: 9186437699017879313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_11
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 220
+        width: 8
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68fa8fad3ec500960800000000000000
+      internalID: 7566149507683495814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_12
+      rect:
+        serializedVersion: 2
+        x: 459
+        y: 234
+        width: 13
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 902493eb7927e4160800000000000000
+      internalID: 7011667665919492617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_13
+      rect:
+        serializedVersion: 2
+        x: 466
+        y: 192
+        width: 34
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 015f30f2fc2d5b180800000000000000
+      internalID: -9100135684743367408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_14
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 107
+        width: 62
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6045982321b1d2c0800000000000000
+      internalID: -4408547795656163221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_15
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 210
+        width: 15
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce383e2659820a460800000000000000
+      internalID: 7250840022140814316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_16
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 176
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7deda466271b0f90800000000000000
+      internalID: -6986464943269876357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_17
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 198
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42030dd06f1110f10800000000000000
+      internalID: 2234086638643851300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_18
+      rect:
+        serializedVersion: 2
+        x: 379
+        y: 152
+        width: 47
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5692d094e0876d80800000000000000
+      internalID: -8257489672589896098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_19
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 192
+        width: 40
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60857848951b05d80800000000000000
+      internalID: -8263910318191192058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_20
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 107
+        width: 64
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c5229a293b6297d0800000000000000
+      internalID: -2913148115683760700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_21
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 176
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 597751109e6b1d5e0800000000000000
+      internalID: -1886525657029707883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_22
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 174
+        width: 22
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b08ae3c0be0f04e0800000000000000
+      internalID: -2013374356047363915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_23
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 127
+        width: 55
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 802533cd924a8a670800000000000000
+      internalID: 8550264392257851912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_24
+      rect:
+        serializedVersion: 2
+        x: 379
+        y: 127
+        width: 69
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bff6ea8df0b6c0250800000000000000
+      internalID: 5912218126634610683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_25
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 152
+        width: 12
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d46cdd7cde9f2a9e0800000000000000
+      internalID: -1611450916989450675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_26
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 152
+        width: 8
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e0365190b9ab7d10800000000000000
+      internalID: 2124478225053004002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_27
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 1
+        width: 126
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0714f8649924143f0800000000000000
+      internalID: -918379622925647504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr9_28
+      rect:
+        serializedVersion: 2
+        x: 379
+        y: 1
+        width: 106
+        height: 126
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6d78b1df1ab36f40800000000000000
+      internalID: 5720620597515943276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Cr9_0: -1087732991155680423
+      Cr9_1: -8811699362630326078
+      Cr9_10: 9186437699017879313
+      Cr9_11: 7566149507683495814
+      Cr9_12: 7011667665919492617
+      Cr9_13: -9100135684743367408
+      Cr9_14: -4408547795656163221
+      Cr9_15: 7250840022140814316
+      Cr9_16: -6986464943269876357
+      Cr9_17: 2234086638643851300
+      Cr9_18: -8257489672589896098
+      Cr9_19: -8263910318191192058
+      Cr9_2: 80401649034113517
+      Cr9_20: -2913148115683760700
+      Cr9_21: -1886525657029707883
+      Cr9_22: -2013374356047363915
+      Cr9_23: 8550264392257851912
+      Cr9_24: 5912218126634610683
+      Cr9_25: -1611450916989450675
+      Cr9_26: 2124478225053004002
+      Cr9_27: -918379622925647504
+      Cr9_28: 5720620597515943276
+      Cr9_3: -3156094133012866852
+      Cr9_4: 9053093462505981594
+      Cr9_5: 3728252842597448744
+      Cr9_6: -8943608311246920195
+      Cr9_7: 5283370539980887271
+      Cr9_8: -8305170239330564223
+      Cr9_9: -7426830311985129577
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
