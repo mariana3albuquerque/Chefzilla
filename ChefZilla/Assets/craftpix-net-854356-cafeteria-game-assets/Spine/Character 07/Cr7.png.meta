@@ -1,0 +1,897 @@
+fileFormatVersion: 2
+guid: 28948456a184c86419ed7c638de3f3a2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4051056699600737433
+    second: Cr7_0
+  - first:
+      213: -300980511057240388
+    second: Cr7_1
+  - first:
+      213: -6620272384398928142
+    second: Cr7_2
+  - first:
+      213: 455094099393312945
+    second: Cr7_3
+  - first:
+      213: -9105168705368081028
+    second: Cr7_4
+  - first:
+      213: -8866838701719220248
+    second: Cr7_5
+  - first:
+      213: 1885075353200003378
+    second: Cr7_6
+  - first:
+      213: -9001565059378160579
+    second: Cr7_7
+  - first:
+      213: -949747459355419534
+    second: Cr7_8
+  - first:
+      213: 4374493093039719146
+    second: Cr7_9
+  - first:
+      213: 786768968126606540
+    second: Cr7_10
+  - first:
+      213: -7789908167932673353
+    second: Cr7_11
+  - first:
+      213: 1284821665283884888
+    second: Cr7_12
+  - first:
+      213: 1378136901190277956
+    second: Cr7_13
+  - first:
+      213: 6423575480459032940
+    second: Cr7_14
+  - first:
+      213: 461161497722632997
+    second: Cr7_15
+  - first:
+      213: -9189878082904954278
+    second: Cr7_16
+  - first:
+      213: 4210069225937646608
+    second: Cr7_17
+  - first:
+      213: -7557207207687933683
+    second: Cr7_18
+  - first:
+      213: -327709462517864121
+    second: Cr7_19
+  - first:
+      213: -431482425135799219
+    second: Cr7_20
+  - first:
+      213: 8972980031546298178
+    second: Cr7_21
+  - first:
+      213: -765655353255908937
+    second: Cr7_22
+  - first:
+      213: 5110347455421071013
+    second: Cr7_23
+  - first:
+      213: 5032110590528984132
+    second: Cr7_24
+  - first:
+      213: -9052287401143332054
+    second: Cr7_25
+  - first:
+      213: 6143346513025411171
+    second: Cr7_26
+  - first:
+      213: -6371854803892139676
+    second: Cr7_27
+  - first:
+      213: -2649260285522902663
+    second: Cr7_28
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Cr7_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 3
+        width: 252
+        height: 252
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76be4572561c7c7c0800000000000000
+      internalID: -4051056699600737433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_1
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 169
+        width: 55
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbe1e12e1d3b2dbf0800000000000000
+      internalID: -300980511057240388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_2
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 226
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f6d29397511024a0800000000000000
+      internalID: -6620272384398928142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_3
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 233
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b8f6b51ca1d05600800000000000000
+      internalID: 455094099393312945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_4
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 211
+        width: 12
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7d3880cd41f3a180800000000000000
+      internalID: -9105168705368081028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_5
+      rect:
+        serializedVersion: 2
+        x: 355
+        y: 204
+        width: 24
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ef0757ed29a2f480800000000000000
+      internalID: -8866838701719220248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_6
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 211
+        width: 8
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2398452db02292a10800000000000000
+      internalID: 1885075353200003378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_7
+      rect:
+        serializedVersion: 2
+        x: 316
+        y: 216
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3c52355544041380800000000000000
+      internalID: -9001565059378160579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_8
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 147
+        width: 25
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27c5acab7b1d1d2f0800000000000000
+      internalID: -949747459355419534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_9
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 216
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae248038a4255bc30800000000000000
+      internalID: 4374493093039719146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_10
+      rect:
+        serializedVersion: 2
+        x: 379
+        y: 204
+        width: 12
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cccac71453a2bea00800000000000000
+      internalID: 786768968126606540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_11
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 190
+        width: 8
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b285714bcfa4e390800000000000000
+      internalID: -7789908167932673353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_12
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 169
+        width: 8
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 857c8fe4f7a94d110800000000000000
+      internalID: 1284821665283884888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_13
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 188
+        width: 13
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44bdd4fb530202310800000000000000
+      internalID: 1378136901190277956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_14
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 170
+        width: 42
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c697bacaddf152950800000000000000
+      internalID: 6423575480459032940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_15
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 170
+        width: 25
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52b38d750ff566600800000000000000
+      internalID: 461161497722632997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_16
+      rect:
+        serializedVersion: 2
+        x: 463
+        y: 148
+        width: 34
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5a6d4bd29ef67080800000000000000
+      internalID: -9189878082904954278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_17
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 177
+        width: 15
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01431d3b7ab2d6a30800000000000000
+      internalID: 4210069225937646608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_18
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 100
+        width: 64
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d013dbb95186f1790800000000000000
+      internalID: -7557207207687933683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_19
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 147
+        width: 15
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 749a619eafdb37bf0800000000000000
+      internalID: -327709462517864121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_20
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 108
+        width: 103
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d44e4fa3501130af0800000000000000
+      internalID: -431482425135799219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_21
+      rect:
+        serializedVersion: 2
+        x: 463
+        y: 108
+        width: 35
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24f8dfc3ccd668c70800000000000000
+      internalID: 8972980031546298178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_22
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 100
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b92ec84388df55f0800000000000000
+      internalID: -765655353255908937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_23
+      rect:
+        serializedVersion: 2
+        x: 362
+        y: 3
+        width: 96
+        height: 105
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5aeb1375fe99be640800000000000000
+      internalID: 5110347455421071013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_24
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 101
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44416fabbe5a5d540800000000000000
+      internalID: 5032110590528984132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_25
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 67
+        width: 46
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a239b1ad190df5280800000000000000
+      internalID: -9052287401143332054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_26
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 101
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 368a301da1d814550800000000000000
+      internalID: 6143346513025411171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_27
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 3
+        width: 109
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46984adb0df9297a0800000000000000
+      internalID: -6371854803892139676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr7_28
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 3
+        width: 47
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9718bd38ecfeb3bd0800000000000000
+      internalID: -2649260285522902663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Cr7_0: -4051056699600737433
+      Cr7_1: -300980511057240388
+      Cr7_10: 786768968126606540
+      Cr7_11: -7789908167932673353
+      Cr7_12: 1284821665283884888
+      Cr7_13: 1378136901190277956
+      Cr7_14: 6423575480459032940
+      Cr7_15: 461161497722632997
+      Cr7_16: -9189878082904954278
+      Cr7_17: 4210069225937646608
+      Cr7_18: -7557207207687933683
+      Cr7_19: -327709462517864121
+      Cr7_2: -6620272384398928142
+      Cr7_20: -431482425135799219
+      Cr7_21: 8972980031546298178
+      Cr7_22: -765655353255908937
+      Cr7_23: 5110347455421071013
+      Cr7_24: 5032110590528984132
+      Cr7_25: -9052287401143332054
+      Cr7_26: 6143346513025411171
+      Cr7_27: -6371854803892139676
+      Cr7_28: -2649260285522902663
+      Cr7_3: 455094099393312945
+      Cr7_4: -9105168705368081028
+      Cr7_5: -8866838701719220248
+      Cr7_6: 1885075353200003378
+      Cr7_7: -9001565059378160579
+      Cr7_8: -949747459355419534
+      Cr7_9: 4374493093039719146
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

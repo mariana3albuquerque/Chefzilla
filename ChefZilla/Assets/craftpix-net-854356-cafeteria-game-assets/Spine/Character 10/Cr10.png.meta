@@ -1,0 +1,897 @@
+fileFormatVersion: 2
+guid: 7e2a98a7643bbb8729bbc3d5d832acbc
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6273387799781156290
+    second: Cr10_0
+  - first:
+      213: 5280968493552398809
+    second: Cr10_1
+  - first:
+      213: -1172796472283143952
+    second: Cr10_2
+  - first:
+      213: -3958880247070071855
+    second: Cr10_3
+  - first:
+      213: -321596438664758768
+    second: Cr10_4
+  - first:
+      213: -3596991940785577180
+    second: Cr10_5
+  - first:
+      213: -4490262696036066605
+    second: Cr10_6
+  - first:
+      213: 434286520752008487
+    second: Cr10_7
+  - first:
+      213: 993714968084759741
+    second: Cr10_8
+  - first:
+      213: -662223682123834991
+    second: Cr10_9
+  - first:
+      213: -8118512719960165864
+    second: Cr10_10
+  - first:
+      213: -2778054616802048205
+    second: Cr10_11
+  - first:
+      213: 7913819787735346605
+    second: Cr10_12
+  - first:
+      213: -6029921111205359143
+    second: Cr10_13
+  - first:
+      213: 5385433254959145794
+    second: Cr10_14
+  - first:
+      213: 2664388910815868280
+    second: Cr10_15
+  - first:
+      213: 1807917630931185608
+    second: Cr10_16
+  - first:
+      213: 1154617943107360928
+    second: Cr10_17
+  - first:
+      213: -3980774725243556982
+    second: Cr10_18
+  - first:
+      213: -1654410990522488085
+    second: Cr10_19
+  - first:
+      213: -1659462894160466337
+    second: Cr10_20
+  - first:
+      213: -1103273856155853607
+    second: Cr10_21
+  - first:
+      213: 2814871657261831347
+    second: Cr10_22
+  - first:
+      213: -8226727638849893608
+    second: Cr10_23
+  - first:
+      213: 7398679382121765765
+    second: Cr10_24
+  - first:
+      213: -955899833862769293
+    second: Cr10_25
+  - first:
+      213: 1656671252463176923
+    second: Cr10_26
+  - first:
+      213: 1309808030260280961
+    second: Cr10_27
+  - first:
+      213: -2146214377456262145
+    second: Cr10_28
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Cr10_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 252
+        height: 252
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c5a93057fc8f0750800000000000000
+      internalID: 6273387799781156290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_1
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 215
+        width: 46
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d178387dd4c94940800000000000000
+      internalID: 5280968493552398809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_2
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 244
+        width: 15
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f06bbb72d369bfe0800000000000000
+      internalID: -1172796472283143952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_3
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 246
+        width: 21
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d3e31de36b3f09c0800000000000000
+      internalID: -3958880247070071855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_4
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 239
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01a3b503eb5798bf0800000000000000
+      internalID: -321596438664758768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_5
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 246
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 423688533eae41ec0800000000000000
+      internalID: -3596991940785577180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_6
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 239
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3da159e4ed16fa1c0800000000000000
+      internalID: -4490262696036066605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_7
+      rect:
+        serializedVersion: 2
+        x: 362
+        y: 231
+        width: 38
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72de9282a45e60600800000000000000
+      internalID: 434286520752008487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_8
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 243
+        width: 22
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db44ea0af726acd00800000000000000
+      internalID: 993714968084759741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_9
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 234
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1995829d11f4fc6f0800000000000000
+      internalID: -662223682123834991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_10
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 234
+        width: 22
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 812b846e1bf355f80800000000000000
+      internalID: -8118512719960165864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_11
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 214
+        width: 15
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33741e67b0e5279d0800000000000000
+      internalID: -2778054616802048205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_12
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 176
+        width: 47
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dad2c60fa2983dd60800000000000000
+      internalID: 7913819787735346605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_13
+      rect:
+        serializedVersion: 2
+        x: 362
+        y: 197
+        width: 42
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d1d9fe72ba615ca0800000000000000
+      internalID: -6029921111205359143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_14
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 222
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2436a6b1307ecba40800000000000000
+      internalID: 5385433254959145794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_15
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 182
+        width: 35
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8757bac099fc9f420800000000000000
+      internalID: 2664388910815868280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_16
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 222
+        width: 13
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cfa1dea183071910800000000000000
+      internalID: 1807917630931185608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_17
+      rect:
+        serializedVersion: 2
+        x: 439
+        y: 165
+        width: 25
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a8d43ed6e6060010800000000000000
+      internalID: 1154617943107360928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_18
+      rect:
+        serializedVersion: 2
+        x: 464
+        y: 207
+        width: 38
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8b210b7a7271c8c0800000000000000
+      internalID: -3980774725243556982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_19
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 111
+        width: 62
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: beaa76538f95a09e0800000000000000
+      internalID: -1654410990522488085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_20
+      rect:
+        serializedVersion: 2
+        x: 362
+        y: 176
+        width: 8
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5eaf9b3a4768f8e0800000000000000
+      internalID: -1659462894160466337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_21
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 182
+        width: 23
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9dcdad1f54260b0f0800000000000000
+      internalID: -1103273856155853607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_22
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 118
+        width: 69
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b41863cbde601720800000000000000
+      internalID: 2814871657261831347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_23
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 182
+        width: 8
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81bc67eaccac4dd80800000000000000
+      internalID: -8226727638849893608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_24
+      rect:
+        serializedVersion: 2
+        x: 464
+        y: 165
+        width: 34
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58bdf5ab2b36da660800000000000000
+      internalID: 7398679382121765765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_25
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 111
+        width: 55
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37531c96a26fbb2f0800000000000000
+      internalID: -955899833862769293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_26
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 1
+        width: 110
+        height: 117
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdc4ba80abdadf610800000000000000
+      internalID: 1656671252463176923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_27
+      rect:
+        serializedVersion: 2
+        x: 439
+        y: 118
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18e3e9fb67f5d2210800000000000000
+      internalID: 1309808030260280961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr10_28
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 1
+        width: 117
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff322e3156d1732e0800000000000000
+      internalID: -2146214377456262145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Cr10_0: 6273387799781156290
+      Cr10_1: 5280968493552398809
+      Cr10_10: -8118512719960165864
+      Cr10_11: -2778054616802048205
+      Cr10_12: 7913819787735346605
+      Cr10_13: -6029921111205359143
+      Cr10_14: 5385433254959145794
+      Cr10_15: 2664388910815868280
+      Cr10_16: 1807917630931185608
+      Cr10_17: 1154617943107360928
+      Cr10_18: -3980774725243556982
+      Cr10_19: -1654410990522488085
+      Cr10_2: -1172796472283143952
+      Cr10_20: -1659462894160466337
+      Cr10_21: -1103273856155853607
+      Cr10_22: 2814871657261831347
+      Cr10_23: -8226727638849893608
+      Cr10_24: 7398679382121765765
+      Cr10_25: -955899833862769293
+      Cr10_26: 1656671252463176923
+      Cr10_27: 1309808030260280961
+      Cr10_28: -2146214377456262145
+      Cr10_3: -3958880247070071855
+      Cr10_4: -321596438664758768
+      Cr10_5: -3596991940785577180
+      Cr10_6: -4490262696036066605
+      Cr10_7: 434286520752008487
+      Cr10_8: 993714968084759741
+      Cr10_9: -662223682123834991
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

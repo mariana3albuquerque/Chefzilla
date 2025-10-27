@@ -1,0 +1,949 @@
+fileFormatVersion: 2
+guid: 61d6b38436508762ab53edec081f0ff7
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3893321045587568102
+    second: Cr6_0
+  - first:
+      213: -5191372262049237668
+    second: Cr6_1
+  - first:
+      213: -4926528891596882665
+    second: Cr6_2
+  - first:
+      213: 1999409654868323051
+    second: Cr6_3
+  - first:
+      213: -410698512198207107
+    second: Cr6_4
+  - first:
+      213: 8335058275498700578
+    second: Cr6_5
+  - first:
+      213: 7606086365482497296
+    second: Cr6_6
+  - first:
+      213: 3649451997514785721
+    second: Cr6_7
+  - first:
+      213: -1927483364654183109
+    second: Cr6_8
+  - first:
+      213: -5172742491554902391
+    second: Cr6_9
+  - first:
+      213: 2443182793637605975
+    second: Cr6_10
+  - first:
+      213: 6197702373712204350
+    second: Cr6_11
+  - first:
+      213: 7736277955063865823
+    second: Cr6_12
+  - first:
+      213: -6237670836919783143
+    second: Cr6_13
+  - first:
+      213: -3916423126309198929
+    second: Cr6_14
+  - first:
+      213: 5140997044008123245
+    second: Cr6_15
+  - first:
+      213: -6889620788916957398
+    second: Cr6_16
+  - first:
+      213: 6295142427649762156
+    second: Cr6_17
+  - first:
+      213: -7386817426619348594
+    second: Cr6_18
+  - first:
+      213: 2255299674979872723
+    second: Cr6_19
+  - first:
+      213: 6078265643153411839
+    second: Cr6_20
+  - first:
+      213: 5714139502607010583
+    second: Cr6_21
+  - first:
+      213: -6173018407484649636
+    second: Cr6_22
+  - first:
+      213: 2125751021260804633
+    second: Cr6_23
+  - first:
+      213: -4341870560349446940
+    second: Cr6_24
+  - first:
+      213: 1956204391231241133
+    second: Cr6_25
+  - first:
+      213: -6523051877437058030
+    second: Cr6_26
+  - first:
+      213: 1088874269130648480
+    second: Cr6_27
+  - first:
+      213: 4735704413852202677
+    second: Cr6_28
+  - first:
+      213: -1814179476250527056
+    second: Cr6_29
+  - first:
+      213: 6266710101753422481
+    second: Cr6_30
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Cr6_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 252
+        height: 252
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1a5331032528f9c0800000000000000
+      internalID: -3893321045587568102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_1
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 231
+        width: 38
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c553db7ce6a84f7b0800000000000000
+      internalID: -5191372262049237668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_2
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 246
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71d3ba0331471abb0800000000000000
+      internalID: -4926528891596882665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_3
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 231
+        width: 11
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: beaa9eedc745fbb10800000000000000
+      internalID: 1999409654868323051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_4
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 231
+        width: 11
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d79f4ae01e7ec4af0800000000000000
+      internalID: -410698512198207107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_5
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 246
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22fa74d27531ca370800000000000000
+      internalID: 8335058275498700578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_6
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 244
+        width: 21
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 015b689204f3e8960800000000000000
+      internalID: 7606086365482497296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_7
+      rect:
+        serializedVersion: 2
+        x: 356
+        y: 242
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b365b0914575a230800000000000000
+      internalID: 3649451997514785721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_8
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 242
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3d005397143045e0800000000000000
+      internalID: -1927483364654183109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_9
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 226
+        width: 69
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98e0d4c3c1ab638b0800000000000000
+      internalID: -5172742491554902391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_10
+      rect:
+        serializedVersion: 2
+        x: 454
+        y: 225
+        width: 38
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 752bd186ecde7e120800000000000000
+      internalID: 2443182793637605975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_11
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 225
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3216b8d879a20650800000000000000
+      internalID: 6197702373712204350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_12
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 116
+        width: 95
+        height: 115
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd16443cfc7cc5b60800000000000000
+      internalID: 7736277955063865823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_13
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 231
+        width: 23
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91135932c675f69a0800000000000000
+      internalID: -6237670836919783143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_14
+      rect:
+        serializedVersion: 2
+        x: 355
+        y: 230
+        width: 22
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa3273eaae116a9c0800000000000000
+      internalID: -3916423126309198929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_15
+      rect:
+        serializedVersion: 2
+        x: 377
+        y: 226
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6bff67c29d785740800000000000000
+      internalID: 5140997044008123245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_16
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 218
+        width: 22
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2f457f25662360a0800000000000000
+      internalID: -6889620788916957398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_17
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 218
+        width: 21
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c63ed825fa6dc5750800000000000000
+      internalID: 6295142427649762156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_18
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 211
+        width: 13
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8940b100b0cc7990800000000000000
+      internalID: -7386817426619348594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_19
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 178
+        width: 63
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dfaa35fa1f6c4f10800000000000000
+      internalID: 2255299674979872723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_20
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 2
+        width: 96
+        height: 114
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffece9ef5665a5450800000000000000
+      internalID: 6078265643153411839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_21
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 116
+        width: 94
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71b0be15a93bc4f40800000000000000
+      internalID: 5714139502607010583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_22
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 113
+        width: 55
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5f0ee5e678055aa0800000000000000
+      internalID: -6173018407484649636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_23
+      rect:
+        serializedVersion: 2
+        x: 497
+        y: 105
+        width: 34
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9129c278a4f208d10800000000000000
+      internalID: 2125751021260804633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_24
+      rect:
+        serializedVersion: 2
+        x: 349
+        y: 1
+        width: 62
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ec15a5cab39eb3c0800000000000000
+      internalID: -4341870560349446940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_25
+      rect:
+        serializedVersion: 2
+        x: 411
+        y: 70
+        width: 46
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dabb5678785d52b10800000000000000
+      internalID: 1956204391231241133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_26
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 71
+        width: 46
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2145be9c0e67975a0800000000000000
+      internalID: -6523051877437058030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_27
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 43
+        width: 35
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ab6890f0657c1f00800000000000000
+      internalID: 1088874269130648480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_28
+      rect:
+        serializedVersion: 2
+        x: 411
+        y: 1
+        width: 64
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b6f8e4d21a98b140800000000000000
+      internalID: 4735704413852202677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_29
+      rect:
+        serializedVersion: 2
+        x: 475
+        y: 43
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ba7847d06db2d6e0800000000000000
+      internalID: -1814179476250527056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cr6_30
+      rect:
+        serializedVersion: 2
+        x: 475
+        y: 1
+        width: 34
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1926d5592a3d7f650800000000000000
+      internalID: 6266710101753422481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Cr6_0: -3893321045587568102
+      Cr6_1: -5191372262049237668
+      Cr6_10: 2443182793637605975
+      Cr6_11: 6197702373712204350
+      Cr6_12: 7736277955063865823
+      Cr6_13: -6237670836919783143
+      Cr6_14: -3916423126309198929
+      Cr6_15: 5140997044008123245
+      Cr6_16: -6889620788916957398
+      Cr6_17: 6295142427649762156
+      Cr6_18: -7386817426619348594
+      Cr6_19: 2255299674979872723
+      Cr6_2: -4926528891596882665
+      Cr6_20: 6078265643153411839
+      Cr6_21: 5714139502607010583
+      Cr6_22: -6173018407484649636
+      Cr6_23: 2125751021260804633
+      Cr6_24: -4341870560349446940
+      Cr6_25: 1956204391231241133
+      Cr6_26: -6523051877437058030
+      Cr6_27: 1088874269130648480
+      Cr6_28: 4735704413852202677
+      Cr6_29: -1814179476250527056
+      Cr6_3: 1999409654868323051
+      Cr6_30: 6266710101753422481
+      Cr6_4: -410698512198207107
+      Cr6_5: 8335058275498700578
+      Cr6_6: 7606086365482497296
+      Cr6_7: 3649451997514785721
+      Cr6_8: -1927483364654183109
+      Cr6_9: -5172742491554902391
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
