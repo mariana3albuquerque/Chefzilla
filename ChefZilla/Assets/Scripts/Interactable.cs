@@ -6,7 +6,9 @@ public enum InteractableType { Stove, Fridge, Table }
 public class Interactable : MonoBehaviour
 {
     public InteractableType type = InteractableType.Stove;
-    public GameObject spawnPrefab;       // prefab que será instanciado quando o jogador pegar
-    public GameObject visualIndicator;   // opcional: um sprite presente na cena para indicar que tem item (não usado na opção A)
-}
+    public GameObject spawnPrefab;     // prefab que será instanciado quando o jogador pegar
+    public GameObject visualIndicator; // opcional
 
+    [Header("Cooking (para Stove)")]
+    public float cookingTime = 2.5f;   // tempo que vai ficar cozinhando
+}

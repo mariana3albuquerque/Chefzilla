@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
@@ -7,8 +8,27 @@ public class PlayerInteractionZone : MonoBehaviour
     public float tableSearchRadius = 1.0f;    // raio para procurar TableSpots
     public bool allowRAsAlias = false;        // (opcional) permitir R como alias para E
 
+    [Header("Cooking")]
+    [Tooltip("Tempo padrão se o fogão não tiver cookingTime > 0")]
+    public float defaultCookTime = 2.5f;
+    public bool blockMovementWhileCooking = true;
+
     Interactable currentInteractable = null;
     GameObject heldObject = null;
+
+    // NOVO: referências do pai (Chef)
+    Animator anim;
+    PlayerController2D mover;
+
+    bool isCooking = false;
+    float cachedMoveSpeed = 0f;
+
+    void Awake()
+    {
+        // pega no PAI (Chef)
+        anim  = GetComponentInParent<Animator>();
+        mover = GetComponentInParent<PlayerController2D>();
+    }
 
     void Reset()
     {
@@ -30,57 +50,90 @@ public class PlayerInteractionZone : MonoBehaviour
 
     void Update()
     {
-        // Responde a E (ou R como alias, se allowRAsAlias = true)
+        if (isCooking) return; // não responde E enquanto cozinha
+
         if (Input.GetKeyDown(KeyCode.E) || (allowRAsAlias && Input.GetKeyDown(KeyCode.R)))
         {
             // 1) Se estiver segurando algo -> tenta colocar na mesa livre mais próxima
             if (heldObject != null)
             {
                 TableSpot targetSpot = FindNearestFreeTableSpot();
-                if (targetSpot != null)
-                {
-                    PlaceOnTable(targetSpot);
-                }
-                else
-                {
-                    Debug.Log("Não há vaga livre próxima para colocar o item.");
-                }
+                if (targetSpot != null) PlaceOnTable(targetSpot);
+                else Debug.Log("Não há vaga livre próxima para colocar o item.");
                 return;
             }
 
-            // 2) Se não estiver segurando -> primeiro tenta pegar de um interactable (fogão/geladeira)
-            if (heldObject == null && currentInteractable != null)
+            // 2) Sem item na mão e perto de um interactable
+            if (currentInteractable != null)
             {
-                if (currentInteractable.type == InteractableType.Stove ||
-                    currentInteractable.type == InteractableType.Fridge)
+                if (currentInteractable.type == InteractableType.Stove)
+                {
+                    // NOVO: cozinha antes de pegar
+                    StartCoroutine(CookThenPick(currentInteractable));
+                    return;
+                }
+
+                if (currentInteractable.type == InteractableType.Fridge ||
+                    currentInteractable.type == InteractableType.Table)
                 {
                     PickFrom(currentInteractable);
+                    return;
                 }
+
+                // fallback
+                PickFrom(currentInteractable);
                 return;
             }
 
-            // 3) Se não segurando e não tem interactable próximo -> tenta pegar de uma TableSpot ocupada (mais próxima)
-            if (heldObject == null)
-            {
-                TableSpot occupied = FindNearestOccupiedTableSpot();
-                if (occupied != null)
-                {
-                    PickFromTable(occupied);
-                }
-                else
-                {
-                    Debug.Log("Nada para pegar por perto.");
-                }
-                return;
-            }
+            // 3) Tenta pegar de uma mesa ocupada próxima
+            TableSpot occupied = FindNearestOccupiedTableSpot();
+            if (occupied != null) PickFromTable(occupied);
+            else Debug.Log("Nada para pegar por perto.");
         }
     }
 
+    // ===================== COOKING =====================
+    IEnumerator CookThenPick(Interactable stove)
+    {
+        if (stove == null || isCooking) yield break;
+        isCooking = true;
+
+        float cookTime = (stove.cookingTime > 0f) ? stove.cookingTime : defaultCookTime;
+
+        // opcional: travar movimento enquanto cozinha
+        if (blockMovementWhileCooking && mover != null)
+        {
+            cachedMoveSpeed = mover.moveSpeed;
+            mover.moveSpeed = 0f;
+        }
+
+        if (anim) anim.SetBool("isCooking", true);
+
+        float t = 0f;
+        while (t < cookTime)
+        {
+            // se sair do trigger do fogão, cancela
+            if (currentInteractable != stove) break;
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        if (anim) anim.SetBool("isCooking", false);
+        if (blockMovementWhileCooking && mover != null) mover.moveSpeed = cachedMoveSpeed;
+
+        // só pega se terminou e ainda está no fogão
+        if (t >= cookTime && currentInteractable == stove)
+            PickFrom(stove);
+
+        isCooking = false;
+    }
+    // ===================================================
+
     void PickFrom(Interactable it)
     {
-        if (it.spawnPrefab == null)
+        if (it == null || it.spawnPrefab == null)
         {
-            Debug.LogWarning("Interactable sem spawnPrefab: " + it.name);
+            Debug.LogWarning("Interactable sem spawnPrefab: " + (it ? it.name : "null"));
             return;
         }
 
@@ -104,7 +157,6 @@ public class PlayerInteractionZone : MonoBehaviour
             return;
         }
 
-        // parenta o objeto na mão e desativa física
         obj.transform.SetParent(holdPoint);
         obj.transform.localPosition = Vector3.zero;
         var rb = obj.GetComponent<Rigidbody2D>();
@@ -122,17 +174,11 @@ public class PlayerInteractionZone : MonoBehaviour
         foreach (var c in cols)
         {
             var spot = c.GetComponent<TableSpot>();
-            if (spot == null) continue;
-            if (spot.isOccupied) continue;
+            if (spot == null || spot.isOccupied) continue;
 
             float d = Vector2.SqrMagnitude((Vector2)spot.transform.position - (Vector2)transform.position);
-            if (d < bestDist)
-            {
-                bestDist = d;
-                best = spot;
-            }
+            if (d < bestDist) { bestDist = d; best = spot; }
         }
-
         return best;
     }
 
@@ -145,32 +191,22 @@ public class PlayerInteractionZone : MonoBehaviour
         foreach (var c in cols)
         {
             var spot = c.GetComponent<TableSpot>();
-            if (spot == null) continue;
-            if (!spot.isOccupied) continue;
+            if (spot == null || !spot.isOccupied) continue;
 
             float d = Vector2.SqrMagnitude((Vector2)spot.transform.position - (Vector2)transform.position);
-            if (d < bestDist)
-            {
-                bestDist = d;
-                best = spot;
-            }
+            if (d < bestDist) { bestDist = d; best = spot; }
         }
-
         return best;
     }
 
     void PlaceOnTable(TableSpot spot)
     {
         if (heldObject == null || spot == null) return;
-
-        // Remove do holdPoint (desparenta), e coloca via spot.Place
-        // Antes reparenta para world (tirar do hold) para evitar casos estranhos
         heldObject.transform.SetParent(null);
         spot.Place(heldObject);
         heldObject = null;
     }
 
-    // debug/forçar largar
     public void DropHeldObject()
     {
         if (heldObject == null) return;
@@ -180,11 +216,9 @@ public class PlayerInteractionZone : MonoBehaviour
         heldObject = null;
     }
 
-    // Gizmo para ver o raio no editor
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, tableSearchRadius);
     }
 }
-

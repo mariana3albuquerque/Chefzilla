@@ -167,6 +167,7 @@ MonoBehaviour:
   type: 1
   spawnPrefab: {fileID: 7780039069253265888, guid: ada806235d45a4ce78568413e4c33187, type: 3}
   visualIndicator: {fileID: 0}
+  cookingTime: 2.5
 --- !u!61 &20480997
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -292,6 +293,7 @@ MonoBehaviour:
   type: 0
   spawnPrefab: {fileID: 2248710999898806202, guid: 9ae960137d29c3a6fbf4afbfeb834d44, type: 3}
   visualIndicator: {fileID: 0}
+  cookingTime: 2.5
 --- !u!61 &571418714
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5479,6 +5481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOccupied: 0
+  placedObject: {fileID: 0}
 --- !u!61 &856484170
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5618,6 +5621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOccupied: 0
+  placedObject: {fileID: 0}
 --- !u!61 &1120331921
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5784,6 +5788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOccupied: 0
+  placedObject: {fileID: 0}
 --- !u!61 &1411070334
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5876,6 +5881,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOccupied: 0
+  placedObject: {fileID: 0}
 --- !u!61 &1507325845
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6106,6 +6112,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   holdPoint: {fileID: 481554598}
   tableSearchRadius: 1
+  allowRAsAlias: 0
+  defaultCookTime: 2.5
+  blockMovementWhileCooking: 1
 --- !u!61 &1839843264
 BoxCollider2D:
   m_ObjectHideFlags: 0
