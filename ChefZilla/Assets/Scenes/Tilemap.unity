@@ -735,6 +735,7 @@ GameObject:
   - component: {fileID: 571418712}
   - component: {fileID: 571418714}
   - component: {fileID: 571418713}
+  - component: {fileID: 571418715}
   m_Layer: 0
   m_Name: StoveZone
   m_TagString: Untagged
@@ -756,6 +757,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 135134612}
+  - {fileID: 2097491049}
   m_Father: {fileID: 1886406298}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &571418713
@@ -820,6 +822,23 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3, y: 1.5}
   m_EdgeRadius: 0
+--- !u!114 &571418715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571418711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1906cd1a74b45dc9b9b44d0f670fcc1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactable: {fileID: 571418713}
+  spawnPoint: {fileID: 2097491049}
+  progressBarPrefab: {fileID: 801558843945817704, guid: 9dbf5c5c4806c71a491035f1b0b6831b, type: 3}
+  preheatTime: 0.6
+  defaultCookTime: 3
 --- !u!1 &779924984
 GameObject:
   m_ObjectHideFlags: 0
@@ -7287,21 +7306,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holdPoint: {fileID: 481554598}
+  holdLocalOffset: {x: 0, y: 0.35}
   tableSearchRadius: 1
   allowRAsAlias: 0
-  defaultCookTime: 2.5
-  blockMovementWhileCooking: 1
-  objectiveChain:
-  - {fileID: 571418711}
-  - {fileID: 1411070331}
-  - {fileID: 20480994}
-  - {fileID: 1120331918}
-  - {fileID: 571418711}
-  - {fileID: 856484167}
-  - {fileID: 20480994}
-  - {fileID: 1507325842}
-  stopHintDistance: 1.1
-  turnOffOnlyOnInteract: 1
   interactionHint: {fileID: 1593960523}
 --- !u!61 &1839843264
 BoxCollider2D:
@@ -8998,6 +9005,37 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 543358731010461581, guid: 29e5f4e68cc42926fab49ddf24346b98, type: 3}
   m_PrefabInstance: {fileID: 2023853542}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2097491048
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2097491049}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2097491049
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097491048}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.4, y: 0.22, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 571418712}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2109262296
 PrefabInstance:
   m_ObjectHideFlags: 0
