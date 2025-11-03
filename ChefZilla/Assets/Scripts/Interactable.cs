@@ -11,4 +11,10 @@ public class Interactable : MonoBehaviour
 
     [Header("Cooking (para Stove)")]
     public float cookingTime = 2.5f;   // tempo que vai ficar cozinhando
+    
+    public void SetHintActive(bool on)
+    {
+        if (visualIndicator != null)
+            visualIndicator.SetActive(on);
+    }
 }
