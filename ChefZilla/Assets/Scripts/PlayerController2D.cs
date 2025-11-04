@@ -38,14 +38,20 @@ public class PlayerController2D : MonoBehaviour
 
     void Update()
     {
-        // Captura WASD / setas (Input Manager clássico)
-        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        // --- NOVO: se estiver cozinhando, bloqueia input e movimento/anim de locomoção ---
+        bool cooking = anim.GetBool("isCooking");
+
+        if (cooking)
+            input = Vector2.zero;
+        else
+            input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
         if (input.sqrMagnitude > 1f) input.Normalize();
 
-        bool isMoving = input.sqrMagnitude > 0.0001f;
+        bool isMoving = !cooking && input.sqrMagnitude > 0.0001f;
         anim.SetBool("isMoving", isMoving);
 
-        // Guarda última direção pra manter orientação quando parar
+        // Guarda última direção pra manter orientação quando parar (e durante o cooking)
         if (isMoving) lastDir = input;
 
         // ---- FLIP (virar esquerda/direita) ----
@@ -54,10 +60,7 @@ public class PlayerController2D : MonoBehaviour
             sr.flipX = (lookX < 0f);
 
         // ---- TILT (inclinar) ----
-        // Regras:
-        // - Parado: tilt = 0
-        // - Vertical "puro" (|x| pequeno e |y| relevante): tilt = 0
-        // - Caso contrário (tem horizontal): tilt segue o sinal de x e a intensidade de |x|
+        // Parado e cozinhando: tilt = 0
         float targetTilt = 0f;
 
         if (isMoving)
@@ -67,7 +70,6 @@ public class PlayerController2D : MonoBehaviour
 
             if (!isPureVertical && hasHorizontal)
             {
-                // Inclina para o lado do movimento horizontal
                 float strength = Mathf.Clamp01(Mathf.Abs(input.x)); // 0..1
                 targetTilt = tiltAngle * Mathf.Sign(input.x) * strength;
             }
@@ -78,18 +80,19 @@ public class PlayerController2D : MonoBehaviour
         }
         else
         {
-            targetTilt = 0f; // parado: sem tilt
+            targetTilt = 0f; // parado ou cozinhando: sem tilt
         }
 
-        // Aplica a inclinação suavemente (roda o objeto todo; se isso atrapalhar colisão, falo abaixo)
         Quaternion targetRot = Quaternion.Euler(0f, 0f, targetTilt);
         transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRot, tiltSmoothing);
     }
 
     void FixedUpdate()
     {
-        // Movimento com aceleração suave
-        Vector2 targetVel = input * moveSpeed;
+        // --- NOVO: durante o cooking não aplica velocidade ---
+        Vector2 effectiveInput = anim.GetBool("isCooking") ? Vector2.zero : input;
+
+        Vector2 targetVel = effectiveInput * moveSpeed;
         Vector2 nextVel = Vector2.MoveTowards(rb.linearVelocity, targetVel, acceleration * Time.fixedDeltaTime);
         rb.linearVelocity = nextVel;
         
