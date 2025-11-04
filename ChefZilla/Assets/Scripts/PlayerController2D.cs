@@ -95,6 +95,7 @@ public class PlayerController2D : MonoBehaviour
         Vector2 targetVel = effectiveInput * moveSpeed;
         Vector2 nextVel = Vector2.MoveTowards(rb.linearVelocity, targetVel, acceleration * Time.fixedDeltaTime);
         rb.linearVelocity = nextVel;
+        
 
         // Alternativa com MovePosition (se preferir):
         // Vector2 desiredPos = rb.position + targetVel * Time.fixedDeltaTime;

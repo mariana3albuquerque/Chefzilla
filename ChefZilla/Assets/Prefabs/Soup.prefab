@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2377040087320867967}
   - component: {fileID: 1872071521582837196}
   - component: {fileID: 1270164950251530829}
+  - component: {fileID: 3221005108119192011}
   m_Layer: 0
   m_Name: Soup
   m_TagString: Untagged
@@ -172,3 +173,19 @@ PolygonCollider2D:
       - {x: 0.315, y: 0.195}
       - {x: 0.21499999, y: 0.265}
   m_UseDelaunayMesh: 0
+--- !u!114 &3221005108119192011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2248710999898806202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f3de8c50a068615cbafb10da12671e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dishId: soup
+  displayName: Soup
+  cookTime: 10
+  points: 25

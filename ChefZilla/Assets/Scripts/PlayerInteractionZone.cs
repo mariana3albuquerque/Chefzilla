@@ -4,24 +4,28 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class PlayerInteractionZone : MonoBehaviour
 {
-    // ====== Segurar / Mesas ======
     [Header("Segurar / Mesas")]
-    public Transform holdPoint;               // opcional; se null, usa offset local no Chef
-    public Vector2 holdLocalOffset = new Vector2(0f, 0.35f);
+    public Transform holdPoint;
     public float tableSearchRadius = 1.0f;
-    public bool allowRAsAlias = false;        // (opcional) R como alias de E
+    public bool allowRAsAlias = false;
 
-    // ====== UI / Tutorial / Objetivos ======
-    [Header("UI de Interação (opcional)")]
-    public InteractionHintUI interactionHint; // seu componente de UI para mensagens
+    [Header("Cooking")]
+    public float defaultCookTime = 2.5f;          // fallback antigo (mantido por compatibilidade)
+    public bool blockMovementWhileCooking = true;  // bloqueia só durante o pré-aquecimento
 
     [Header("Tutorial / Objetivos")]
-    [Tooltip("Coloque aqui os GameObjects que o jogador deve visitar em ordem (Fogões, Mesas, Geladeira, etc.).")]
+    [Tooltip("Pode conter Interactables (Fogão, Geladeira) ou TableSpots (mesas)")]
     public GameObject[] objectiveChain;
-    public float stopHintDistance = 1.1f;     // distância para 'atingir' um objetivo, se não exigir apertar E
-    public bool turnOffOnlyOnInteract = true; // se true: só avança objetivo quando interagir (E). Se false: chegar perto já conta.
+    public float stopHintDistance = 1.1f;
+    public bool turnOffOnlyOnInteract = true;
 
-    // estado geral
+    int currentObj = -1;
+    bool hasActiveHint = false;
+
+    [Header("UI de Interação")]
+    public InteractionHintUI interactionHint;   // UIManager com InteractionHintUI
+
+    // estado
     Interactable currentInteractable = null;
     GameObject heldObject = null;
 
@@ -29,17 +33,12 @@ public class PlayerInteractionZone : MonoBehaviour
     Animator anim;
     PlayerController2D mover;
 
-    // pré-animação do Chef (antes de começar a cozinhar)
-    bool playingPreheat = false;
+    bool isCooking = false;       // usamos somente durante o pré-aquecimento (preheat)
     float cachedMoveSpeed = 0f;
 
-    // dica de movimento "uma vez só"
-    bool moveHintActive = true;
-    Vector3 lastPos;
-
-    // objetivos
-    int  currentObj   = -1;
-    bool hasActiveHint = false;
+    // --- lógica do “mostra só uma vez” ---
+    bool moveHintActive = true;        // começa mostrando dica de movimento
+    Vector3 lastPos;                   // para detectar movimento real
 
     void Awake()
     {
@@ -51,7 +50,7 @@ public class PlayerInteractionZone : MonoBehaviour
     {
         AdvanceObjective();
 
-        // Mostra apenas uma vez a dica de movimento
+        // mostra a mensagem de movimento uma vez
         if (interactionHint != null)
             interactionHint.ShowHint("Use as setas do teclado para mover o chef");
 
@@ -78,7 +77,7 @@ public class PlayerInteractionZone : MonoBehaviour
 
     void Update()
     {
-        // --- esconder a dica de movimento quando o jogador realmente se mexer/pressionar setas
+        // 1) se a dica de movimento ainda está ativa, esconda-a ao detectar que o jogador se mexeu
         if (moveHintActive)
         {
             bool pressedArrows =
@@ -90,18 +89,19 @@ public class PlayerInteractionZone : MonoBehaviour
             if (pressedArrows || actuallyMoved)
             {
                 moveHintActive = false;
-                if (interactionHint != null) interactionHint.HideHint();
+                if (interactionHint != null) interactionHint.HideHint(); // some e não volta mais
             }
             lastPos = transform.position;
         }
 
-        if (playingPreheat)
+        // Durante o pré-aquecimento, só atualizamos a dica de proximidade e saímos
+        if (isCooking)
         {
             UpdateProximityHint();
             return;
         }
 
-        // Se a cadeia de objetivos avança só por proximidade (sem apertar E)
+        // desliga objetivo por distância (se habilitado)
         if (hasActiveHint && !turnOffOnlyOnInteract)
         {
             GameObject target = GetCurrentObjective();
@@ -117,17 +117,18 @@ public class PlayerInteractionZone : MonoBehaviour
             }
         }
 
-        // --- Interação (E / R) ---
-        if (Input.GetKeyDown(KeyCode.E) || (allowRAsAlias && Input.GetKeyDown(KeyCode.R)))
+        // interação (E / R)
+        bool pressedInteract = Input.GetKeyDown(KeyCode.E) || (allowRAsAlias && Input.GetKeyDown(KeyCode.R));
+        if (pressedInteract)
         {
-            // 1) segurando algo -> tenta colocar em mesa livre
+            // 1) segurando algo → tentar colocar em mesa livre
             if (heldObject != null)
             {
-                var free = FindNearestFreeTableSpot();
-                if (free != null)
+                TableSpot targetSpot = FindNearestFreeTableSpot();
+                if (targetSpot != null)
                 {
-                    PlaceOnTable(free);
-                    CheckObjectiveProgress(free.gameObject);
+                    PlaceOnTable(targetSpot);
+                    CheckObjectiveProgress(targetSpot.gameObject);
                 }
                 else
                 {
@@ -138,41 +139,52 @@ public class PlayerInteractionZone : MonoBehaviour
                 return;
             }
 
-            // 2) não segurando -> interagir com o que está no trigger
+            // 2) Sem item → interagir com o que estiver no trigger
             if (currentInteractable != null)
             {
-                // ----- FOGÃO -----
+                // ---- FOGÃO (com StoveStation) ----
                 if (currentInteractable.type == InteractableType.Stove)
                 {
                     var stove = currentInteractable.GetComponent<StoveStation>();
-                    if (!stove) { Debug.LogWarning("Stove sem StoveStation."); return; }
-
-                    // Se já tem prato pronto, coletar
-                    if (stove.HasReadyItem)
+                    if (stove)
                     {
-                        var item = stove.CollectReadyItem();
-                        if (item) Hold(item);
-                        CheckObjectiveProgress(stove.gameObject);
-                        UpdateProximityHint();
+                        // Se houver prato pronto no fogão, coletar
+                        if (stove.HasReadyItem)
+                        {
+                            var go = stove.CollectReadyItem();
+                            if (go != null)
+                            {
+                                go.transform.SetParent(holdPoint);
+                                go.transform.position = holdPoint.position;
+                                var rb2 = go.GetComponent<Rigidbody2D>();
+                                if (rb2) rb2.simulated = false;
+                                heldObject = go;
+
+                                CheckObjectiveProgress(stove.gameObject);
+                                UpdateProximityHint();
+                            }
+                            return;
+                        }
+
+                        // Se pode iniciar, roda pré-anim e inicia o cozimento
+                        if (stove.CanStart())
+                        {
+                            StartCoroutine(PreheatThenStart(stove));
+                            return;
+                        }
+
+                        // Se está ocupado mas sem item pronto, apenas ignore o E (já está cozinhando)
                         return;
                     }
 
-                    // Se está livre, iniciar (pré-anim + cozimento)
-                    if (stove.CanStart())
-                    {
-                        StartCoroutine(PreheatThenStart(stove));
-                        // A validação do objetivo por "interagir no fogão" acontece ao final da pré-anim:
-                        // (veja o CheckObjectiveProgress no fim da coroutine)
-                        return;
-                    }
-
-                    // Ocupado (preparando/cozinhando): nada a fazer
-                    Debug.Log("Fogão ocupado.");
+                    // Fallback caso o fogão não tenha StoveStation (mantém comportamento antigo)
+                    PickFrom(currentInteractable);
+                    CheckObjectiveProgress(currentInteractable.gameObject);
                     UpdateProximityHint();
                     return;
                 }
 
-                // ----- OUTROS INTERACTABLES -----
+                // ---- GELADEIRA / TABLE (pegar direto) ----
                 if (currentInteractable.type == InteractableType.Fridge ||
                     currentInteractable.type == InteractableType.Table)
                 {
@@ -182,103 +194,169 @@ public class PlayerInteractionZone : MonoBehaviour
                     return;
                 }
 
-                // genérico
+                // ---- Interactable genérico (compatibilidade) ----
                 PickFrom(currentInteractable);
                 CheckObjectiveProgress(currentInteractable.gameObject);
                 UpdateProximityHint();
                 return;
             }
 
-            // 3) sem interactable por perto -> pegar de mesa ocupada
-            var occ = FindNearestOccupiedTableSpot();
-            if (occ != null)
+            // 3) pegar de mesa ocupada (mais próxima)
+            TableSpot occupied = FindNearestOccupiedTableSpot();
+            if (occupied != null)
             {
-                PickFromTable(occ);
-                CheckObjectiveProgress(occ.gameObject);
-                UpdateProximityHint();
-                return;
+                PickFromTable(occupied);
+                CheckObjectiveProgress(occupied.gameObject);
             }
 
-            Debug.Log("Nada para pegar por perto.");
             UpdateProximityHint();
         }
         else
         {
+            // Quando perto do fogão parado, permitir trocar receita (Z/X) e mostrar dica específica
+            if (currentInteractable != null && currentInteractable.type == InteractableType.Stove)
+            {
+                var stove = currentInteractable.GetComponent<StoveStation>();
+                if (stove)
+                {
+                    if (stove.CanStart())
+                    {
+                        if (Input.GetKeyDown(KeyCode.Z)) stove.NextRecipe(-1);
+                        if (Input.GetKeyDown(KeyCode.X)) stove.NextRecipe(+1);
+
+                        if (!moveHintActive && interactionHint != null)
+                            interactionHint.ShowHint($"<b>Z/X</b> troca prato (Atual: <i>{stove.GetActiveRecipeName()}</i>) • <b>E</b> cozinhar");
+                        return; // evita sobrescrever a dica aqui embaixo
+                    }
+                }
+            }
+
             UpdateProximityHint();
         }
     }
 
-    // ===================== COROUTINE: PRÉ-ANIM + START STOVE =====================
+    // ===================== COOKING: pré-anim + disparo do fogão =====================
     IEnumerator PreheatThenStart(StoveStation stove)
     {
-        playingPreheat = true;
+        if (stove == null) yield break;
 
-        if (mover)
+        float preheat = Mathf.Max(0f, stove.preheatTime);
+
+        isCooking = true; // bloqueia outras interações apenas durante o pré
+        if (blockMovementWhileCooking && mover != null)
         {
             cachedMoveSpeed = mover.moveSpeed;
             mover.moveSpeed = 0f;
         }
+
         if (anim) anim.SetBool("isCooking", true);
 
-        float t = 0f, preheat = stove.GetPreheatTime();
-        var expected = currentInteractable; // fogão alvo
-
+        float t = 0f;
         while (t < preheat)
         {
-            if (currentInteractable != expected) break; // se o jogador sair do fogão, cancela
+            // se o jogador sair do fogão, cancela
+            if (currentInteractable == null || currentInteractable.GetComponent<StoveStation>() != stove)
+                break;
+
             t += Time.deltaTime;
             yield return null;
         }
 
         if (anim) anim.SetBool("isCooking", false);
-        if (mover) mover.moveSpeed = cachedMoveSpeed;
-        playingPreheat = false;
+        if (blockMovementWhileCooking && mover != null) mover.moveSpeed = cachedMoveSpeed;
 
-        if (t >= preheat && currentInteractable == expected)
-        {
-            stove.BeginCooking();                        // inicia cozimento (barra aparece)
-            CheckObjectiveProgress(stove.gameObject);    // conta "interagiu com o fogão"
-        }
+        // inicia o cozimento somente se ainda está no fogão
+        if (t >= preheat && currentInteractable != null && currentInteractable.GetComponent<StoveStation>() == stove)
+            stove.BeginCooking();
 
+        isCooking = false; // libera o jogador para se mover enquanto o fogão cozinha
         UpdateProximityHint();
     }
-    // ============================================================================
+    // ==============================================================================
 
-    // ===================== Pegar / Segurar / Soltar =====================
+    // ===================== Lógica de pegar/colocar =====================
     void PickFrom(Interactable it)
     {
-        if (!it || !it.spawnPrefab) { Debug.LogWarning("Interactable sem spawnPrefab."); return; }
+        if (it == null || it.spawnPrefab == null)
+        {
+            Debug.LogWarning("Interactable sem spawnPrefab: " + (it ? it.name : "null"));
+            return;
+        }
 
-        var obj = Instantiate(it.spawnPrefab, transform.position, Quaternion.identity);
-        Hold(obj);
+        var go = Instantiate(it.spawnPrefab, holdPoint.position, Quaternion.identity);
+        go.transform.SetParent(holdPoint);
+        go.transform.localPosition = Vector3.zero;
+
+        var rb = go.GetComponent<Rigidbody2D>();
+        if (rb) rb.simulated = false;
+
+        heldObject = go;
+
+        CheckObjectiveProgress(it.gameObject);
     }
 
-    void Hold(GameObject obj)
+    void PickFromTable(TableSpot spot)
     {
-        if (!obj) return;
+        if (spot == null) return;
+        GameObject obj = spot.Remove();
+        if (obj == null) return;
 
-        Transform parent = holdPoint ? holdPoint : transform.parent; // InteractionZone é filho do Chef
-        obj.transform.SetParent(parent);
-        obj.transform.localRotation = Quaternion.identity;
-        obj.transform.localPosition = holdPoint ? Vector3.zero : (Vector3)holdLocalOffset;
-
+        obj.transform.SetParent(holdPoint);
+        obj.transform.localPosition = Vector3.zero;
         var rb = obj.GetComponent<Rigidbody2D>();
         if (rb) rb.simulated = false;
 
         heldObject = obj;
     }
 
-    void PickFromTable(TableSpot spot)
+    TableSpot FindNearestFreeTableSpot()
     {
-        if (!spot) return;
-        var obj = spot.Remove();
-        if (!obj) return;
-        Hold(obj);
+        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, tableSearchRadius);
+        TableSpot best = null;
+        float bestDist = float.MaxValue;
+
+        foreach (var c in cols)
+        {
+            var spot = c.GetComponent<TableSpot>();
+            if (spot == null || spot.isOccupied) continue;
+
+            float d = Vector2.SqrMagnitude((Vector2)spot.transform.position - (Vector2)transform.position);
+            if (d < bestDist)
+            {
+                bestDist = d;
+                best = spot;
+            }
+        }
+
+        return best;
+    }
+
+    TableSpot FindNearestOccupiedTableSpot()
+    {
+        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, tableSearchRadius);
+        TableSpot best = null;
+        float bestDist = float.MaxValue;
+
+        foreach (var c in cols)
+        {
+            var spot = c.GetComponent<TableSpot>();
+            if (spot == null || !spot.isOccupied) continue;
+
+            float d = Vector2.SqrMagnitude((Vector2)spot.transform.position - (Vector2)transform.position);
+            if (d < bestDist)
+            {
+                bestDist = d;
+                best = spot;
+            }
+        }
+
+        return best;
     }
 
     void PlaceOnTable(TableSpot spot)
     {
-        if (!heldObject || !spot) return;
+        if (heldObject == null || spot == null) return;
+
         heldObject.transform.SetParent(null);
         spot.Place(heldObject);
         heldObject = null;
@@ -286,53 +364,23 @@ public class PlayerInteractionZone : MonoBehaviour
 
     public void DropHeldObject()
     {
-        if (!heldObject) return;
+        if (heldObject == null) return;
         heldObject.transform.SetParent(null);
         var rb = heldObject.GetComponent<Rigidbody2D>();
         if (rb) rb.simulated = true;
         heldObject = null;
     }
 
-    // ===================== Busca de mesas =====================
-    TableSpot FindNearestFreeTableSpot()
-    {
-        var cols = Physics2D.OverlapCircleAll(transform.position, tableSearchRadius);
-        TableSpot best = null; float bestD = float.MaxValue;
-        foreach (var c in cols)
-        {
-            var s = c.GetComponent<TableSpot>();
-            if (!s || s.isOccupied) continue;
-            float d = ((Vector2)s.transform.position - (Vector2)transform.position).sqrMagnitude;
-            if (d < bestD) { bestD = d; best = s; }
-        }
-        return best;
-    }
+    // ===================== OBJETIVOS / HINT =====================
 
-    TableSpot FindNearestOccupiedTableSpot()
-    {
-        var cols = Physics2D.OverlapCircleAll(transform.position, tableSearchRadius);
-        TableSpot best = null; float bestD = float.MaxValue;
-        foreach (var c in cols)
-        {
-            var s = c.GetComponent<TableSpot>();
-            if (!s || !s.isOccupied) continue;
-            float d = ((Vector2)s.transform.position - (Vector2)transform.position).sqrMagnitude;
-            if (d < bestD) { bestD = d; best = s; }
-        }
-        return best;
-    }
-
-    // ===================== Objetivos / Hints =====================
     void AdvanceObjective()
     {
-        // desliga o anterior
         if (currentObj >= 0 && currentObj < objectiveChain.Length && objectiveChain[currentObj] != null)
             SetHintActive(objectiveChain[currentObj], false);
 
         currentObj++;
         hasActiveHint = false;
 
-        // liga o próximo
         if (currentObj < objectiveChain.Length && objectiveChain[currentObj] != null)
         {
             SetHintActive(objectiveChain[currentObj], true);
@@ -357,58 +405,35 @@ public class PlayerInteractionZone : MonoBehaviour
         return null;
     }
 
-   void SetHintActive(GameObject obj, bool on)
-{
-    if (!obj) return;
-
-    // Tenta achar Interactable no próprio GO, nos filhos e nos pais
-    Interactable it =
-        obj.GetComponent<Interactable>() ??
-        obj.GetComponentInChildren<Interactable>(true) ??
-        obj.GetComponentInParent<Interactable>();
-
-    if (it != null)
+    void SetHintActive(GameObject obj, bool on)
     {
-        it.SetHintActive(on);
-        return;
+        if (obj == null) return;
+
+        var i = obj.GetComponent<Interactable>();
+        if (i != null) { i.SetHintActive(on); return; }
+
+        var t = obj.GetComponent<TableSpot>();
+        if (t != null) { t.SetHintActive(on); return; }
     }
 
-    // Tenta TableSpot (caso você use mesa como objetivo)
-    TableSpot spot =
-        obj.GetComponent<TableSpot>() ??
-        obj.GetComponentInChildren<TableSpot>(true) ??
-        obj.GetComponentInParent<TableSpot>();
-
-    if (spot != null)
-    {
-        // Se seu TableSpot tiver SetHintActive, descomente:
-        // spot.SetHintActive(on);
-
-        // Fallback: procura um filho chamado "Indicador" e liga/desliga
-        Transform ind = spot.transform.Find("Indicador");
-        if (ind != null) ind.gameObject.SetActive(on);
-        return;
-    }
-
-    // Último fallback: tenta um filho chamado "Indicador" no próprio objeto
-    Transform indicator = obj.transform.Find("Indicador");
-    if (indicator != null) indicator.gameObject.SetActive(on);
-}
-
+    // Dica de proximidade padrão (quando não estamos no fluxo específico do fogão)
     void UpdateProximityHint()
     {
         if (interactionHint == null) return;
-        if (moveHintActive) return; // enquanto a dica de movimento está ativa, não trocamos
+        if (moveHintActive) return; // ainda na dica inicial de movimento
 
         bool pertoDeAlgo =
             currentInteractable != null ||
             FindNearestFreeTableSpot() != null ||
             FindNearestOccupiedTableSpot() != null;
 
-        if (pertoDeAlgo) interactionHint.ShowHint("Aperte <b>E</b> para interagir");
-        else             interactionHint.HideHint();
+        if (pertoDeAlgo)
+            interactionHint.ShowHint("Aperte <b>E</b> para soltar ou pegar objetos");
+        else
+            interactionHint.HideHint();
     }
 
+    // Gizmo para ver o raio no editor
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;

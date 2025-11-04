@@ -6,52 +6,70 @@ public enum StoveState { Idle, Prepping, Cooking, Ready }
 public class StoveStation : MonoBehaviour
 {
     [Header("Refs")]
-    public Interactable interactable;           // se null, pega no Awake
-    public Transform spawnPoint;                // onde o prato fica pronto/aguardando
-    public GameObject progressBarPrefab;        // prefab com ProgressBarUI (Canvas World Space)
+    public Interactable interactable;           // opcional; se null, pega no Awake
+    public Transform spawnPoint;                // onde o prato pronto aparece/aguarda
+    public GameObject progressBarPrefab;        // prefab com ProgressBarUI (tem Set01 e AttachTo)
 
     [Header("Timings (s)")]
-    public float preheatTime = 0.6f;            // duração da pré-anim do Chef
-    public float defaultCookTime = 3f;          // fallback
+    public float preheatTime = 0.6f;            // pré-animação do Chef antes da barra
+    public float defaultCookTime = 3f;          // fallback se o prefab não tiver Cookable
+
+    [Header("Receitas (opcional)")]
+    [Tooltip("Se preencher, o fogão usa essa lista para escolher a receita atual (Z/X para trocar).")]
+    public GameObject[] recipeOptions;
+    [SerializeField] int recipeIndex = 0;       // receita selecionada
 
     public StoveState State { get; private set; } = StoveState.Idle;
 
+    // ==== Consulta simples para UI / Player ====
     public bool HasReadyItem => State == StoveState.Ready;
-    public bool CanStart() => State == StoveState.Idle;
-    public bool IsBusy()   => State == StoveState.Prepping || State == StoveState.Cooking || State == StoveState.Ready;
+    public bool CanStart()    => State == StoveState.Idle;
+    public bool IsBusy()      => State == StoveState.Prepping || State == StoveState.Cooking || State == StoveState.Ready;
 
-    public float GetPreheatTime() => Mathf.Max(0f, preheatTime);
-
-    public float GetCookTime()
+    public string GetActiveRecipeName()
     {
-        // prioridade: Cookable do prato > Interactable.cookingTime > defaultCookTime
-        float t = defaultCookTime;
-
-        if (interactable)
-        {
-            if (interactable.cookingTime > 0f) t = interactable.cookingTime;
-
-            if (interactable.spawnPrefab)
-            {
-                var cook = interactable.spawnPrefab.GetComponent<Cookable>();
-                if (cook && cook.cookTime > 0f) t = cook.cookTime;
-            }
-        }
-        return Mathf.Max(0.01f, t);
+        var p = GetActiveRecipe();
+        return p ? p.name : "(sem receita)";
     }
 
-    // aliases caso chame por nomes diferentes
-    public void BeginCook() => BeginCooking();
-    public GameObject CollectReadyItem() => TryTakeReady(out var item) ? item : null;
+    public void NextRecipe(int dir = 1)
+    {
+        if (recipeOptions == null || recipeOptions.Length == 0) return;
+        recipeIndex = (recipeIndex + dir + recipeOptions.Length) % recipeOptions.Length;
+    }
 
-    ProgressBarUI progressUI;
-    GameObject readyInstance;
-
+    // ============ Fluxo de cozimento ============
     public void BeginCooking()
     {
         if (!CanStart()) return;
         StopAllCoroutines();
         StartCoroutine(CookRoutine());
+    }
+
+    // ---------- Internos ----------
+    ProgressBarUI progressUI;
+    GameObject readyInstance;
+
+    GameObject GetActiveRecipe()
+    {
+        // 1) Se houver lista de receitas, usa a selecionada
+        if (recipeOptions != null && recipeOptions.Length > 0)
+            return recipeOptions[Mathf.Clamp(recipeIndex, 0, recipeOptions.Length - 1)];
+
+        // 2) Caso contrário, usa o Spawn Prefab do Interactable (comportamento antigo)
+        return interactable ? interactable.spawnPrefab : null;
+    }
+
+    float GetCookTime()
+    {
+        float t = defaultCookTime;
+        var prefab = GetActiveRecipe();
+        if (prefab)
+        {
+            var c = prefab.GetComponent<Cookable>();
+            if (c && c.cookTime > 0f) t = c.cookTime;
+        }
+        return Mathf.Max(0.01f, t);
     }
 
     System.Collections.IEnumerator CookRoutine()
@@ -76,21 +94,28 @@ public class StoveStation : MonoBehaviour
 
     void SpawnReadyItem()
     {
-        if (!interactable || !interactable.spawnPrefab) return;
+        var prefab = GetActiveRecipe();
+        if (!prefab) return;
 
         Vector3 pos = spawnPoint ? spawnPoint.position : transform.position;
-        readyInstance = Instantiate(interactable.spawnPrefab, pos, Quaternion.identity);
-        if (spawnPoint) readyInstance.transform.SetParent(spawnPoint);
+        readyInstance = Instantiate(prefab, pos, Quaternion.identity);
 
+        if (spawnPoint) readyInstance.transform.SetParent(spawnPoint); // fica “sobre” o fogão
         var rb = readyInstance.GetComponent<Rigidbody2D>();
         if (rb) rb.simulated = false;
+    }
+
+    public GameObject CollectReadyItem()
+    {
+        return TryTakeReady(out var item) ? item : null;
     }
 
     public bool TryTakeReady(out GameObject item)
     {
         if (State != StoveState.Ready || !readyInstance)
         {
-            item = null; return false;
+            item = null;
+            return false;
         }
         item = readyInstance;
         readyInstance = null;
@@ -106,16 +131,6 @@ public class StoveStation : MonoBehaviour
             {
                 var go = Instantiate(progressBarPrefab, (spawnPoint ? spawnPoint.position : transform.position), Quaternion.identity);
                 progressUI = go.GetComponent<ProgressBarUI>();
-
-                // garantir World Space corretamente configurado
-                var canvas = go.GetComponent<Canvas>();
-                if (canvas)
-                {
-                    canvas.renderMode = RenderMode.WorldSpace;
-                    canvas.sortingLayerName = "UI";
-                    canvas.sortingOrder = 500;
-                }
-
                 if (progressUI) progressUI.AttachTo(spawnPoint ? spawnPoint : transform);
                 progressUI?.Set01(0f);
             }
