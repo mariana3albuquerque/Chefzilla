@@ -837,8 +837,11 @@ MonoBehaviour:
   interactable: {fileID: 571418713}
   spawnPoint: {fileID: 2097491049}
   progressBarPrefab: {fileID: 801558843945817704, guid: 9dbf5c5c4806c71a491035f1b0b6831b, type: 3}
-  preheatTime: 0.6
+  preheatTime: 2
   defaultCookTime: 3
+  recipeOptions:
+  - {fileID: 2248710999898806202, guid: 9ae960137d29c3a6fbf4afbfeb834d44, type: 3}
+  recipeIndex: 0
 --- !u!1 &779924984
 GameObject:
   m_ObjectHideFlags: 0
@@ -7306,9 +7309,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holdPoint: {fileID: 481554598}
-  holdLocalOffset: {x: 0, y: 0.35}
   tableSearchRadius: 1
   allowRAsAlias: 0
+  defaultCookTime: 2.5
+  blockMovementWhileCooking: 1
+  objectiveChain:
+  - {fileID: 571418711}
+  - {fileID: 1411070331}
+  - {fileID: 20480994}
+  - {fileID: 856484167}
+  stopHintDistance: 1.1
+  turnOffOnlyOnInteract: 1
   interactionHint: {fileID: 1593960523}
 --- !u!61 &1839843264
 BoxCollider2D:

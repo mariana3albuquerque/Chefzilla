@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class MenuController : MonoBehaviour
 {
     [SerializeField] string playScene = "Tilemap";   // nome exato da sua cena de jogo
-    [SerializeField] GameObject optionsPanel;        // arraste um painel de opções (opcional)
+    [SerializeField] GameObject optionsPanel;        // arraste um painel de opï¿½ï¿½es (opcional)
 
     public void Play()
     {

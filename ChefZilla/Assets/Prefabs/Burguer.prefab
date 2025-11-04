@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1270164950251530829}
   - component: {fileID: 3221005108119192011}
   m_Layer: 0
-  m_Name: Soup
+  m_Name: Burguer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 110
-  m_Sprite: {fileID: 3733805612042556432, guid: f436b163e09299641beb1dcdcd5af023, type: 3}
+  m_Sprite: {fileID: 731375368619335737, guid: 592911d9b4764ad40ac71379ea9831d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -155,7 +155,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.63, y: 0.53}
+    oldSize: {x: 0.68, y: 0.51}
     newSize: {x: 0.63, y: 0.53}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3de8c50a068615cbafb10da12671e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dishId: soup
-  displayName: Soup
-  cookTime: 10
-  points: 25
+  dishId: burger
+  displayName: Burger
+  cookTime: 3
+  points: 10
