@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
+using UnityEngine.Events; // << precisa disso
 
 public class StartupTutorial : MonoBehaviour
 {
-    [SerializeField] GameObject panelTutorial;     // Panel que cobre a tela
-    [SerializeField] GameObject hamburgerButton;   // <<< arraste o BtnHamburger aqui
+    [SerializeField] GameObject panelTutorial;
+    [SerializeField] GameObject hamburgerButton;
     [SerializeField] bool pauseAudio = false;
     [SerializeField] float fade = 0.25f;
+
+    public UnityEvent onClosed;   // << isto cria o campo "On Closed" no Inspector
 
     CanvasGroup cg;
     bool showing;
@@ -15,17 +18,13 @@ public class StartupTutorial : MonoBehaviour
         panelTutorial.SetActive(true);
         cg = panelTutorial.GetComponent<CanvasGroup>();
 
-        // esconde o botão de menu enquanto o tutorial está aberto
         if (hamburgerButton) hamburgerButton.SetActive(false);
-
-        // desabilita pause por ESC enquanto o tutorial está aberto
         PauseMenu.AllowPause = false;
 
         Time.timeScale = 0f;
         if (pauseAudio) AudioListener.pause = true;
 
         showing = true;
-
         if (cg && fade > 0f) { cg.alpha = 0f; StartCoroutine(FadeTo(1f)); }
         else if (cg) cg.alpha = 1f;
     }
@@ -33,7 +32,7 @@ public class StartupTutorial : MonoBehaviour
     void Update()
     {
         if (!showing) return;
-        // se você decidiu usar só o botão "Jogar" no popup, pode remover este bloco
+        // se quiser manter ENTER também, deixe:
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
             Close();
     }
@@ -53,17 +52,16 @@ public class StartupTutorial : MonoBehaviour
         Time.timeScale = 1f;
         if (pauseAudio) AudioListener.pause = false;
 
-        // mostra o botão de menu novamente
         if (hamburgerButton) hamburgerButton.SetActive(true);
-
-        // reabilita o pause por ESC
         PauseMenu.AllowPause = true;
+
+        onClosed?.Invoke();   // << dispara os métodos ligados no Inspector
     }
 
     System.Collections.IEnumerator FadeTo(float target)
     {
-        float start = cg.alpha, t = 0f;
-        while (t < fade) { t += Time.unscaledDeltaTime; cg.alpha = Mathf.Lerp(start, target, t / fade); yield return null; }
-        cg.alpha = target;
+        float start = cg ? cg.alpha : 1f, t = 0f;
+        while (t < fade) { t += Time.unscaledDeltaTime; if (cg) cg.alpha = Mathf.Lerp(start, target, t / fade); yield return null; }
+        if (cg) cg.alpha = target;
     }
 }

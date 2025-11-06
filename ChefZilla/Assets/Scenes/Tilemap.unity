@@ -6702,7 +6702,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!225 &1129006081
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -6853,6 +6853,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1268958049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1268958051}
+  - component: {fileID: 1268958050}
+  m_Layer: 0
+  m_Name: NpcOverlay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1268958050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268958049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc5043eeaca4b7246a1f80b5ac8c5453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navScene: TilemapM
+  keepRoot: Overlay_NPC
+  offset: {x: 0, y: 0, z: 0}
+--- !u!4 &1268958051
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268958049}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.4518301, y: -0.39, z: 0.032625727}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1344245392
 GameObject:
   m_ObjectHideFlags: 0
@@ -6886,6 +6933,21 @@ MonoBehaviour:
   hamburgerButton: {fileID: 1406389191}
   pauseAudio: 0
   fade: 0.25
+  onClosed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1268958050}
+        m_TargetAssemblyTypeName: NpcOverlayLoader, Assembly-CSharp
+        m_MethodName: LoadNpcScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1344245394
 Transform:
   m_ObjectHideFlags: 0
@@ -9833,3 +9895,4 @@ SceneRoots:
   - {fileID: 1253535709}
   - {fileID: 1424021584}
   - {fileID: 1344245394}
+  - {fileID: 1268958051}
