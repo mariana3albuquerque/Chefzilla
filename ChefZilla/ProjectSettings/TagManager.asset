@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Mesa
   - SeatDemo
+  - Customer
   layers:
   - Default
   - TransparentFX
