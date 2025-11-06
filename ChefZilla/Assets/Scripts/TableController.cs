@@ -1,32 +1,47 @@
 using UnityEngine;
+using UnityEngine.Events;
 
+[DisallowMultipleComponent]
 public class TableController : MonoBehaviour
 {
-    // Estado da mesa
-    private bool ocupada = false;
-
-    // Posição do assento (posicione um Empty como filho ao lado da mesa)
+    [Header("Seat (Empty posicionado em frente à mesa)")]
     public Transform pontoDeAssento;
 
-    // Indica se a mesa está disponível para NPC ocupar
-    public bool EstaDisponivel()
+    [Header("Estado")]
+    [SerializeField] bool ocupada = false;
+    [SerializeField] bool reservada = false;
+    public GameObject ocupante; // quem está/irá sentar (NPC)
+
+    [Header("Eventos")]
+    public UnityEvent onReservada;
+    public UnityEvent onOcupada;
+    public UnityEvent onLiberada;
+
+    public bool EstaDisponivel() => !ocupada && !reservada && pontoDeAssento != null;
+
+    // tenta reservar (retorna false se não puder)
+    public bool TentarReservar(GameObject quem)
     {
-        return !ocupada;
+        if (!EstaDisponivel()) return false;
+        reservada = true;
+        ocupante = quem;
+        onReservada?.Invoke();
+        return true;
     }
 
-    // Chame este método quando um NPC sentar-se
+    // chama quando chegou
     public void Ocupar()
     {
+        reservada = false;
         ocupada = true;
-        // Aqui você pode ativar alguma animação ou cor
-        // Exemplo: GetComponent<Renderer>().material.color = Color.red;
+        onOcupada?.Invoke();
     }
 
-    // Chame este método quando o NPC sair da mesa
     public void Liberar()
     {
         ocupada = false;
-        // Volta para cor padrão
-        // GetComponent<Renderer>().material.color = Color.white;
+        reservada = false;
+        ocupante = null;
+        onLiberada?.Invoke();
     }
 }
