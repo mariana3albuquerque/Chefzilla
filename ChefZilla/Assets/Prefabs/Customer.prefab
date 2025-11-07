@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 1912348866026188450}
   - component: {fileID: 4813091470199749710}
   - component: {fileID: 3624869101389536875}
-  - component: {fileID: 1693446238979137363}
   - component: {fileID: 1362301027099293217}
-  - component: {fileID: 7552913364746056958}
   - component: {fileID: 2999615044329344495}
-  m_Layer: 0
+  - component: {fileID: 6855512795558866774}
+  - component: {fileID: -9166457500266688594}
+  m_Layer: 8
   m_Name: Customer
   m_TagString: Customer
   m_Icon: {fileID: 0}
@@ -102,12 +102,12 @@ NavMeshAgent:
   m_GameObject: {fileID: 3431667281675380898}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.18
+  m_Radius: 0.12
   m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0.06
+  m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -142,18 +142,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &1693446238979137363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3431667281675380898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &1362301027099293217
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -190,24 +178,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.7
---- !u!114 &7552913364746056958
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3431667281675380898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32383985987767b9987f5b129cb65e1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minWait: 5
-  maxWait: 12
-  arriveTolerance: 0.08
-  doorOutside: {fileID: 0}
-  mustEnterThroughDoor: 1
-  exitPoint: {fileID: 0}
 --- !u!70 &2999615044329344495
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -242,6 +212,41 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.02, y: 1.6}
+  m_Offset: {x: 0.02, y: -0.53}
+  m_Size: {x: 0.62, y: 0.0001}
   m_Direction: 0
+--- !u!114 &6855512795558866774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3431667281675380898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79666b11b4addc8649152408c28b3aa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 1536
+  skin: 0.01
+  arriveTol: 0.14
+--- !u!114 &-9166457500266688594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3431667281675380898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32383985987767b9987f5b129cb65e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minWait: 5
+  maxWait: 12
+  arriveTolerance: 0.14
+  doorOutside: {fileID: 0}
+  mustEnterThroughDoor: 1
+  exitPoint: {fileID: 0}
