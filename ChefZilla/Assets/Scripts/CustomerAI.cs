@@ -226,27 +226,26 @@ public class CustomerAI : MonoBehaviour
 
     void StartLeaving()
     {
+        // NOVO: some com o balão imediatamente ao levantar
+        var order = GetComponent<CustomerOrder>();
+        if (order) order.LimparPedido();
+
         if (seat != null) seat.Vacate(this);
 
-        // Alinha corpo+Agent em um ponto válido do NavMesh para sair:
-        // usamos o APPROACH do assento como base (sempre on-mesh).
+        // ... resto do seu método
         Vector3 depart = transform.position;
         if (seat != null && seat.TryGetApproach(out var approachPos))
             depart = approachPos;
 
         WarpBodyAndAgentToNavmesh(depart, 0.8f);
-
-        // reabilita driver e inicia saída
         var driver = GetComponent<NavMeshAgent2DDriver>();
         if (driver && !driver.enabled) driver.enabled = true;
 
         agent.isStopped = false;
         state = State.Leaving;
 
-        if (exitPoint)
-            GoTo(exitPoint.position);
-        else
-            Destroy(gameObject, 0.25f);
+        if (exitPoint) GoTo(exitPoint.position);
+        else Destroy(gameObject, 0.25f);
     }
 
     // =========================================================

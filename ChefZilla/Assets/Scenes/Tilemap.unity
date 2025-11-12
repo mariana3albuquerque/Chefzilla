@@ -6811,7 +6811,7 @@ MonoBehaviour:
   doorOutside: {fileID: 920102425}
   exitPoint: {fileID: 1989948631}
   interval: 4
-  maxAlive: 6
+  maxAlive: 1
 --- !u!4 &880276450
 Transform:
   m_ObjectHideFlags: 0

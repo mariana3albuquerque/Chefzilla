@@ -44,5 +44,8 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Overlays
+    uniqueID: 3595167099
+    locked: 0
   m_RenderingLayers:
   - Default
