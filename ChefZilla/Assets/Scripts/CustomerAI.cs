@@ -1,7 +1,7 @@
+using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Linq;
-using System.Collections.Generic;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(NavMeshAgent))]
 public class CustomerAI : MonoBehaviour
@@ -9,6 +9,10 @@ public class CustomerAI : MonoBehaviour
     [Header("Tempo sentado (s)")]
     public float minWait = 5f;
     public float maxWait = 12f;
+
+    [Header("Tempo comendo (fallback, se o prato não tiver eatTime)")]
+    public float minEat = 4f;
+    public float maxEat = 7f;
 
     [Header("Checagem de chegada")]
     [Range(0.06f, 0.3f)] public float arriveTolerance = 0.14f;
@@ -18,17 +22,28 @@ public class CustomerAI : MonoBehaviour
     public bool mustEnterThroughDoor = true;
     public Transform exitPoint;            // ponto de saída
 
+    // runtime
     NavMeshAgent agent;
     Rigidbody2D rb;
     SeatPoint seat;
+
     float waitTimer;
 
-    enum State { GoingToDoor, GoingToApproach, Waiting, Leaving }
+    // Comer / pontuação
+    float eatTimer;
+    Cookable servedDish;
+    TableSpot eatingFromSpot;
+
+    // máquina de estados
+    enum State { GoingToDoor, GoingToApproach, Waiting, Eating, Leaving }
     State state;
 
     // watchdog de progresso (evita travar em cantos estreitos)
     Vector3 lastPos;
     float noProgressTimer;
+
+    // dispara quando o cliente efetivamente "senta" (anchor aplicado)
+    public event Action<CustomerAI> OnSatDown;
 
     void Awake()
     {
@@ -63,7 +78,7 @@ public class CustomerAI : MonoBehaviour
         // embaralha
         for (int i = 0; i < livres.Count; i++)
         {
-            int j = Random.Range(i, livres.Count);
+            int j = UnityEngine.Random.Range(i, livres.Count);
             (livres[i], livres[j]) = (livres[j], livres[i]);
         }
 
@@ -166,8 +181,10 @@ public class CustomerAI : MonoBehaviour
                     SitAtAnchor(); // sprite no anchor (pode ser fora do navmesh) + agent ancorado na malha
                     if (seat != null) seat.Occupy(this);
 
-                    waitTimer = Random.Range(minWait, maxWait);
+                    waitTimer = UnityEngine.Random.Range(minWait, maxWait);
                     state = State.Waiting;
+
+                    // Pedir: seu SeatArrivalWatcher já chama CustomerOrder.SolicitarPedido()
                 }
                 break;
 
@@ -175,6 +192,30 @@ public class CustomerAI : MonoBehaviour
                 waitTimer -= Time.deltaTime;
                 if (waitTimer <= 0f)
                 {
+                    // ficou bravo, levanta e vai embora
+                    StartLeaving();
+                }
+                break;
+
+            case State.Eating:
+                eatTimer -= Time.deltaTime;
+                if (eatTimer <= 0f)
+                {
+                    // pontua AO TERMINAR de comer
+                    if (servedDish)
+                    {
+                        ScoreManager.I?.Add(servedDish.GetPoints());
+
+                        // limpa a mesa
+                        if (eatingFromSpot)
+                        {
+                            if (eatingFromSpot.placedObject)
+                                Destroy(eatingFromSpot.placedObject);
+                            eatingFromSpot.Clear();
+                            eatingFromSpot = null;
+                        }
+                        servedDish = null;
+                    }
                     StartLeaving();
                 }
                 break;
@@ -206,7 +247,7 @@ public class CustomerAI : MonoBehaviour
     {
         // 1) Sprite exatamente no Anchor (pode ser fora do navmesh)
         Vector3 anchorRaw = seat && seat.TryGetAnchor(out var aRaw) ? aRaw : transform.position;
-        rb.linearVelocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero; // mantenho linearVelocity para compatibilidade com seu projeto
         rb.angularVelocity = 0f;
         rb.position = anchorRaw;
 
@@ -222,17 +263,19 @@ public class CustomerAI : MonoBehaviour
         // 3) Pausa o driver enquanto está sentado (mata jitter)
         var driver = GetComponent<NavMeshAgent2DDriver>();
         if (driver) driver.enabled = false;
+
+        // avisa quem estiver escutando (CustomerTableWatcher)
+        OnSatDown?.Invoke(this);
     }
 
     void StartLeaving()
     {
-        // NOVO: some com o balão imediatamente ao levantar
+        // some com o balão imediatamente ao levantar
         var order = GetComponent<CustomerOrder>();
         if (order) order.LimparPedido();
 
         if (seat != null) seat.Vacate(this);
 
-        // ... resto do seu método
         Vector3 depart = transform.position;
         if (seat != null && seat.TryGetApproach(out var approachPos))
             depart = approachPos;
@@ -303,5 +346,26 @@ public class CustomerAI : MonoBehaviour
     {
         // garante liberação do assento se destruir o cliente no meio do fluxo
         if (seat != null) { seat.Vacate(this); seat = null; }
+    }
+
+    // =========================================================
+    // Interface para integração com a mesa (TableSpot/Watcher)
+    // =========================================================
+    public bool CanReceiveDish() => state == State.Waiting && seat != null;
+
+    public void OnDishDeliveredFromTable(TableSpot spot, Cookable dish)
+    {
+        if (!CanReceiveDish() || !spot || !dish) return;
+
+        // esconde bolha do pedido
+        var order = GetComponent<CustomerOrder>();
+        if (order) order.LimparPedido();
+
+        eatingFromSpot = spot;
+        servedDish     = dish;
+
+        // tempo de comer
+        eatTimer = dish.eatTime > 0f ? dish.eatTime : UnityEngine.Random.Range(minEat, maxEat);
+        state    = State.Eating;
     }
 }

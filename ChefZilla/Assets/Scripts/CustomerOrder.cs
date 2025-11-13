@@ -1,21 +1,32 @@
 using UnityEngine;
 
+[System.Serializable]
+public struct DishOption
+{
+    public string id;     // ex: "soup", "burger"
+    public Sprite icon;   // ícone para a bolha
+}
+
 public class CustomerOrder : MonoBehaviour
 {
     public OrderBubble bubble;
-    public Sprite[] itensPossiveis;          // �cones dos itens (pizza, sopa�)
+    [Tooltip("Lista de pratos possíveis para este cliente")]
+    public DishOption[] options;
     public float atrasoDepoisDeSentar = 1.5f;
 
-    public Sprite itemAtual { get; private set; }
+    public string orderedDishId  { get; private set; }
+    public Sprite itemAtual      { get; private set; }
 
     public void SolicitarPedido()
     {
         if (!bubble) bubble = GetComponentInChildren<OrderBubble>(true);
         if (!bubble) { Debug.LogWarning("CustomerOrder: sem OrderBubble"); return; }
 
-        itemAtual = (itensPossiveis != null && itensPossiveis.Length > 0)
-            ? itensPossiveis[Random.Range(0, itensPossiveis.Length)]
-            : null;
+        if (options == null || options.Length == 0) { Debug.LogWarning("CustomerOrder: sem opções"); return; }
+
+        var opt = options[Random.Range(0, options.Length)];
+        orderedDishId = opt.id;
+        itemAtual     = opt.icon;
 
         bubble.Show(itemAtual, atrasoDepoisDeSentar);
     }
@@ -24,5 +35,11 @@ public class CustomerOrder : MonoBehaviour
     {
         if (bubble) bubble.Hide();
         itemAtual = null;
+        orderedDishId = null;
+    }
+
+    public bool Matches(Cookable c)
+    {
+        return c && !string.IsNullOrEmpty(orderedDishId) && c.dishId == orderedDishId;
     }
 }

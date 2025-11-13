@@ -187,5 +187,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dishId: burger
   displayName: Burger
-  cookTime: 3
-  points: 10
+  cookTime: 4
+  eatTime: 2
+  points: 15

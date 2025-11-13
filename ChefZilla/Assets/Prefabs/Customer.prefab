@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: -9166457500266688594}
   - component: {fileID: 7888573570284715493}
   - component: {fileID: 6272874441519779988}
+  - component: {fileID: -8901576924045098589}
   m_Layer: 8
   m_Name: Customer
   m_TagString: Customer
@@ -439,8 +440,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32383985987767b9987f5b129cb65e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minWait: 5
-  maxWait: 12
+  minWait: 15
+  maxWait: 15
+  minEat: 4
+  maxEat: 7
   arriveTolerance: 0.14
   doorOutside: {fileID: 0}
   mustEnterThroughDoor: 1
@@ -458,9 +461,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bubble: {fileID: 8357820854341970345}
-  itensPossiveis:
-  - {fileID: 731375368619335737, guid: 592911d9b4764ad40ac71379ea9831d8, type: 3}
-  - {fileID: 3733805612042556432, guid: f436b163e09299641beb1dcdcd5af023, type: 3}
+  options:
+  - id: soup
+    icon: {fileID: 3733805612042556432, guid: f436b163e09299641beb1dcdcd5af023, type: 3}
+  - id: burger
+    icon: {fileID: 731375368619335737, guid: 592911d9b4764ad40ac71379ea9831d8, type: 3}
   atrasoDepoisDeSentar: 1.5
 --- !u!114 &6272874441519779988
 MonoBehaviour:
@@ -492,3 +497,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-8901576924045098589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3431667281675380898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f9990a38568de4e0bdefd168db9bcc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  searchRadius: 10

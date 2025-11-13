@@ -187,5 +187,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dishId: soup
   displayName: Soup
-  cookTime: 10
+  cookTime: 5
+  eatTime: 3
   points: 25
