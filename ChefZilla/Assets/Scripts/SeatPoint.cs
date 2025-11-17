@@ -18,29 +18,37 @@ public class SeatPoint : MonoBehaviour
 
     [Header("Amostragem no NavMesh (segurança)")]
     [Range(0.05f, 0.8f)] public float sampleApproachRadius = 0.40f;
-    [Range(0.05f, 0.8f)] public float sampleAnchorRadius   = 0.60f;
+    [Range(0.05f, 0.8f)] public float sampleAnchorRadius = 0.60f;
 
     // Gerência de ocupação / reservas
     private CustomerAI reservedBy;
     private CustomerAI occupiedBy;
+
+    /// <summary>Quem está sentado agora (somente leitura).</summary>
+    public CustomerAI CurrentOccupant => occupiedBy;
+    /// <summary>Se está livre (sem reserva e sem ocupante).</summary>
+    public bool IsFree => occupiedBy == null && reservedBy == null;
 
     // Índice global para AIs escolherem assentos
     public static readonly List<SeatPoint> All = new();
 
     void OnEnable()
     {
-        All.Add(this);
+        if (!All.Contains(this)) All.Add(this);
         AutoFindAnchors();
     }
 
-    void OnDisable() => All.Remove(this);
+    void OnDisable()
+    {
+        All.Remove(this);
+    }
 
     void OnValidate() => AutoFindAnchors();
 
     void AutoFindAnchors()
     {
         if (!approach) approach = transform.Find("Approach");
-        if (!anchor)   anchor   = transform.Find("Anchor");
+        if (!anchor) anchor = transform.Find("Anchor");
     }
 
     [ContextMenu("Create Approach & Anchor")]
@@ -62,17 +70,17 @@ public class SeatPoint : MonoBehaviour
 
     // ---- Reserva / Ocupação -------------------------------------------------
 
-    public bool IsFree => occupiedBy == null && reservedBy == null;
-
     public bool TryReserve(CustomerAI who)
     {
-        if (!IsFree) return false;
+        if (!IsFree || who == null) return false;
         reservedBy = who;
         return true;
     }
 
     public void Occupy(CustomerAI who)
     {
+        if (who == null) return;
+
         if (reservedBy == who || reservedBy == null)
         {
             occupiedBy = who;
@@ -88,19 +96,21 @@ public class SeatPoint : MonoBehaviour
 
     // ---- Utilidades NavMesh --------------------------------------------------
 
-    // Approach PRECISA estar no NavMesh
+    /// <summary>Approach PRECISA estar no NavMesh.</summary>
     public bool TryGetApproach(out Vector3 p)
     {
         var src = approach ? approach.position : transform.position;
         src.z = 0f;
         if (NavMesh.SamplePosition(src, out var hit, sampleApproachRadius, NavMesh.AllAreas))
         {
-            p = hit.position; p.z = 0f; return true;
+            p = hit.position; p.z = 0f;
+            return true;
         }
-        p = src; return false;
+        p = src;
+        return false;
     }
 
-    // Anchor pode estar fora do NavMesh; aqui só retorna a posição-alvo do sprite
+    /// <summary>Anchor pode estar fora do NavMesh; retorna a posição-alvo do sprite.</summary>
     public bool TryGetAnchor(out Vector3 p)
     {
         p = (anchor ? anchor.position : transform.position);
@@ -115,7 +125,7 @@ public class SeatPoint : MonoBehaviour
         if (!enabled) return;
 
         Vector3 pApproach = approach ? approach.position : transform.position;
-        Vector3 pAnchor   = anchor   ? anchor.position   : transform.position;
+        Vector3 pAnchor = anchor ? anchor.position : transform.position;
 
         float r = GetAgentRadiusApprox();
 
@@ -128,22 +138,22 @@ public class SeatPoint : MonoBehaviour
         // Anchor = verde (posição do sprite)
         DrawDisc(pAnchor,
                  new Color(0.2f, 1f, 0.6f, 0.35f),
-                 new Color(0.2f, 1f, 0.6f, 1f),
+                 new Color(0.2f, 0.6f, 0.3f, 1f),
                  r);
 
         Handles.Label(pApproach + Vector3.up * 0.12f, "Approach");
-        Handles.Label(pAnchor   + Vector3.up * 0.12f, "Anchor");
+        Handles.Label(pAnchor + Vector3.up * 0.12f, "Anchor");
     }
 
     static void DrawDisc(Vector3 pos, Color fill, Color outline, float r)
     {
         Handles.zTest = UnityEngine.Rendering.CompareFunction.Always;
-        Handles.color = fill;    Handles.DrawSolidDisc(pos, Vector3.forward, r);
-        Handles.color = outline; Handles.DrawWireDisc (pos, Vector3.forward, r);
+        Handles.color = fill; Handles.DrawSolidDisc(pos, Vector3.forward, r);
+        Handles.color = outline; Handles.DrawWireDisc(pos, Vector3.forward, r);
 
         float cross = r * 0.6f;
         Handles.DrawLine(pos + Vector3.right * cross, pos - Vector3.right * cross);
-        Handles.DrawLine(pos + Vector3.up    * cross, pos - Vector3.up    * cross);
+        Handles.DrawLine(pos + Vector3.up * cross, pos - Vector3.up * cross);
     }
 
     float GetAgentRadiusApprox()

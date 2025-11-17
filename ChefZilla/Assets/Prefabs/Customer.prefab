@@ -467,6 +467,11 @@ MonoBehaviour:
   - id: burger
     icon: {fileID: 731375368619335737, guid: 592911d9b4764ad40ac71379ea9831d8, type: 3}
   atrasoDepoisDeSentar: 1.5
+  icons:
+  - type: 1
+    icon: {fileID: 731375368619335737, guid: 592911d9b4764ad40ac71379ea9831d8, type: 3}
+  - type: 2
+    icon: {fileID: 3733805612042556432, guid: f436b163e09299641beb1dcdcd5af023, type: 3}
 --- !u!114 &6272874441519779988
 MonoBehaviour:
   m_ObjectHideFlags: 0

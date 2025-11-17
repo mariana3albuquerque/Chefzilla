@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1872071521582837196}
   - component: {fileID: 1270164950251530829}
   - component: {fileID: 3221005108119192011}
+  - component: {fileID: 4741952883758281947}
   m_Layer: 0
   m_Name: Burguer
   m_TagString: Untagged

@@ -14,8 +14,8 @@ public class CustomerOrder : MonoBehaviour
     public DishOption[] options;
     public float atrasoDepoisDeSentar = 1.5f;
 
-    public string orderedDishId  { get; private set; }
-    public Sprite itemAtual      { get; private set; }
+    public string orderedDishId { get; private set; }
+    public Sprite itemAtual { get; private set; }
 
     public void SolicitarPedido()
     {
@@ -26,7 +26,7 @@ public class CustomerOrder : MonoBehaviour
 
         var opt = options[Random.Range(0, options.Length)];
         orderedDishId = opt.id;
-        itemAtual     = opt.icon;
+        itemAtual = opt.icon;
 
         bubble.Show(itemAtual, atrasoDepoisDeSentar);
     }

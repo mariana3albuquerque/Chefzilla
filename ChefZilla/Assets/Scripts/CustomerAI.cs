@@ -47,11 +47,11 @@ public class CustomerAI : MonoBehaviour
 
     void Awake()
     {
-        rb    = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         agent = GetComponent<NavMeshAgent>();
 
         agent.updateRotation = false;   // NavMeshPlus 2D
-        agent.updateUpAxis   = false;
+        agent.updateUpAxis = false;
         agent.updatePosition = false;   // quem move é o driver por Rigidbody2D
 
         agent.stoppingDistance = Mathf.Max(agent.stoppingDistance, arriveTolerance);
@@ -362,10 +362,10 @@ public class CustomerAI : MonoBehaviour
         if (order) order.LimparPedido();
 
         eatingFromSpot = spot;
-        servedDish     = dish;
+        servedDish = dish;
 
         // tempo de comer
         eatTimer = dish.eatTime > 0f ? dish.eatTime : UnityEngine.Random.Range(minEat, maxEat);
-        state    = State.Eating;
+        state = State.Eating;
     }
 }

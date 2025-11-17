@@ -19,6 +19,9 @@ public class PlayerInteractionZone : MonoBehaviour
     public float stopHintDistance = 1.1f;
     public bool turnOffOnlyOnInteract = true;
 
+    [Header("Fim do tutorial")]
+    public TutorialEndPanel tutorialEndPanel;   // <<< painel "Tutorial concluído"
+
     int currentObj = -1;
     bool hasActiveHint = false;
 
@@ -42,7 +45,7 @@ public class PlayerInteractionZone : MonoBehaviour
 
     void Awake()
     {
-        anim  = GetComponentInParent<Animator>();
+        anim = GetComponentInParent<Animator>();
         mover = GetComponentInParent<PlayerController2D>();
     }
 
@@ -375,16 +378,30 @@ public class PlayerInteractionZone : MonoBehaviour
 
     void AdvanceObjective()
     {
+        // desliga o objetivo atual
         if (currentObj >= 0 && currentObj < objectiveChain.Length && objectiveChain[currentObj] != null)
             SetHintActive(objectiveChain[currentObj], false);
 
         currentObj++;
         hasActiveHint = false;
 
+        // ainda há próximos objetivos? então liga o próximo
         if (currentObj < objectiveChain.Length && objectiveChain[currentObj] != null)
         {
             SetHintActive(objectiveChain[currentObj], true);
             hasActiveHint = true;
+        }
+        else
+        {
+            // acabou a cadeia de objetivos -> fim do tutorial
+            if (tutorialEndPanel != null)
+            {
+                tutorialEndPanel.Show();
+            }
+            else
+            {
+                Debug.Log("[PlayerInteractionZone] Tutorial acabou, mas nenhum TutorialEndPanel foi atribuído.");
+            }
         }
     }
 

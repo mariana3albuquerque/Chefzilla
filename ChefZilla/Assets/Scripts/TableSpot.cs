@@ -4,6 +4,9 @@ using System; // << NOVO (pros eventos)
 [RequireComponent(typeof(Collider2D))]
 public class TableSpot : MonoBehaviour
 {
+    [Header("Ligação com o assento (SeatPoint)")]
+    public SeatPoint seat; // arraste o SeatPoint da mesa (ou deixamos achar no pai)
+
     [Header("Estado da Mesa")]
     public bool isOccupied = false;
     public GameObject placedObject = null;
@@ -21,7 +24,7 @@ public class TableSpot : MonoBehaviour
     // Colocar um item na mesa
     public void Place(GameObject obj)
     {
-        if (isOccupied) return;
+        if (isOccupied || obj == null) return;
 
         obj.transform.SetParent(transform);
         obj.transform.localPosition = Vector3.zero;
@@ -29,6 +32,10 @@ public class TableSpot : MonoBehaviour
 
         var rb = obj.GetComponent<Rigidbody2D>();
         if (rb) rb.simulated = false;
+
+        // opcional: desativa collider do item para não atrapalhar
+        var itemCol = obj.GetComponent<Collider2D>();
+        if (itemCol) itemCol.enabled = false;
 
         placedObject = obj;
         isOccupied = true;
