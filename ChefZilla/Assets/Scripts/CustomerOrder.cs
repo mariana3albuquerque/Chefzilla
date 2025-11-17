@@ -1,16 +1,21 @@
 using UnityEngine;
 
+[System.Serializable]
+public struct DishOption
+{
+    public string id;     // ex: "soup", "burger"
+    public Sprite icon;   // Ã­cone para a bolha
+}
+
 public class CustomerOrder : MonoBehaviour
 {
-    [System.Serializable]
-    public struct DishIcon { public DishType type; public Sprite icon; }
-
-    [Header("Balão do Pedido")]
-    public OrderBubble bubble;                 // arraste o OrderBubble (pai)
+    public OrderBubble bubble;
+    [Tooltip("Lista de pratos possÃ­veis para este cliente")]
+    public DishOption[] options;
     public float atrasoDepoisDeSentar = 1.5f;
 
-    [Header("Ícones por Prato")]
-    public DishIcon[] icons;                   // mapeia tipo -> sprite
+    public string orderedDishId  { get; private set; }
+    public Sprite itemAtual      { get; private set; }
 
     /// <summary>Prato atualmente pedido pelo cliente.</summary>
     public DishType Requested { get; private set; } = DishType.None;
@@ -21,13 +26,13 @@ public class CustomerOrder : MonoBehaviour
         if (!bubble) bubble = GetComponentInChildren<OrderBubble>(true);
         if (!bubble) { Debug.LogWarning("CustomerOrder: sem OrderBubble."); return; }
 
-        if (icons == null || icons.Length == 0)
-        {
-            Requested = DishType.None;
-            return;
-        }
+        if (options == null || options.Length == 0) { Debug.LogWarning("CustomerOrder: sem opÃ§Ãµes"); return; }
 
-        // Sorteia um dos tipos disponíveis (ou escolha de outra forma)
+        var opt = options[Random.Range(0, options.Length)];
+        orderedDishId = opt.id;
+        itemAtual     = opt.icon;
+
+        // Sorteia um dos tipos disponï¿½veis (ou escolha de outra forma)
         int i = Random.Range(0, icons.Length);
         Requested = icons[i].type;
 
@@ -46,11 +51,17 @@ public class CustomerOrder : MonoBehaviour
         return false;
     }
 
-    /// <summary>Esconde o balão e limpa o pedido atual.</summary>
+    /// <summary>Esconde o balï¿½o e limpa o pedido atual.</summary>
     public void LimparPedido()
     {
         if (bubble) bubble.Hide();
-        Requested = DishType.None;
+        itemAtual = null;
+        orderedDishId = null;
+    }
+
+    public bool Matches(Cookable c)
+    {
+        return c && !string.IsNullOrEmpty(orderedDishId) && c.dishId == orderedDishId;
     }
 
     Sprite GetIcon(DishType t)
@@ -63,7 +74,7 @@ public class CustomerOrder : MonoBehaviour
         return null;
     }
 
-    // Quando o objeto for desativado/destruído, esconda sem coroutine
+    // Quando o objeto for desativado/destruï¿½do, esconda sem coroutine
     void OnDisable() { if (bubble) bubble.HideImmediate(); }
     void OnDestroy() { if (bubble) bubble.HideImmediate(); }
 }

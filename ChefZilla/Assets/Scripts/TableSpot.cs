@@ -1,4 +1,5 @@
 using UnityEngine;
+using System; // << NOVO (pros eventos)
 
 [RequireComponent(typeof(Collider2D))]
 public class TableSpot : MonoBehaviour
@@ -7,33 +8,28 @@ public class TableSpot : MonoBehaviour
     public SeatPoint seat; // arraste o SeatPoint da mesa (ou deixamos achar no pai)
 
     [Header("Estado da Mesa")]
-    public bool isOccupied = false;          // se já tem item
-    public GameObject placedObject = null;   // referência ao item na mesa
+    public bool isOccupied = false;
+    public GameObject placedObject = null;
 
     [Header("Indicador Visual (Hint Circle)")]
     public GameObject visualIndicator;
 
-    void Awake()
-    {
-        // Se não foi setado no Inspector, tenta achar no pai
-        if (!seat) seat = GetComponentInParent<SeatPoint>();
+    // << NOVO: eventos para notificar quem estiver observando a mesa
+    public event Action<TableSpot, GameObject> OnPlaced;
+    public event Action<TableSpot> OnCleared;
 
-        // Mesa é ponto de interação: geralmente é melhor ser trigger
-        var col = GetComponent<Collider2D>();
-        if (col && !col.isTrigger) col.isTrigger = true;
-    }
+    // helper opcional
+    public Cookable GetCookable() => placedObject ? placedObject.GetComponent<Cookable>() : null;
 
     // Colocar um item na mesa
     public void Place(GameObject obj)
     {
         if (isOccupied || obj == null) return;
 
-        // parent e snap
         obj.transform.SetParent(transform);
         obj.transform.localPosition = Vector3.zero;
         obj.transform.localRotation = Quaternion.identity;
 
-        // desativa física do item
         var rb = obj.GetComponent<Rigidbody2D>();
         if (rb) rb.simulated = false;
 
@@ -44,20 +40,8 @@ public class TableSpot : MonoBehaviour
         placedObject = obj;
         isOccupied = true;
 
-        // --- INTEGRAÇÃO COM CLIENTE: tentar servir se houver alguém sentado ---
-        // Esperamos que o prato tenha DishItem (tipo do prato).
-        var dish = obj.GetComponent<DishItem>();
-        if (dish && seat && seat.CurrentOccupant != null)
-        {
-            var cust = seat.CurrentOccupant; // CustomerAI atual
-            if (cust.TryServe(dish.type))
-            {
-                // prato correto: consumir e limpar a mesa
-                Destroy(obj);      // ou obj.SetActive(false) se preferir não destruir
-                Clear();
-            }
-            // se o prato for errado, não fazemos nada: ele permanece na mesa
-        }
+        // << NOVO
+        OnPlaced?.Invoke(this, obj);
     }
 
     // Remover o item e devolver pro jogador
@@ -69,27 +53,25 @@ public class TableSpot : MonoBehaviour
         placedObject = null;
         isOccupied = false;
 
-        // reativa física
         var rb = obj.GetComponent<Rigidbody2D>();
         if (rb) rb.simulated = true;
 
-        // reativa collider do item
-        var itemCol = obj.GetComponent<Collider2D>();
-        if (itemCol) itemCol.enabled = true;
-
-        // desapega do parent
         obj.transform.SetParent(null);
+
+        // << NOVO
+        OnCleared?.Invoke(this);
         return obj;
     }
 
-    // limpar manualmente
     public void Clear()
     {
         placedObject = null;
         isOccupied = false;
+
+        // << NOVO
+        OnCleared?.Invoke(this);
     }
 
-    // Ativa/desativa o círculo de dica
     public void SetHintActive(bool on)
     {
         if (visualIndicator != null)
