@@ -2,27 +2,68 @@ using UnityEngine;
 
 public class CustomerOrder : MonoBehaviour
 {
-    public OrderBubble bubble;
-    public Sprite[] itensPossiveis;          // ícones dos itens (pizza, sopa…)
+    [System.Serializable]
+    public struct DishIcon { public DishType type; public Sprite icon; }
+
+    [Header("Balão do Pedido")]
+    public OrderBubble bubble;                 // arraste o OrderBubble (pai)
     public float atrasoDepoisDeSentar = 1.5f;
 
-    public Sprite itemAtual { get; private set; }
+    [Header("Ícones por Prato")]
+    public DishIcon[] icons;                   // mapeia tipo -> sprite
 
+    /// <summary>Prato atualmente pedido pelo cliente.</summary>
+    public DishType Requested { get; private set; } = DishType.None;
+
+    /// <summary>Chame assim que o cliente terminar de sentar.</summary>
     public void SolicitarPedido()
     {
         if (!bubble) bubble = GetComponentInChildren<OrderBubble>(true);
-        if (!bubble) { Debug.LogWarning("CustomerOrder: sem OrderBubble"); return; }
+        if (!bubble) { Debug.LogWarning("CustomerOrder: sem OrderBubble."); return; }
 
-        itemAtual = (itensPossiveis != null && itensPossiveis.Length > 0)
-            ? itensPossiveis[Random.Range(0, itensPossiveis.Length)]
-            : null;
+        if (icons == null || icons.Length == 0)
+        {
+            Requested = DishType.None;
+            return;
+        }
 
-        bubble.Show(itemAtual, atrasoDepoisDeSentar);
+        // Sorteia um dos tipos disponíveis (ou escolha de outra forma)
+        int i = Random.Range(0, icons.Length);
+        Requested = icons[i].type;
+
+        bubble.Show(GetIcon(Requested), atrasoDepoisDeSentar);
     }
 
+    /// <summary>Tenta servir um prato. Retorna true se for o correto (e consome o pedido).</summary>
+    public bool TryServe(DishType given)
+    {
+        if (given != DishType.None && given == Requested)
+        {
+            bubble?.Hide();
+            Requested = DishType.None; // consumo do pedido
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>Esconde o balão e limpa o pedido atual.</summary>
     public void LimparPedido()
     {
         if (bubble) bubble.Hide();
-        itemAtual = null;
+        Requested = DishType.None;
     }
+
+    Sprite GetIcon(DishType t)
+    {
+        if (icons != null)
+        {
+            for (int i = 0; i < icons.Length; i++)
+                if (icons[i].type == t) return icons[i].icon;
+        }
+        return null;
+    }
+
+    // Quando o objeto for desativado/destruído, esconda sem coroutine
+    void OnDisable() { if (bubble) bubble.HideImmediate(); }
+    void OnDestroy() { if (bubble) bubble.HideImmediate(); }
 }

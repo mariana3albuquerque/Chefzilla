@@ -21,6 +21,7 @@ public class CustomerAI : MonoBehaviour
     NavMeshAgent agent;
     Rigidbody2D rb;
     SeatPoint seat;
+    CustomerOrder order;                   // << NOVO: referência ao pedido/balão
     float waitTimer;
 
     enum State { GoingToDoor, GoingToApproach, Waiting, Leaving }
@@ -32,13 +33,14 @@ public class CustomerAI : MonoBehaviour
 
     void Awake()
     {
-        rb    = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         agent = GetComponent<NavMeshAgent>();
+        order = GetComponent<CustomerOrder>();  // << NOVO
 
-        agent.updateRotation = false;   // NavMeshPlus 2D
-        agent.updateUpAxis   = false;
+        // Setup NavMeshAgent p/ 2D
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
         agent.updatePosition = false;   // quem move é o driver por Rigidbody2D
-
         agent.stoppingDistance = Mathf.Max(agent.stoppingDistance, arriveTolerance);
         agent.autoRepath = true;
         agent.autoBraking = true;
@@ -123,6 +125,19 @@ public class CustomerAI : MonoBehaviour
     }
 
     // =========================================================
+    // Servir prato (chamado pelo TableSpot)
+    // =========================================================
+    public bool TryServe(DishType dish)
+    {
+        if (order && order.TryServe(dish))
+        {
+            StartLeaving();   // Sai imediatamente se foi servido corretamente
+            return true;
+        }
+        return false;
+    }
+
+    // =========================================================
     // Loop
     // =========================================================
     void Update()
@@ -166,8 +181,12 @@ public class CustomerAI : MonoBehaviour
                     SitAtAnchor(); // sprite no anchor (pode ser fora do navmesh) + agent ancorado na malha
                     if (seat != null) seat.Occupy(this);
 
+                    // tempo sentado
                     waitTimer = Random.Range(minWait, maxWait);
                     state = State.Waiting;
+
+                    // << NOVO: dispara o pedido/balão ao sentar
+                    if (order) order.SolicitarPedido();
                 }
                 break;
 
@@ -226,18 +245,23 @@ public class CustomerAI : MonoBehaviour
 
     void StartLeaving()
     {
-        // NOVO: some com o balão imediatamente ao levantar
-        var order = GetComponent<CustomerOrder>();
+        // some com o balão imediatamente ao levantar
         if (order) order.LimparPedido();
 
-        if (seat != null) seat.Vacate(this);
+        // guarda uma referência local do seat para evitar race
+        var s = seat;
 
-        // ... resto do seu método
+        if (s != null) s.Vacate(this);
+
+        // Alinha corpo+Agent em um ponto válido do NavMesh para sair:
+        // usamos o APPROACH do assento como base (sempre on-mesh).
         Vector3 depart = transform.position;
-        if (seat != null && seat.TryGetApproach(out var approachPos))
+        if (s != null && s.TryGetApproach(out var approachPos))
             depart = approachPos;
 
         WarpBodyAndAgentToNavmesh(depart, 0.8f);
+
+        // reabilita driver e inicia saída
         var driver = GetComponent<NavMeshAgent2DDriver>();
         if (driver && !driver.enabled) driver.enabled = true;
 
@@ -303,5 +327,7 @@ public class CustomerAI : MonoBehaviour
     {
         // garante liberação do assento se destruir o cliente no meio do fluxo
         if (seat != null) { seat.Vacate(this); seat = null; }
+        // rede de segurança para o balão
+        if (order) order.LimparPedido();
     }
 }

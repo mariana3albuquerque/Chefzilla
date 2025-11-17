@@ -439,8 +439,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32383985987767b9987f5b129cb65e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minWait: 5
-  maxWait: 12
+  minWait: 40
+  maxWait: 50
   arriveTolerance: 0.14
   doorOutside: {fileID: 0}
   mustEnterThroughDoor: 1
@@ -458,10 +458,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bubble: {fileID: 8357820854341970345}
-  itensPossiveis:
-  - {fileID: 731375368619335737, guid: 592911d9b4764ad40ac71379ea9831d8, type: 3}
-  - {fileID: 3733805612042556432, guid: f436b163e09299641beb1dcdcd5af023, type: 3}
   atrasoDepoisDeSentar: 1.5
+  icons:
+  - type: 1
+    icon: {fileID: 731375368619335737, guid: 592911d9b4764ad40ac71379ea9831d8, type: 3}
+  - type: 2
+    icon: {fileID: 3733805612042556432, guid: f436b163e09299641beb1dcdcd5af023, type: 3}
 --- !u!114 &6272874441519779988
 MonoBehaviour:
   m_ObjectHideFlags: 0
