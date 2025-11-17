@@ -26,6 +26,7 @@ public class CustomerAI : MonoBehaviour
     NavMeshAgent agent;
     Rigidbody2D rb;
     SeatPoint seat;
+
     float waitTimer;
 
     // Comer / pontuação
@@ -48,12 +49,11 @@ public class CustomerAI : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         agent = GetComponent<NavMeshAgent>();
-        order = GetComponent<CustomerOrder>();  // << NOVO
 
-        // Setup NavMeshAgent p/ 2D
-        agent.updateRotation = false;
+        agent.updateRotation = false;   // NavMeshPlus 2D
         agent.updateUpAxis = false;
         agent.updatePosition = false;   // quem move é o driver por Rigidbody2D
+
         agent.stoppingDistance = Mathf.Max(agent.stoppingDistance, arriveTolerance);
         agent.autoRepath = true;
         agent.autoBraking = true;
@@ -135,19 +135,6 @@ public class CustomerAI : MonoBehaviour
         WarpBodyAndAgentToNavmesh(transform.position, 0.8f);  // garante que ficou em cima do azul
         agent.isStopped = false;
         GoToApproach();
-    }
-
-    // =========================================================
-    // Servir prato (chamado pelo TableSpot)
-    // =========================================================
-    public bool TryServe(DishType dish)
-    {
-        if (order && order.TryServe(dish))
-        {
-            StartLeaving();   // Sai imediatamente se foi servido corretamente
-            return true;
-        }
-        return false;
     }
 
     // =========================================================
@@ -287,16 +274,13 @@ public class CustomerAI : MonoBehaviour
         var order = GetComponent<CustomerOrder>();
         if (order) order.LimparPedido();
 
-        // guarda uma referência local do seat para evitar race
-        var s = seat;
+        if (seat != null) seat.Vacate(this);
 
         Vector3 depart = transform.position;
-        if (s != null && s.TryGetApproach(out var approachPos))
+        if (seat != null && seat.TryGetApproach(out var approachPos))
             depart = approachPos;
 
         WarpBodyAndAgentToNavmesh(depart, 0.8f);
-
-        // reabilita driver e inicia saída
         var driver = GetComponent<NavMeshAgent2DDriver>();
         if (driver && !driver.enabled) driver.enabled = true;
 
@@ -362,8 +346,6 @@ public class CustomerAI : MonoBehaviour
     {
         // garante liberação do assento se destruir o cliente no meio do fluxo
         if (seat != null) { seat.Vacate(this); seat = null; }
-        // rede de segurança para o balão
-        if (order) order.LimparPedido();
     }
 
     // =========================================================
@@ -380,10 +362,10 @@ public class CustomerAI : MonoBehaviour
         if (order) order.LimparPedido();
 
         eatingFromSpot = spot;
-        servedDish     = dish;
+        servedDish = dish;
 
         // tempo de comer
         eatTimer = dish.eatTime > 0f ? dish.eatTime : UnityEngine.Random.Range(minEat, maxEat);
-        state    = State.Eating;
+        state = State.Eating;
     }
 }

@@ -3,28 +3,29 @@ using UnityEngine;
 public class TutorialEndPanel : MonoBehaviour
 {
     [Header("Referências")]
-    [SerializeField] NPCSpawner npcSpawner;   // arrasta o SpawnSystem aqui no Inspector
+    [SerializeField] NPCSpawner npcSpawner;            // SpawnSystem (NPCSpawner)
+    [SerializeField] ScoreAndCountdownTMP countdown;   // objeto de timer (ScoreAndCountdownTMP)
 
     [Header("Comportamento")]
     [SerializeField] bool pauseGame = true;
-    [SerializeField] bool clearTablesOnStart = true; // limpar itens das mesas ao começar o jogo
+    [SerializeField] bool clearTablesOnStart = true;   // limpar itens das mesas ao começar o jogo
 
     CanvasGroup canvasGroup;
 
     void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
-
-        // Garante que começa escondido
         HideImmediate();
     }
 
     void HideImmediate()
     {
-        if (canvasGroup != null)
+        if (canvasGroup)
+        {
             canvasGroup.alpha = 0f;
-
-        gameObject.SetActive(false);
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+        }
     }
 
     // Chamado quando o tutorial termina
@@ -32,10 +33,12 @@ public class TutorialEndPanel : MonoBehaviour
     {
         Debug.Log("[TutorialEndPanel] Show chamado");
 
-        gameObject.SetActive(true);
-
-        if (canvasGroup != null)
-            canvasGroup.alpha = 1f;      // <<< garante que fica visível
+        if (canvasGroup)
+        {
+            canvasGroup.alpha = 1f;
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
+        }
 
         if (pauseGame)
             Time.timeScale = 0f;
@@ -60,6 +63,13 @@ public class TutorialEndPanel : MonoBehaviour
         else
             Debug.LogWarning("[TutorialEndPanel] NpcSpawner não atribuído.");
 
+        // inicia o timer do jogo
+        if (countdown != null)
+        {
+            countdown.ResetTimer();   // volta para 05:00
+            countdown.StartTimer();   // começa a contar
+        }
+
         // esconde o painel
         HideImmediate();
     }
@@ -71,7 +81,7 @@ public class TutorialEndPanel : MonoBehaviour
         {
             GameObject obj = spot.Remove();
             if (obj != null)
-                Destroy(obj); // some com o prato/garrafa/etc.
+                Destroy(obj); // some com prato/garrafa/etc.
         }
     }
 }
