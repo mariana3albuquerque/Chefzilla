@@ -26,6 +26,8 @@ public class CustomerAI : MonoBehaviour
     NavMeshAgent agent;
     Rigidbody2D rb;
     SeatPoint seat;
+    Animator anim;
+    SpriteRenderer sr;
 
     float waitTimer;
 
@@ -38,6 +40,10 @@ public class CustomerAI : MonoBehaviour
     enum State { GoingToDoor, GoingToApproach, Waiting, Eating, Leaving }
     State state;
 
+    // humor ao sair
+    enum LeaveMood { None, Satisfied, Angry }
+    LeaveMood leaveMood = LeaveMood.None;
+
     // watchdog de progresso (evita travar em cantos estreitos)
     Vector3 lastPos;
     float noProgressTimer;
@@ -47,8 +53,10 @@ public class CustomerAI : MonoBehaviour
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb   = GetComponent<Rigidbody2D>();
         agent = GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
+        sr   = GetComponent<SpriteRenderer>();
 
         agent.updateRotation = false;   // NavMeshPlus 2D
         agent.updateUpAxis = false;
@@ -57,6 +65,10 @@ public class CustomerAI : MonoBehaviour
         agent.stoppingDistance = Mathf.Max(agent.stoppingDistance, arriveTolerance);
         agent.autoRepath = true;
         agent.autoBraking = true;
+
+        // 🔹 Nenhuma animação até sentar na mesa
+        if (anim != null)
+            anim.enabled = false;
     }
 
     void Start()
@@ -143,7 +155,6 @@ public class CustomerAI : MonoBehaviour
     void Update()
     {
         // vira o sprite conforme movimento do AGENT (não do Rigidbody)
-        var sr = GetComponent<SpriteRenderer>();
         if (sr && Mathf.Abs(agent.desiredVelocity.x) > 0.01f)
             sr.flipX = agent.desiredVelocity.x < 0;
 
@@ -178,13 +189,12 @@ public class CustomerAI : MonoBehaviour
 
                 if (Arrived())
                 {
-                    SitAtAnchor(); // sprite no anchor (pode ser fora do navmesh) + agent ancorado na malha
+                    SitAtAnchor(); // sprite no anchor + agent ancorado na malha
                     if (seat != null) seat.Occupy(this);
 
                     waitTimer = UnityEngine.Random.Range(minWait, maxWait);
                     state = State.Waiting;
-
-                    // Pedir: seu SeatArrivalWatcher já chama CustomerOrder.SolicitarPedido()
+                    leaveMood = LeaveMood.None;
                 }
                 break;
 
@@ -192,7 +202,8 @@ public class CustomerAI : MonoBehaviour
                 waitTimer -= Time.deltaTime;
                 if (waitTimer <= 0f)
                 {
-                    // ficou bravo, levanta e vai embora
+                    // ficou bravo, levanta e vai embora sem comer
+                    leaveMood = LeaveMood.Angry;
                     StartLeaving();
                 }
                 break;
@@ -204,7 +215,15 @@ public class CustomerAI : MonoBehaviour
                     // pontua AO TERMINAR de comer
                     if (servedDish)
                     {
+                        // Score
                         ScoreManager.I?.Add(servedDish.GetPoints());
+
+                        // Moedas (se tiver CurrencyManager configurado)
+                        if (CurrencyManager.I != null)
+                        {
+                            int coins = servedDish.GetCoinsReward();
+                            CurrencyManager.I.AddCoins(coins);
+                        }
 
                         // limpa a mesa
                         if (eatingFromSpot)
@@ -216,6 +235,9 @@ public class CustomerAI : MonoBehaviour
                         }
                         servedDish = null;
                     }
+
+                    // saiu satisfeito
+                    leaveMood = LeaveMood.Satisfied;
                     StartLeaving();
                 }
                 break;
@@ -224,6 +246,9 @@ public class CustomerAI : MonoBehaviour
                 if (exitPoint && Arrived()) Destroy(gameObject);
                 break;
         }
+
+        // Atualiza a animação conforme estado + humor
+        UpdateAnimator();
     }
 
     // =========================================================
@@ -247,7 +272,7 @@ public class CustomerAI : MonoBehaviour
     {
         // 1) Sprite exatamente no Anchor (pode ser fora do navmesh)
         Vector3 anchorRaw = seat && seat.TryGetAnchor(out var aRaw) ? aRaw : transform.position;
-        rb.linearVelocity = Vector2.zero; // mantenho linearVelocity para compatibilidade com seu projeto
+        rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
         rb.position = anchorRaw;
 
@@ -266,6 +291,10 @@ public class CustomerAI : MonoBehaviour
 
         // avisa quem estiver escutando (CustomerTableWatcher)
         OnSatDown?.Invoke(this);
+
+        // 🔹 A partir daqui as animações podem rodar (waiting, eating, etc.)
+        if (anim != null && !anim.enabled)
+            anim.enabled = true;
     }
 
     void StartLeaving()
@@ -362,10 +391,39 @@ public class CustomerAI : MonoBehaviour
         if (order) order.LimparPedido();
 
         eatingFromSpot = spot;
-        servedDish = dish;
+        servedDish     = dish;
+
+        // 🔹 assim que começa a comer, some com o prato da mesa
+        if (eatingFromSpot.placedObject)
+        {
+            // só esconde o visual; o Cookable continua acessível via servedDish
+            eatingFromSpot.placedObject.SetActive(false);
+        }
 
         // tempo de comer
         eatTimer = dish.eatTime > 0f ? dish.eatTime : UnityEngine.Random.Range(minEat, maxEat);
         state = State.Eating;
+
+        UpdateAnimator();   // já troca pra animação de comer
+    }
+
+    // =========================================================
+    // Animação
+    // =========================================================
+    void UpdateAnimator()
+    {
+        // sem animação enquanto o Animator estiver desligado (antes de sentar)
+        if (!anim || !anim.enabled) return;
+
+        bool isEating       = (state == State.Eating);
+        bool isLeavingHappy = (state == State.Leaving && leaveMood == LeaveMood.Satisfied);
+        bool isLeavingAngry = (state == State.Leaving && leaveMood == LeaveMood.Angry);
+
+        anim.SetBool("IsEating",    isEating);
+        anim.SetBool("IsSatisfied", isLeavingHappy);
+        anim.SetBool("IsAngry",     isLeavingAngry);
+
+        // quando todos forem false, o Animator cai no state "waiting",
+        // que é o default configurado no controller
     }
 }

@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 7888573570284715493}
   - component: {fileID: 6272874441519779988}
   - component: {fileID: -8901576924045098589}
+  - component: {fileID: 6351152174097195054}
   m_Layer: 8
   m_Name: Customer
   m_TagString: Customer
@@ -467,11 +468,6 @@ MonoBehaviour:
   - id: burger
     icon: {fileID: 731375368619335737, guid: 592911d9b4764ad40ac71379ea9831d8, type: 3}
   atrasoDepoisDeSentar: 1.5
-  icons:
-  - type: 1
-    icon: {fileID: 731375368619335737, guid: 592911d9b4764ad40ac71379ea9831d8, type: 3}
-  - type: 2
-    icon: {fileID: 3733805612042556432, guid: f436b163e09299641beb1dcdcd5af023, type: 3}
 --- !u!114 &6272874441519779988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,3 +511,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   searchRadius: 10
+--- !u!95 &6351152174097195054
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3431667281675380898}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0d9a096dc20be6718a8155653e718a3e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

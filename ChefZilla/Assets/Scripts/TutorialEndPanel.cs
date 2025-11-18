@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class TutorialEndPanel : MonoBehaviour
 {
-    [Header("Referências")]
+    [Header("Referï¿½ncias")]
     [SerializeField] NPCSpawner npcSpawner;            // SpawnSystem (NPCSpawner)
     [SerializeField] ScoreAndCountdownTMP countdown;   // objeto de timer (ScoreAndCountdownTMP)
 
     [Header("Comportamento")]
     [SerializeField] bool pauseGame = true;
-    [SerializeField] bool clearTablesOnStart = true;   // limpar itens das mesas ao começar o jogo
+    [SerializeField] bool clearTablesOnStart = true;   // limpar itens das mesas ao comeï¿½ar o jogo
+    [SerializeField] AudioSource tutorialMusic;
 
     CanvasGroup canvasGroup;
 
@@ -44,7 +45,7 @@ public class TutorialEndPanel : MonoBehaviour
             Time.timeScale = 0f;
     }
 
-    // OnClick do botão Play desse painel
+    // OnClick do botï¿½o Play desse painel
     public void OnPlayPressed()
     {
         Debug.Log("[TutorialEndPanel] Play pressionado");
@@ -52,6 +53,9 @@ public class TutorialEndPanel : MonoBehaviour
         // volta o tempo
         if (pauseGame)
             Time.timeScale = 1f;
+
+        if (tutorialMusic && tutorialMusic.isPlaying)
+            tutorialMusic.Stop();
 
         // limpa mesas do tutorial
         if (clearTablesOnStart)
@@ -61,13 +65,13 @@ public class TutorialEndPanel : MonoBehaviour
         if (npcSpawner != null)
             npcSpawner.EnableSpawning();
         else
-            Debug.LogWarning("[TutorialEndPanel] NpcSpawner não atribuído.");
+            Debug.LogWarning("[TutorialEndPanel] NpcSpawner nï¿½o atribuï¿½do.");
 
         // inicia o timer do jogo
         if (countdown != null)
         {
             countdown.ResetTimer();   // volta para 05:00
-            countdown.StartTimer();   // começa a contar
+            countdown.StartTimer();   // comeï¿½a a contar
         }
 
         // esconde o painel

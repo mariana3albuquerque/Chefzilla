@@ -7,6 +7,7 @@ public class StartupTutorial : MonoBehaviour
     [SerializeField] GameObject hamburgerButton;
     [SerializeField] bool pauseAudio = false;
     [SerializeField] float fade = 0.25f;
+    [SerializeField] AudioSource tutorialMusic;
 
     public UnityEvent onClosed;   // << isto cria o campo "On Closed" no Inspector
 
@@ -23,6 +24,9 @@ public class StartupTutorial : MonoBehaviour
 
         Time.timeScale = 0f;
         if (pauseAudio) AudioListener.pause = true;
+
+        if (tutorialMusic && !tutorialMusic.isPlaying)
+            tutorialMusic.Play();
 
         showing = true;
         if (cg && fade > 0f) { cg.alpha = 0f; StartCoroutine(FadeTo(1f)); }

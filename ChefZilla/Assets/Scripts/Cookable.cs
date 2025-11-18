@@ -3,7 +3,7 @@ using UnityEngine;
 public class Cookable : MonoBehaviour
 {
     [Header("Identificação")]
-    public string dishId = "soup";      // deve bater com o id pedido pelo cliente
+    public string dishId = "soup";
     public string displayName = "Soup";
 
     [Header("Tempo de preparo")]
@@ -12,10 +12,14 @@ public class Cookable : MonoBehaviour
 
     [Header("Tempo de consumo (s)")]
     [Min(0.5f)]
-    public float eatTime = 5f;          // quanto tempo o cliente leva para comer
+    public float eatTime = 5f;
 
     [Header("Pontuação")]
     public int points = 10;
 
+    [Header("Recompensa em moedas")]
+    public int coinsReward = 5;
+
     public int GetPoints() => points;
+    public int GetCoinsReward() => coinsReward;
 }

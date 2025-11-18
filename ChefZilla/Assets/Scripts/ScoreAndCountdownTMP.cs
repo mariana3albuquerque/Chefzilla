@@ -9,14 +9,12 @@ public class ScoreAndCountdownTMP : MonoBehaviour
 
     [Header("Timer")]
     [Min(1)] public int startSeconds = 300;   // 5:00
-    public bool autoStart = true;             // Começa sozinho ao habilitar
-    public bool useUnscaledTime = true;       // Conta mesmo com timeScale = 0
+    public bool autoStart = true;
+    public bool useUnscaledTime = true;
 
-    // Estado interno
     float remaining;      // segundos (float)
     bool running;
 
-    // ---- Propriedades públicas (para outros sistemas) ----
     public bool IsRunning => running;
     public float Remaining => remaining;
     public int RemainingSeconds => Mathf.CeilToInt(remaining);
@@ -31,7 +29,7 @@ public class ScoreAndCountdownTMP : MonoBehaviour
     {
         if (!label) label = GetComponent<TMP_Text>();
         remaining = Mathf.Max(1, startSeconds);
-        Render();   // mostra 05:00 imediatamente
+        Render();
     }
 
     void OnEnable()
@@ -40,7 +38,6 @@ public class ScoreAndCountdownTMP : MonoBehaviour
         else Render();
     }
 
-    // ===== API =====
     public void StartTimer()   { running = true; }
     public void PauseTimer()   { running = false; }
     public void ResetTimer()   { remaining = Mathf.Max(1, startSeconds); running = false; Render(); }
@@ -49,7 +46,7 @@ public class ScoreAndCountdownTMP : MonoBehaviour
     void Update()
     {
         TickTimer();
-        Render();   // atualiza também o score a cada frame
+        Render();
     }
 
     void TickTimer()
@@ -68,9 +65,10 @@ public class ScoreAndCountdownTMP : MonoBehaviour
         int secs = Mathf.CeilToInt(remaining);
         int m = secs / 60, s = secs % 60;
 
-        int score = ScoreManager.I ? ScoreManager.I.Score : 0;
+        int score = ScoreManager.I    ? ScoreManager.I.Score    : 0;
+        int coins = CurrencyManager.I ? CurrencyManager.I.Coins : 0;
 
         if (label)
-            label.text = $"Score: {score}   |   Tempo: {m:00}:{s:00}";
+            label.text = $"Score: {score}   |   Moedas: {coins}   |   Tempo: {m:00}:{s:00}";
     }
 }
