@@ -24,6 +24,10 @@ public class CustomerAI : MonoBehaviour
     public Transform exitPivotTop;         // pivot corredor superior
     public Transform exitPivotBottom;      // pivot corredor inferior
 
+    [Header("Segurança de movimentação")]
+    [Tooltip("Tempo máximo tentando ir até o APPROACH antes de forçar o 'sentar' (fallback).")]
+    public float maxTimeGoingToApproach = 6f;
+
     // runtime
     NavMeshAgent agent;
     Rigidbody2D rb;
@@ -41,47 +45,63 @@ public class CustomerAI : MonoBehaviour
     // máquina de estados
     enum State { GoingToDoor, GoingToApproach, Waiting, Eating, Leaving }
     State state;
+    [SerializeField, Tooltip("Só pra debug no Inspector")]
+    State debugState;
+
+    void SetState(State s)
+    {
+        state = s;
+        debugState = s;
+    }
 
     // humor ao sair
     enum LeaveMood { None, Satisfied, Angry }
     LeaveMood leaveMood = LeaveMood.None;
 
-    // watchdog de progresso (evita travar em cantos estreitos)
+    // watchdog de progresso
     Vector3 lastPos;
     float noProgressTimer;
 
-    // controle de saída via pivots
-    Transform currentExitPivot;    // pivot escolhido (top/bottom)
-    bool goingToExitPoint;         // false = indo pro pivot; true = indo pro exitPoint
+    // saída via pivots
+    Transform currentExitPivot;
+    bool goingToExitPoint;
 
-    // dispara quando o cliente efetivamente "senta" (anchor aplicado)
+    // tempo no estado GoingToApproach (pra timeout)
+    float goingToApproachTimer;
+
+    // dispara quando o cliente efetivamente "senta"
     public event Action<CustomerAI> OnSatDown;
 
     void Awake()
     {
-        rb   = GetComponent<Rigidbody2D>();
+        rb    = GetComponent<Rigidbody2D>();
         agent = GetComponent<NavMeshAgent>();
-        anim = GetComponent<Animator>();
-        sr   = GetComponent<SpriteRenderer>();
+        anim  = GetComponent<Animator>();
+        sr    = GetComponent<SpriteRenderer>();
 
-        agent.updateRotation = false;   // NavMeshPlus 2D
+        agent.updateRotation = false;
         agent.updateUpAxis   = false;
-        agent.updatePosition = false;   // quem move é o driver por Rigidbody2D
+        agent.updatePosition = false;
 
         agent.stoppingDistance = Mathf.Max(agent.stoppingDistance, arriveTolerance);
         agent.autoRepath = true;
         agent.autoBraking = true;
 
-        // 🔹 Nenhuma animação até sentar na mesa
+        // se o valor no prefab estiver 0 (novo campo), define um padrão razoável
+        if (maxTimeGoingToApproach <= 0.05f)
+            maxTimeGoingToApproach = 6f;
+
+        // nenhuma animação até sentar
         if (anim != null)
             anim.enabled = false;
+
+        SetState(State.GoingToApproach);
     }
 
     void Start()
     {
         // Garante início sobre a malha
         WarpBodyAndAgentToNavmesh(transform.position, 1.0f);
-
         ReserveSeatOrRetry();
     }
 
@@ -91,7 +111,11 @@ public class CustomerAI : MonoBehaviour
     void ReserveSeatOrRetry()
     {
         var livres = SeatPoint.All.Where(s => s.IsFree).ToList();
-        if (livres.Count == 0) { Invoke(nameof(ReserveSeatOrRetry), 1.0f); return; }
+        if (livres.Count == 0)
+        {
+            Invoke(nameof(ReserveSeatOrRetry), 1.0f);
+            return;
+        }
 
         // embaralha
         for (int i = 0; i < livres.Count; i++)
@@ -102,17 +126,16 @@ public class CustomerAI : MonoBehaviour
 
         foreach (var cand in livres)
         {
-            // testa alcançabilidade do APPROACH ANTES de reservar
             if (!cand.TryGetApproach(out var approach)) continue;
             if (!TryBuildCompletePath(approach, out _)) continue;
 
-            if (!cand.TryReserve(this)) continue; // corrida com outros clientes
+            if (!cand.TryReserve(this)) continue;
             seat = cand;
 
             if (mustEnterThroughDoor && doorOutside != null)
             {
                 GoTo(doorOutside.position);
-                state = State.GoingToDoor;
+                SetState(State.GoingToDoor);
             }
             else
             {
@@ -127,12 +150,17 @@ public class CustomerAI : MonoBehaviour
 
     void GoToApproach()
     {
-        if (!seat) { ReserveSeatOrRetry(); return; }
+        if (!seat)
+        {
+            ReserveSeatOrRetry();
+            return;
+        }
 
         if (!seat.TryGetApproach(out var approach) || !TryBuildCompletePath(approach, out var path))
         {
             // assento inalcançável → libera e tenta outro
-            seat.Vacate(this); seat = null;
+            seat.Vacate(this);
+            seat = null;
             ReserveSeatOrRetry();
             return;
         }
@@ -143,109 +171,51 @@ public class CustomerAI : MonoBehaviour
 
         lastPos = transform.position;
         noProgressTimer = 0f;
-        state = State.GoingToApproach;
+        goingToApproachTimer = 0f;
+
+        SetState(State.GoingToApproach);
     }
 
-    // chamado pelo teleporter DEPOIS de mover o NPC para o ponto interno
+    // chamado pelo teleporter depois de mover o NPC para dentro
     public void OnTeleportedThroughDoor()
     {
         mustEnterThroughDoor = false;
-        WarpBodyAndAgentToNavmesh(transform.position, 0.8f);  // garante que ficou em cima do azul
+        WarpBodyAndAgentToNavmesh(transform.position, 0.8f);
         agent.isStopped = false;
         GoToApproach();
     }
 
     // =========================================================
-    // Loop
+    // Loop principal
     // =========================================================
     void Update()
     {
-        // vira o sprite conforme movimento do AGENT (não do Rigidbody)
+        // vira sprite conforme direção
         if (sr && Mathf.Abs(agent.desiredVelocity.x) > 0.01f)
             sr.flipX = agent.desiredVelocity.x < 0;
 
         switch (state)
         {
             case State.GoingToDoor:
-                // fallback: se, por qualquer motivo, não teleportou e chegou na porta
                 if (Arrived())
                     GoToApproach();
                 break;
 
             case State.GoingToApproach:
-                // watchdog de progresso
-                float moved = (transform.position - lastPos).sqrMagnitude;
-                if (moved < 0.0004f) noProgressTimer += Time.deltaTime;
-                else { noProgressTimer = 0f; lastPos = transform.position; }
-
-                // caminho estragou? replaneja
-                if (agent.isPathStale || agent.pathStatus == NavMeshPathStatus.PathInvalid)
-                {
-                    GoToApproach();
-                    break;
-                }
-
-                // travou por tempo demais tentando contornar → escolhe outro assento
-                if (noProgressTimer > 2.0f)
-                {
-                    if (seat) { seat.Vacate(this); seat = null; }
-                    ReserveSeatOrRetry();
-                    break;
-                }
-
-                if (Arrived())
-                {
-                    SitAtAnchor(); // sprite no anchor + agent ancorado na malha
-                    if (seat != null) seat.Occupy(this);
-
-                    waitTimer = UnityEngine.Random.Range(minWait, maxWait);
-                    state = State.Waiting;
-                    leaveMood = LeaveMood.None;
-                }
+                UpdateGoingToApproach();
                 break;
 
             case State.Waiting:
                 waitTimer -= Time.deltaTime;
                 if (waitTimer <= 0f)
                 {
-                    // ficou bravo, levanta e vai embora sem comer
                     leaveMood = LeaveMood.Angry;
                     StartLeaving();
                 }
                 break;
 
             case State.Eating:
-                eatTimer -= Time.deltaTime;
-                if (eatTimer <= 0f)
-                {
-                    // pontua AO TERMINAR de comer
-                    if (servedDish)
-                    {
-                        // Score
-                        ScoreManager.I?.Add(servedDish.GetPoints());
-
-                        // Moedas (se tiver CurrencyManager configurado)
-                        if (CurrencyManager.I != null)
-                        {
-                            int coins = servedDish.GetCoinsReward();
-                            CurrencyManager.I.AddCoins(coins);
-                        }
-
-                        // limpa a mesa
-                        if (eatingFromSpot)
-                        {
-                            if (eatingFromSpot.placedObject)
-                                Destroy(eatingFromSpot.placedObject);
-                            eatingFromSpot.Clear();
-                            eatingFromSpot = null;
-                        }
-                        servedDish = null;
-                    }
-
-                    // saiu satisfeito
-                    leaveMood = LeaveMood.Satisfied;
-                    StartLeaving();
-                }
+                UpdateEating();
                 break;
 
             case State.Leaving:
@@ -253,36 +223,120 @@ public class CustomerAI : MonoBehaviour
                 break;
         }
 
-        // Atualiza a animação conforme estado + humor
         UpdateAnimator();
     }
 
+    void UpdateGoingToApproach()
+    {
+        // tempo total tentando chegar à mesa
+        goingToApproachTimer += Time.deltaTime;
+
+        // watchdog de progresso
+        float moved = (transform.position - lastPos).sqrMagnitude;
+        if (moved < 0.0004f) noProgressTimer += Time.deltaTime;
+        else { noProgressTimer = 0f; lastPos = transform.position; }
+
+        // caminho estragou? replaneja
+        if (agent.isPathStale || agent.pathStatus == NavMeshPathStatus.PathInvalid)
+        {
+            GoToApproach();
+            return;
+        }
+
+        // travou por tempo demais contornando -> troca de assento
+        if (noProgressTimer > 2.0f)
+        {
+            if (seat) { seat.Vacate(this); seat = null; }
+            ReserveSeatOrRetry();
+            return;
+        }
+
+        // timeout de segurança (só se valor > 0)
+        if (maxTimeGoingToApproach > 0f &&
+            goingToApproachTimer > maxTimeGoingToApproach)
+        {
+            Debug.LogWarning(
+                $"[CustomerAI] {name} demorou demais para chegar ao APPROACH, forçando SitAtAnchor()."
+            );
+            ForceSitAndWait();
+            return;
+        }
+
+        if (Arrived())
+        {
+            SitAtAnchor();
+            if (seat != null) seat.Occupy(this);
+
+            waitTimer = UnityEngine.Random.Range(minWait, maxWait);
+            leaveMood = LeaveMood.None;
+            SetState(State.Waiting);
+        }
+    }
+
+    void UpdateEating()
+    {
+        eatTimer -= Time.deltaTime;
+        if (eatTimer > 0f) return;
+
+        if (servedDish)
+        {
+            ScoreManager.I?.Add(servedDish.GetPoints());
+
+            if (CurrencyManager.I != null)
+            {
+                int coins = servedDish.GetCoinsReward();
+                CurrencyManager.I.AddCoins(coins);
+            }
+
+            if (eatingFromSpot)
+            {
+                if (eatingFromSpot.placedObject)
+                    Destroy(eatingFromSpot.placedObject);
+                eatingFromSpot.Clear();
+                eatingFromSpot = null;
+            }
+
+            servedDish = null;
+        }
+
+        leaveMood = LeaveMood.Satisfied;
+        StartLeaving();
+    }
+
     // =========================================================
-    // Chegada / Sentar / Levantar
+    // Chegada / sentar / levantar
     // =========================================================
     bool Arrived()
     {
         if (agent.pathPending) return false;
 
         float tol = Mathf.Max(arriveTolerance, agent.stoppingDistance);
-        if (agent.hasPath && agent.remainingDistance > tol) return false;
 
-        var end = agent.pathEndPosition;
-        end.z = 0f;
-        if (Vector2.Distance((Vector2)transform.position, (Vector2)end) > tol * 1.25f) return false;
+        // se não tem path, considera que ainda não chegou (evita teleporte precoce)
+        if (!agent.hasPath) return false;
 
-        return true;
+        // critério principal
+        if (agent.remainingDistance <= tol)
+            return true;
+
+        // fallback: distância até o fim do path
+        Vector2 me  = rb ? rb.position : (Vector2)transform.position;
+        Vector2 end = agent.pathEndPosition;
+        float distToEnd = Vector2.Distance(me, end);
+
+        if (distToEnd <= tol * 1.5f)
+            return true;
+
+        return false;
     }
 
     void SitAtAnchor()
     {
-        // 1) Sprite exatamente no Anchor (pode ser fora do navmesh)
         Vector3 anchorRaw = seat && seat.TryGetAnchor(out var aRaw) ? aRaw : transform.position;
         rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
         rb.position = anchorRaw;
 
-        // 2) Agent “gruda” no ponto válido mais próximo da malha
         Vector3 agentOnMesh = anchorRaw;
         if (NavMesh.SamplePosition(anchorRaw, out var hit, 0.6f, NavMesh.AllAreas))
             agentOnMesh = hit.position;
@@ -291,21 +345,27 @@ public class CustomerAI : MonoBehaviour
         agent.ResetPath();
         agent.isStopped = true;
 
-        // 3) Pausa o driver enquanto está sentado (mata jitter)
         var driver = GetComponent<NavMeshAgent2DDriver>();
         if (driver) driver.enabled = false;
 
-        // avisa quem estiver escutando (CustomerTableWatcher)
         OnSatDown?.Invoke(this);
 
-        // 🔹 A partir daqui as animações podem rodar (waiting, eating, etc.)
         if (anim != null && !anim.enabled)
             anim.enabled = true;
     }
 
+    void ForceSitAndWait()
+    {
+        SitAtAnchor();
+        if (seat != null) seat.Occupy(this);
+
+        waitTimer = UnityEngine.Random.Range(minWait, maxWait);
+        leaveMood = LeaveMood.None;
+        SetState(State.Waiting);
+    }
+
     void StartLeaving()
     {
-        // some com o balão imediatamente ao levantar
         var order = GetComponent<CustomerOrder>();
         if (order) order.LimparPedido();
 
@@ -320,24 +380,23 @@ public class CustomerAI : MonoBehaviour
         if (driver && !driver.enabled) driver.enabled = true;
 
         agent.isStopped = false;
-        state = State.Leaving;
 
-        // 🔹 Escolhe o pivot mais próximo (top ou bottom), se existir
         currentExitPivot = GetBestExitPivot(depart);
         goingToExitPoint = false;
 
+        SetState(State.Leaving);
+
         if (currentExitPivot != null)
         {
-            GoTo(currentExitPivot.position);    // 1ª perna: mesa -> pivot
+            GoTo(currentExitPivot.position);    // mesa -> pivot
         }
         else if (exitPoint != null)
         {
-            GoTo(exitPoint.position);          // sem pivots: vai direto
+            GoTo(exitPoint.position);           // sem pivot: direto
             goingToExitPoint = true;
         }
         else
         {
-            // não tem saída configurada, destrói rapidinho
             Destroy(gameObject, 0.25f);
         }
     }
@@ -346,31 +405,27 @@ public class CustomerAI : MonoBehaviour
     {
         if (exitPoint == null && currentExitPivot == null)
         {
-            // modo antigo: se não tem nada configurado, destrói ao chegar
             if (Arrived()) Destroy(gameObject);
             return;
         }
 
-        // 1) Indo para o pivot ainda
         if (!goingToExitPoint)
         {
             if (Arrived())
             {
                 if (exitPoint != null)
                 {
-                    GoTo(exitPoint.position);  // 2ª perna: pivot -> saída
+                    GoTo(exitPoint.position);
                     goingToExitPoint = true;
                 }
                 else
                 {
-                    // não há exitPoint, então destrói ao chegar no pivot
                     Destroy(gameObject);
                 }
             }
             return;
         }
 
-        // 2) Já indo para o exitPoint
         if (exitPoint != null && Arrived())
         {
             Destroy(gameObject);
@@ -454,12 +509,11 @@ public class CustomerAI : MonoBehaviour
 
     void OnDestroy()
     {
-        // garante liberação do assento se destruir o cliente no meio do fluxo
         if (seat != null) { seat.Vacate(this); seat = null; }
     }
 
     // =========================================================
-    // Interface para integração com a mesa (TableSpot/Watcher)
+    // Interface com a mesa
     // =========================================================
     public bool CanReceiveDish() => state == State.Waiting && seat != null;
 
@@ -467,25 +521,21 @@ public class CustomerAI : MonoBehaviour
     {
         if (!CanReceiveDish() || !spot || !dish) return;
 
-        // esconde bolha do pedido
         var order = GetComponent<CustomerOrder>();
         if (order) order.LimparPedido();
 
         eatingFromSpot = spot;
         servedDish     = dish;
 
-        // 🔹 assim que começa a comer, some com o prato da mesa
         if (eatingFromSpot.placedObject)
-        {
-            // só esconde o visual; o Cookable continua acessível via servedDish
             eatingFromSpot.placedObject.SetActive(false);
-        }
 
-        // tempo de comer
-        eatTimer = dish.eatTime > 0f ? dish.eatTime : UnityEngine.Random.Range(minEat, maxEat);
-        state = State.Eating;
+        eatTimer = dish.eatTime > 0f
+            ? dish.eatTime
+            : UnityEngine.Random.Range(minEat, maxEat);
 
-        UpdateAnimator();   // já troca pra animação de comer
+        SetState(State.Eating);
+        UpdateAnimator();
     }
 
     // =========================================================
@@ -493,7 +543,6 @@ public class CustomerAI : MonoBehaviour
     // =========================================================
     void UpdateAnimator()
     {
-        // sem animação enquanto o Animator estiver desligado (antes de sentar)
         if (!anim || !anim.enabled) return;
 
         bool isEating       = (state == State.Eating);
@@ -503,8 +552,6 @@ public class CustomerAI : MonoBehaviour
         anim.SetBool("IsEating",    isEating);
         anim.SetBool("IsSatisfied", isLeavingHappy);
         anim.SetBool("IsAngry",     isLeavingAngry);
-
-        // quando todos forem false, o Animator cai no state "waiting",
-        // que é o default configurado no controller
+        // quando os três forem false, cai no "waiting" default
     }
 }

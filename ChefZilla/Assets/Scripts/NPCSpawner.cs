@@ -23,13 +23,11 @@ public class NPCSpawner : MonoBehaviour
 
     void Awake()
     {
-        // define se começa spawnando ou não
         canSpawn = spawnOnStart;
     }
 
     void Update()
     {
-        // durante o tutorial, isso fica falso
         if (!canSpawn) return;
 
         timer += Time.deltaTime;
@@ -58,7 +56,6 @@ public class NPCSpawner : MonoBehaviour
             return;
         }
 
-        // 🔹 Sorteia um prefab da lista
         int idx = Random.Range(0, customerPrefabs.Length);
         GameObject prefab = customerPrefabs[idx];
         if (!prefab) return;
@@ -68,10 +65,10 @@ public class NPCSpawner : MonoBehaviour
         var ai = go.GetComponent<CustomerAI>();
         if (ai)
         {
-            ai.exitPoint = exitPoint;
-            ai.doorOutside = doorOutside;
+            ai.exitPoint       = exitPoint;
+            ai.doorOutside     = doorOutside;
             ai.mustEnterThroughDoor = true;
-            ai.exitPivotTop = exitPivotTop;
+            ai.exitPivotTop    = exitPivotTop;
             ai.exitPivotBottom = exitPivotBottom;
         }
 
@@ -79,8 +76,6 @@ public class NPCSpawner : MonoBehaviour
         if (ag && NavMesh.SamplePosition(spawnPoint.position, out var hit, 2f, NavMesh.AllAreas))
             ag.Warp(hit.position);
     }
-
-    // --- controle externo (tutorial / jogo valendo) ---
 
     public void EnableSpawning()
     {

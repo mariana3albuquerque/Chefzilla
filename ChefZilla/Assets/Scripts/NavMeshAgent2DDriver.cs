@@ -37,7 +37,7 @@ public class NavMeshAgent2DDriver : MonoBehaviour
         agent.updateUpAxis   = false;
         agent.updatePosition = false;
 
-        // **Prefira CapsuleCollider2D como colisor sólido**
+        // Prefira CapsuleCollider2D como colisor sólido
         var cols = GetComponents<Collider2D>().Where(c => !c.isTrigger).ToArray();
         solidCol = cols.OfType<CapsuleCollider2D>().FirstOrDefault() ?? cols.FirstOrDefault();
 
@@ -71,7 +71,6 @@ public class NavMeshAgent2DDriver : MonoBehaviour
             if (toTarget.sqrMagnitude > 1e-4f)
             {
                 Vector2 dirNudge = toTarget.normalized;
-                // usa a velocidade do agente para definir tamanho do passo
                 float maxStepNudge = agent.speed * Time.fixedDeltaTime;
                 rb.MovePosition(currentPos + dirNudge * maxStepNudge);
                 agent.nextPosition = rb.position;
@@ -109,7 +108,7 @@ public class NavMeshAgent2DDriver : MonoBehaviour
             if (t.sqrMagnitude < 1e-6f) t = Vector2.Perpendicular(n); // fallback
             t.Normalize();
 
-            // **Tente as DUAS tangentes e pegue a que tiver mais folga**
+            // Tente as DUAS tangentes e pegue a que tiver mais folga
             float stepT1 = FreeStepAlong(t, maxStep);
             float stepT2 = FreeStepAlong(-t, maxStep);
 
@@ -122,7 +121,7 @@ public class NavMeshAgent2DDriver : MonoBehaviour
             }
             else
             {
-                // **Destravador de quina local**: empurra um tiquinho para fora da parede
+                // Destravador de quina local: empurra um tiquinho para fora da parede
                 float unstick = Mathf.Min(0.03f, skin * 3f);
                 rb.MovePosition(currentPos + n * unstick);
             }
@@ -179,7 +178,7 @@ public class NavMeshAgent2DDriver : MonoBehaviour
 
         Vector2 me  = rb.position;
         Vector2 end = agent.pathEndPosition;
-        return Vector2.Distance(me, end) <= tol * 1.25f;
+        return Vector2.Distance(me, end) <= tol * 1.75f;
     }
 
 #if UNITY_EDITOR
