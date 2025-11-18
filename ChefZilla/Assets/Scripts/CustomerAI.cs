@@ -18,11 +18,11 @@ public class CustomerAI : MonoBehaviour
     [Range(0.06f, 0.3f)] public float arriveTolerance = 0.14f;
 
     [Header("Fluxo de entrada/saída")]
-    public Transform doorOutside;          // ponto lá fora (antes do teleporte)
+    public Transform doorOutside;
     public bool mustEnterThroughDoor = true;
-    public Transform exitPoint;            // ponto final de saída
-    public Transform exitPivotTop;         // pivot corredor superior
-    public Transform exitPivotBottom;      // pivot corredor inferior
+    public Transform exitPoint;
+    public Transform exitPivotTop;
+    public Transform exitPivotBottom;
 
     [Header("Segurança de movimentação")]
     [Tooltip("Tempo máximo tentando ir até o APPROACH antes de forçar o 'sentar' (fallback).")]
@@ -42,11 +42,10 @@ public class CustomerAI : MonoBehaviour
     Cookable servedDish;
     TableSpot eatingFromSpot;
 
-    // máquina de estados
+    // flags de estado
     enum State { GoingToDoor, GoingToApproach, Waiting, Eating, Leaving }
     State state;
-    [SerializeField, Tooltip("Só pra debug no Inspector")]
-    State debugState;
+    [SerializeField] State debugState;
 
     void SetState(State s)
     {
@@ -54,7 +53,6 @@ public class CustomerAI : MonoBehaviour
         debugState = s;
     }
 
-    // humor ao sair
     enum LeaveMood { None, Satisfied, Angry }
     LeaveMood leaveMood = LeaveMood.None;
 
@@ -66,11 +64,17 @@ public class CustomerAI : MonoBehaviour
     Transform currentExitPivot;
     bool goingToExitPoint;
 
-    // tempo no estado GoingToApproach (pra timeout)
+    // timer indo para o APPROACH
     float goingToApproachTimer;
+
+    // 🔹 novo: já sentou mesmo?
+    bool hasSatDown;
 
     // dispara quando o cliente efetivamente "senta"
     public event Action<CustomerAI> OnSatDown;
+
+    // opcional: acesso público de leitura
+    public bool HasSatDown => hasSatDown;
 
     void Awake()
     {
@@ -87,20 +91,18 @@ public class CustomerAI : MonoBehaviour
         agent.autoRepath = true;
         agent.autoBraking = true;
 
-        // se o valor no prefab estiver 0 (novo campo), define um padrão razoável
         if (maxTimeGoingToApproach <= 0.05f)
             maxTimeGoingToApproach = 6f;
 
-        // nenhuma animação até sentar
         if (anim != null)
             anim.enabled = false;
 
+        hasSatDown = false;
         SetState(State.GoingToApproach);
     }
 
     void Start()
     {
-        // Garante início sobre a malha
         WarpBodyAndAgentToNavmesh(transform.position, 1.0f);
         ReserveSeatOrRetry();
     }
@@ -117,7 +119,6 @@ public class CustomerAI : MonoBehaviour
             return;
         }
 
-        // embaralha
         for (int i = 0; i < livres.Count; i++)
         {
             int j = UnityEngine.Random.Range(i, livres.Count);
@@ -144,7 +145,6 @@ public class CustomerAI : MonoBehaviour
             return;
         }
 
-        // ninguém válido → tenta de novo em instantes
         Invoke(nameof(ReserveSeatOrRetry), 0.75f);
     }
 
@@ -158,7 +158,6 @@ public class CustomerAI : MonoBehaviour
 
         if (!seat.TryGetApproach(out var approach) || !TryBuildCompletePath(approach, out var path))
         {
-            // assento inalcançável → libera e tenta outro
             seat.Vacate(this);
             seat = null;
             ReserveSeatOrRetry();
@@ -176,7 +175,6 @@ public class CustomerAI : MonoBehaviour
         SetState(State.GoingToApproach);
     }
 
-    // chamado pelo teleporter depois de mover o NPC para dentro
     public void OnTeleportedThroughDoor()
     {
         mustEnterThroughDoor = false;
@@ -190,7 +188,6 @@ public class CustomerAI : MonoBehaviour
     // =========================================================
     void Update()
     {
-        // vira sprite conforme direção
         if (sr && Mathf.Abs(agent.desiredVelocity.x) > 0.01f)
             sr.flipX = agent.desiredVelocity.x < 0;
 
@@ -228,22 +225,18 @@ public class CustomerAI : MonoBehaviour
 
     void UpdateGoingToApproach()
     {
-        // tempo total tentando chegar à mesa
         goingToApproachTimer += Time.deltaTime;
 
-        // watchdog de progresso
         float moved = (transform.position - lastPos).sqrMagnitude;
         if (moved < 0.0004f) noProgressTimer += Time.deltaTime;
         else { noProgressTimer = 0f; lastPos = transform.position; }
 
-        // caminho estragou? replaneja
         if (agent.isPathStale || agent.pathStatus == NavMeshPathStatus.PathInvalid)
         {
             GoToApproach();
             return;
         }
 
-        // travou por tempo demais contornando -> troca de assento
         if (noProgressTimer > 2.0f)
         {
             if (seat) { seat.Vacate(this); seat = null; }
@@ -251,7 +244,6 @@ public class CustomerAI : MonoBehaviour
             return;
         }
 
-        // timeout de segurança (só se valor > 0)
         if (maxTimeGoingToApproach > 0f &&
             goingToApproachTimer > maxTimeGoingToApproach)
         {
@@ -312,14 +304,11 @@ public class CustomerAI : MonoBehaviour
 
         float tol = Mathf.Max(arriveTolerance, agent.stoppingDistance);
 
-        // se não tem path, considera que ainda não chegou (evita teleporte precoce)
         if (!agent.hasPath) return false;
 
-        // critério principal
         if (agent.remainingDistance <= tol)
             return true;
 
-        // fallback: distância até o fim do path
         Vector2 me  = rb ? rb.position : (Vector2)transform.position;
         Vector2 end = agent.pathEndPosition;
         float distToEnd = Vector2.Distance(me, end);
@@ -347,6 +336,9 @@ public class CustomerAI : MonoBehaviour
 
         var driver = GetComponent<NavMeshAgent2DDriver>();
         if (driver) driver.enabled = false;
+
+        // 🔹 marca que sentou de verdade
+        hasSatDown = true;
 
         OnSatDown?.Invoke(this);
 
@@ -388,11 +380,11 @@ public class CustomerAI : MonoBehaviour
 
         if (currentExitPivot != null)
         {
-            GoTo(currentExitPivot.position);    // mesa -> pivot
+            GoTo(currentExitPivot.position);
         }
         else if (exitPoint != null)
         {
-            GoTo(exitPoint.position);           // sem pivot: direto
+            GoTo(exitPoint.position);
             goingToExitPoint = true;
         }
         else
@@ -515,7 +507,8 @@ public class CustomerAI : MonoBehaviour
     // =========================================================
     // Interface com a mesa
     // =========================================================
-    public bool CanReceiveDish() => state == State.Waiting && seat != null;
+    // 🔹 agora só pode receber prato se estiver esperando *e* já tiver sentado
+    public bool CanReceiveDish() => state == State.Waiting && seat != null && hasSatDown;
 
     public void OnDishDeliveredFromTable(TableSpot spot, Cookable dish)
     {
@@ -552,6 +545,5 @@ public class CustomerAI : MonoBehaviour
         anim.SetBool("IsEating",    isEating);
         anim.SetBool("IsSatisfied", isLeavingHappy);
         anim.SetBool("IsAngry",     isLeavingAngry);
-        // quando os três forem false, cai no "waiting" default
     }
 }
