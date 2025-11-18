@@ -9,6 +9,9 @@ public class GameTimer : MonoBehaviour
     public bool startOnEnable = true;
     public bool useUnscaledTime = true;         // <- pode deixar true por padrão
 
+    [Header("Música de fundo")]
+    [SerializeField] BackgroundMusicController backgroundMusic;
+
     public bool Running { get; private set; }
     public float Remaining { get; private set; }
     public int RemainingSeconds => Mathf.CeilToInt(Mathf.Max(0f, Remaining));
@@ -50,8 +53,8 @@ public class GameTimer : MonoBehaviour
     }
 
     public void StartTimer() { Running = true; }
-    public void Pause()      { Running = false; }
-    public void Resume()     { Running = true;  }
+    public void Pause() { Running = false; }
+    public void Resume() { Running = true; }
 
     void Update()
     {
@@ -60,6 +63,10 @@ public class GameTimer : MonoBehaviour
         float dt = useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
         Remaining -= dt;
         if (Remaining < 0f) Remaining = 0f;
+
+        // 🔊 avisa o controlador de música quanto tempo falta
+        if (backgroundMusic != null)
+            backgroundMusic.UpdateTimeRemaining(Remaining);
 
         int sec = RemainingSeconds;
         if (sec != lastBroadcast)

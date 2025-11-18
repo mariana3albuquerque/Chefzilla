@@ -456,4 +456,29 @@ public class PlayerInteractionZone : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, tableSearchRadius);
     }
+
+    // ===================== DESLIGAR MODO TUTORIAL =====================
+    public void DisableTutorialMode()
+    {
+        // desliga qualquer highlight ainda ativo
+        if (objectiveChain != null)
+        {
+            foreach (var obj in objectiveChain)
+            {
+                if (obj != null)
+                    SetHintActive(obj, false);
+            }
+        }
+
+        objectiveChain = new GameObject[0];
+        currentObj = -1;
+        hasActiveHint = false;
+
+        // não queremos mais a dica inicial de movimento
+        moveHintActive = false;
+
+        // some com qualquer texto de dica atual
+        if (interactionHint != null)
+            interactionHint.HideHint();
+    }
 }
