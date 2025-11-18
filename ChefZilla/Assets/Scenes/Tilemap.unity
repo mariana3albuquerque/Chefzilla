@@ -8067,8 +8067,8 @@ MonoBehaviour:
   exitPoint: {fileID: 1989948631}
   exitPivotTop: {fileID: 141396493}
   exitPivotBottom: {fileID: 767294969}
-  interval: 10
-  maxAlive: 5
+  interval: 8
+  maxAlive: 7
   spawnOnStart: 0
 --- !u!4 &880276450
 Transform:
