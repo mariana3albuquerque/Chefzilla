@@ -3,24 +3,27 @@ using UnityEngine.AI;
 
 public class NPCSpawner : MonoBehaviour
 {
-    [Header("ConfiguraÁ„o de spawn")]
-    public GameObject customerPrefab;
+    [Header("Configura√ß√£o de spawn")]
+    [Tooltip("Lista de prefabs de clientes (Customer01, Customer02, ...). Ser√° sorteado um a cada spawn.")]
+    public GameObject[] customerPrefabs;
     public Transform spawnPoint;
     public Transform doorOutside;
     public Transform exitPoint;
+    public Transform exitPivotTop;      // corredor superior
+    public Transform exitPivotBottom;   // corredor inferior
     public float interval = 4f;
     public int maxAlive = 6;
 
     [Header("Tutorial / Fluxo de jogo")]
-    [Tooltip("Se marcado, j· comeÁa spawnando assim que a cena carregar.")]
-    public bool spawnOnStart = true;   // se false, fica travado atÈ EnableSpawning()
+    [Tooltip("Se marcado, j√° come√ßa spawnando assim que a cena carregar.")]
+    public bool spawnOnStart = true;   // se false, fica travado at√© EnableSpawning()
     bool canSpawn;
 
     float timer;
 
     void Awake()
     {
-        // define se comeÁa spawnando ou n„o
+        // define se come√ßa spawnando ou n√£o
         canSpawn = spawnOnStart;
     }
 
@@ -48,9 +51,19 @@ public class NPCSpawner : MonoBehaviour
 
     void SpawnOne()
     {
-        if (!customerPrefab || !spawnPoint) return;
+        if (!spawnPoint) return;
+        if (customerPrefabs == null || customerPrefabs.Length == 0)
+        {
+            Debug.LogWarning("NPCSpawner: nenhum prefab configurado em 'customerPrefabs'.");
+            return;
+        }
 
-        var go = Instantiate(customerPrefab, spawnPoint.position, Quaternion.identity);
+        // üîπ Sorteia um prefab da lista
+        int idx = Random.Range(0, customerPrefabs.Length);
+        GameObject prefab = customerPrefabs[idx];
+        if (!prefab) return;
+
+        var go = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
 
         var ai = go.GetComponent<CustomerAI>();
         if (ai)
@@ -58,6 +71,8 @@ public class NPCSpawner : MonoBehaviour
             ai.exitPoint = exitPoint;
             ai.doorOutside = doorOutside;
             ai.mustEnterThroughDoor = true;
+            ai.exitPivotTop = exitPivotTop;
+            ai.exitPivotBottom = exitPivotBottom;
         }
 
         var ag = go.GetComponent<NavMeshAgent>();

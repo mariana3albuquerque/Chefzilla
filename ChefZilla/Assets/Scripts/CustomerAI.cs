@@ -20,7 +20,9 @@ public class CustomerAI : MonoBehaviour
     [Header("Fluxo de entrada/saída")]
     public Transform doorOutside;          // ponto lá fora (antes do teleporte)
     public bool mustEnterThroughDoor = true;
-    public Transform exitPoint;            // ponto de saída
+    public Transform exitPoint;            // ponto final de saída
+    public Transform exitPivotTop;         // pivot corredor superior
+    public Transform exitPivotBottom;      // pivot corredor inferior
 
     // runtime
     NavMeshAgent agent;
@@ -48,6 +50,10 @@ public class CustomerAI : MonoBehaviour
     Vector3 lastPos;
     float noProgressTimer;
 
+    // controle de saída via pivots
+    Transform currentExitPivot;    // pivot escolhido (top/bottom)
+    bool goingToExitPoint;         // false = indo pro pivot; true = indo pro exitPoint
+
     // dispara quando o cliente efetivamente "senta" (anchor aplicado)
     public event Action<CustomerAI> OnSatDown;
 
@@ -59,7 +65,7 @@ public class CustomerAI : MonoBehaviour
         sr   = GetComponent<SpriteRenderer>();
 
         agent.updateRotation = false;   // NavMeshPlus 2D
-        agent.updateUpAxis = false;
+        agent.updateUpAxis   = false;
         agent.updatePosition = false;   // quem move é o driver por Rigidbody2D
 
         agent.stoppingDistance = Mathf.Max(agent.stoppingDistance, arriveTolerance);
@@ -243,7 +249,7 @@ public class CustomerAI : MonoBehaviour
                 break;
 
             case State.Leaving:
-                if (exitPoint && Arrived()) Destroy(gameObject);
+                UpdateLeaving();
                 break;
         }
 
@@ -316,8 +322,83 @@ public class CustomerAI : MonoBehaviour
         agent.isStopped = false;
         state = State.Leaving;
 
-        if (exitPoint) GoTo(exitPoint.position);
-        else Destroy(gameObject, 0.25f);
+        // 🔹 Escolhe o pivot mais próximo (top ou bottom), se existir
+        currentExitPivot = GetBestExitPivot(depart);
+        goingToExitPoint = false;
+
+        if (currentExitPivot != null)
+        {
+            GoTo(currentExitPivot.position);    // 1ª perna: mesa -> pivot
+        }
+        else if (exitPoint != null)
+        {
+            GoTo(exitPoint.position);          // sem pivots: vai direto
+            goingToExitPoint = true;
+        }
+        else
+        {
+            // não tem saída configurada, destrói rapidinho
+            Destroy(gameObject, 0.25f);
+        }
+    }
+
+    void UpdateLeaving()
+    {
+        if (exitPoint == null && currentExitPivot == null)
+        {
+            // modo antigo: se não tem nada configurado, destrói ao chegar
+            if (Arrived()) Destroy(gameObject);
+            return;
+        }
+
+        // 1) Indo para o pivot ainda
+        if (!goingToExitPoint)
+        {
+            if (Arrived())
+            {
+                if (exitPoint != null)
+                {
+                    GoTo(exitPoint.position);  // 2ª perna: pivot -> saída
+                    goingToExitPoint = true;
+                }
+                else
+                {
+                    // não há exitPoint, então destrói ao chegar no pivot
+                    Destroy(gameObject);
+                }
+            }
+            return;
+        }
+
+        // 2) Já indo para o exitPoint
+        if (exitPoint != null && Arrived())
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    Transform GetBestExitPivot(Vector3 from)
+    {
+        Transform best = null;
+        float bestDistSq = float.MaxValue;
+
+        void TryCandidate(Transform t)
+        {
+            if (!t) return;
+            Vector2 a = new Vector2(from.x, from.y);
+            Vector2 b = new Vector2(t.position.x, t.position.y);
+            float d2 = (a - b).sqrMagnitude;
+            if (d2 < bestDistSq)
+            {
+                bestDistSq = d2;
+                best = t;
+            }
+        }
+
+        TryCandidate(exitPivotTop);
+        TryCandidate(exitPivotBottom);
+
+        return best;
     }
 
     // =========================================================

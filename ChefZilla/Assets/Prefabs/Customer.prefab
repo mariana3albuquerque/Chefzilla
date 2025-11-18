@@ -279,7 +279,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 101
-  m_Sprite: {fileID: 9099960663904654203, guid: 64338ed3bc7687f48a36d830f3ce27ba, type: 3}
+  m_Sprite: {fileID: 9099960663904654203, guid: 2c05849d252b52c3786b9dbe9a619a8d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -429,6 +429,8 @@ MonoBehaviour:
     m_Bits: 1536
   skin: 0.01
   arriveTol: 0.14
+  stuckTime: 0.75
+  minMoveSqr: 0.0001
 --- !u!114 &-9166457500266688594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,6 +451,8 @@ MonoBehaviour:
   doorOutside: {fileID: 0}
   mustEnterThroughDoor: 1
   exitPoint: {fileID: 0}
+  exitPivotTop: {fileID: 0}
+  exitPivotBottom: {fileID: 0}
 --- !u!114 &7888573570284715493
 MonoBehaviour:
   m_ObjectHideFlags: 0
