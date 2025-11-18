@@ -28,6 +28,10 @@ public class CustomerAI : MonoBehaviour
     [Tooltip("Tempo máximo tentando ir até o APPROACH antes de forçar o 'sentar' (fallback).")]
     public float maxTimeGoingToApproach = 6f;
 
+    [Header("Som de saída")]
+    [SerializeField] AudioClip angryLeaveSFX;                 // som quando sai bravo
+    [SerializeField, Range(0f, 1f)] float angryLeaveVolume = 1f;
+
     // runtime
     NavMeshAgent agent;
     Rigidbody2D rb;
@@ -67,7 +71,7 @@ public class CustomerAI : MonoBehaviour
     // timer indo para o APPROACH
     float goingToApproachTimer;
 
-    // 🔹 novo: já sentou mesmo?
+    // já sentou mesmo?
     bool hasSatDown;
 
     // dispara quando o cliente efetivamente "senta"
@@ -78,13 +82,13 @@ public class CustomerAI : MonoBehaviour
 
     void Awake()
     {
-        rb    = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         agent = GetComponent<NavMeshAgent>();
-        anim  = GetComponent<Animator>();
-        sr    = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
 
         agent.updateRotation = false;
-        agent.updateUpAxis   = false;
+        agent.updateUpAxis = false;
         agent.updatePosition = false;
 
         agent.stoppingDistance = Mathf.Max(agent.stoppingDistance, arriveTolerance);
@@ -309,7 +313,7 @@ public class CustomerAI : MonoBehaviour
         if (agent.remainingDistance <= tol)
             return true;
 
-        Vector2 me  = rb ? rb.position : (Vector2)transform.position;
+        Vector2 me = rb ? rb.position : (Vector2)transform.position;
         Vector2 end = agent.pathEndPosition;
         float distToEnd = Vector2.Distance(me, end);
 
@@ -337,7 +341,7 @@ public class CustomerAI : MonoBehaviour
         var driver = GetComponent<NavMeshAgent2DDriver>();
         if (driver) driver.enabled = false;
 
-        // 🔹 marca que sentou de verdade
+        // marca que sentou de verdade
         hasSatDown = true;
 
         OnSatDown?.Invoke(this);
@@ -356,8 +360,21 @@ public class CustomerAI : MonoBehaviour
         SetState(State.Waiting);
     }
 
+    // --------- SOM DE SAÍDA BRAVO ----------
+    void PlayAngryLeaveSFX()
+    {
+        if (angryLeaveSFX == null) return;
+        AudioSource.PlayClipAtPoint(angryLeaveSFX, transform.position, angryLeaveVolume);
+    }
+
     void StartLeaving()
     {
+        // se está saindo bravo, toca o som aqui
+        if (leaveMood == LeaveMood.Angry)
+        {
+            PlayAngryLeaveSFX();
+        }
+
         var order = GetComponent<CustomerOrder>();
         if (order) order.LimparPedido();
 
@@ -507,7 +524,6 @@ public class CustomerAI : MonoBehaviour
     // =========================================================
     // Interface com a mesa
     // =========================================================
-    // 🔹 agora só pode receber prato se estiver esperando *e* já tiver sentado
     public bool CanReceiveDish() => state == State.Waiting && seat != null && hasSatDown;
 
     public void OnDishDeliveredFromTable(TableSpot spot, Cookable dish)
@@ -515,10 +531,23 @@ public class CustomerAI : MonoBehaviour
         if (!CanReceiveDish() || !spot || !dish) return;
 
         var order = GetComponent<CustomerOrder>();
-        if (order) order.LimparPedido();
+        if (order != null)
+        {
+            // Só continua se o prato for o correto
+            if (!order.Matches(dish))
+            {
+                Debug.Log("[CustomerAI] Prato entregue não corresponde ao pedido.", this);
+                return; // prato errado: não come, não toca som
+            }
+
+            // Se chegou aqui, o prato está correto:
+            // - Matches já tocou o som
+            // - agora limpamos o balão
+            order.LimparPedido();
+        }
 
         eatingFromSpot = spot;
-        servedDish     = dish;
+        servedDish = dish;
 
         if (eatingFromSpot.placedObject)
             eatingFromSpot.placedObject.SetActive(false);
@@ -538,12 +567,12 @@ public class CustomerAI : MonoBehaviour
     {
         if (!anim || !anim.enabled) return;
 
-        bool isEating       = (state == State.Eating);
+        bool isEating = (state == State.Eating);
         bool isLeavingHappy = (state == State.Leaving && leaveMood == LeaveMood.Satisfied);
         bool isLeavingAngry = (state == State.Leaving && leaveMood == LeaveMood.Angry);
 
-        anim.SetBool("IsEating",    isEating);
+        anim.SetBool("IsEating", isEating);
         anim.SetBool("IsSatisfied", isLeavingHappy);
-        anim.SetBool("IsAngry",     isLeavingAngry);
+        anim.SetBool("IsAngry", isLeavingAngry);
     }
 }

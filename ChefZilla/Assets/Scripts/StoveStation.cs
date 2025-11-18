@@ -19,12 +19,16 @@ public class StoveStation : MonoBehaviour
     public GameObject[] recipeOptions;
     [SerializeField] int recipeIndex = 0;       // receita selecionada
 
+    [Header("Som de comida pronta")]
+    [SerializeField] AudioClip foodReadySFX;            // som quando o prato fica pronto
+    [SerializeField, Range(0f, 1f)] float foodReadyVolume = 1f;
+
     public StoveState State { get; private set; } = StoveState.Idle;
 
     // ==== Consulta simples para UI / Player ====
     public bool HasReadyItem => State == StoveState.Ready;
-    public bool CanStart()    => State == StoveState.Idle;
-    public bool IsBusy()      => State == StoveState.Prepping || State == StoveState.Cooking || State == StoveState.Ready;
+    public bool CanStart() => State == StoveState.Idle;
+    public bool IsBusy() => State == StoveState.Prepping || State == StoveState.Cooking || State == StoveState.Ready;
 
     public string GetActiveRecipeName()
     {
@@ -103,6 +107,17 @@ public class StoveStation : MonoBehaviour
         if (spawnPoint) readyInstance.transform.SetParent(spawnPoint); // fica “sobre” o fogão
         var rb = readyInstance.GetComponent<Rigidbody2D>();
         if (rb) rb.simulated = false;
+
+        // 🔊 som de comida pronta
+        PlayFoodReadySFX();
+    }
+
+    void PlayFoodReadySFX()
+    {
+        if (foodReadySFX == null) return;
+
+        Vector3 pos = spawnPoint ? spawnPoint.position : transform.position;
+        AudioSource.PlayClipAtPoint(foodReadySFX, pos, foodReadyVolume);
     }
 
     public GameObject CollectReadyItem()

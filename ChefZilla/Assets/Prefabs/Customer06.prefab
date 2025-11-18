@@ -453,6 +453,10 @@ MonoBehaviour:
   exitPoint: {fileID: 0}
   exitPivotTop: {fileID: 0}
   exitPivotBottom: {fileID: 0}
+  maxTimeGoingToApproach: 6
+  angryLeaveSFX: {fileID: 8300000, guid: 5b168dba8f9995a4593763a6606677d8, type: 3}
+  angryLeaveVolume: 1
+  debugState: 0
 --- !u!114 &7888573570284715493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,6 +476,8 @@ MonoBehaviour:
   - id: burger
     icon: {fileID: 731375368619335737, guid: 592911d9b4764ad40ac71379ea9831d8, type: 3}
   atrasoDepoisDeSentar: 1.5
+  correctServeSFX: {fileID: 8300000, guid: 71e3c30e53b079f40a601937df08b7fa, type: 3}
+  sfxVolume: 1
 --- !u!114 &6272874441519779988
 MonoBehaviour:
   m_ObjectHideFlags: 0
