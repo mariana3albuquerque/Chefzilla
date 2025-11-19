@@ -2501,6 +2501,11 @@ MonoBehaviour:
   recipeOptions:
   - {fileID: 2248710999898806202, guid: 9ae960137d29c3a6fbf4afbfeb834d44, type: 3}
   - {fileID: 2248710999898806202, guid: 6a526bab1774a6ef29557fa18efcb17b, type: 3}
+  - {fileID: 2248710999898806202, guid: 2c4089f7eff30f85b9b0800d2a74bcf2, type: 3}
+  - {fileID: 2248710999898806202, guid: 01794296265f2affcbefbc47f0558125, type: 3}
+  - {fileID: 2248710999898806202, guid: e7cd772d577f0a66b9d8ed8578c7dd67, type: 3}
+  - {fileID: 2248710999898806202, guid: d161411e631e3ad208eda145c3abbd90, type: 3}
+  - {fileID: 2248710999898806202, guid: ef50c2de4672c2b94859634f01107a5d, type: 3}
   recipeIndex: 0
   foodReadySFX: {fileID: 8300000, guid: d068f8966c503b945a54a21e6bcf33ae, type: 3}
   foodReadyVolume: 1

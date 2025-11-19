@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 1872071521582837196}
   - component: {fileID: 1270164950251530829}
   - component: {fileID: 3221005108119192011}
+  - component: {fileID: 8271660227178820370}
   m_Layer: 0
-  m_Name: Burguer
+  m_Name: egg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 110
-  m_Sprite: {fileID: 731375368619335737, guid: 592911d9b4764ad40ac71379ea9831d8, type: 3}
+  m_Sprite: {fileID: 4646649027328027380, guid: 7571502e035326c4899175094acaced3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -155,7 +156,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.68, y: 0.51}
+    oldSize: {x: 0.66, y: 0.47}
     newSize: {x: 0.63, y: 0.53}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -185,9 +186,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3de8c50a068615cbafb10da12671e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dishId: burger
-  displayName: Burger
-  cookTime: 4
+  dishId: egg
+  displayName: Egg
+  cookTime: 5
   eatTime: 2
-  points: 15
-  coinsReward: 8
+  points: 20
+  coinsReward: 5
+--- !u!114 &8271660227178820370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2248710999898806202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d78cb513cc0aaac4daa356daf4269462, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 6
