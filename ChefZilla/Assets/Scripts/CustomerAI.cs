@@ -15,7 +15,8 @@ public class CustomerAI : MonoBehaviour
     public float maxEat = 7f;
 
     [Header("Checagem de chegada")]
-    [Range(0.06f, 0.3f)] public float arriveTolerance = 0.14f;
+    [Range(0.06f, 0.3f)]
+    public float arriveTolerance = 0.14f;
 
     [Header("Fluxo de entrada/saída")]
     public Transform doorOutside;
@@ -29,7 +30,7 @@ public class CustomerAI : MonoBehaviour
     public float maxTimeGoingToApproach = 6f;
 
     [Header("Som de saída")]
-    [SerializeField] AudioClip angryLeaveSFX;                 // som quando sai bravo
+    [SerializeField] AudioClip angryLeaveSFX; // som quando sai bravo
     [SerializeField, Range(0f, 1f)] float angryLeaveVolume = 1f;
 
     // runtime
@@ -38,6 +39,12 @@ public class CustomerAI : MonoBehaviour
     SeatPoint seat;
     Animator anim;
     SpriteRenderer sr;
+
+    [Header("Dificuldade do cliente")]
+    [Range(0f, 1f)]
+    [SerializeField] float difficulty01 = 0f;          // 0 = começo da partida (mais paciente), 1 = fim (impaciente)
+    [SerializeField] float waitTimeMultiplier = 1f;    // mantido para debug, mas fixo em 1
+    [SerializeField] float baseWaitTime = 8f;          // tempo fixo de espera calculado pela dificuldade
 
     float waitTimer;
 
@@ -90,18 +97,22 @@ public class CustomerAI : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.updatePosition = false;
-
         agent.stoppingDistance = Mathf.Max(agent.stoppingDistance, arriveTolerance);
         agent.autoRepath = true;
         agent.autoBraking = true;
 
-        if (maxTimeGoingToApproach <= 0.05f)
-            maxTimeGoingToApproach = 6f;
+        if (maxTimeGoingToApproach <= 0.05f) maxTimeGoingToApproach = 6f;
 
-        if (anim != null)
-            anim.enabled = false;
+        if (anim != null) anim.enabled = false;
 
         hasSatDown = false;
+
+        // tempo fixo padrão: média entre minWait e maxWait
+        baseWaitTime = Mathf.Clamp((minWait + maxWait) * 0.5f, 0.1f, 999f);
+
+        // valor padrão (sem dificuldade aplicada)
+        waitTimeMultiplier = 1f;
+
         SetState(State.GoingToApproach);
     }
 
@@ -109,6 +120,27 @@ public class CustomerAI : MonoBehaviour
     {
         WarpBodyAndAgentToNavmesh(transform.position, 1.0f);
         ReserveSeatOrRetry();
+    }
+
+    /// <summary>
+    /// Configura o quanto esse cliente é paciente com base na dificuldade 0..1.
+    /// 0 = muito paciente, 1 = bem impaciente.
+    /// Chamado pelo NPCSpawner ao instanciar.
+    /// </summary>
+    public void ApplyDifficulty(float d01)
+    {
+        difficulty01 = Mathf.Clamp01(d01);
+
+        // Definimos um tempo fixo de espera baseado na dificuldade:
+        // dificuldade 0  → cliente bem paciente  → usa o MAIOR valor (maxWait)
+        // dificuldade 1  → cliente impaciente   → usa o MENOR valor (minWait)
+        float easyWait = Mathf.Max(minWait, maxWait); // espera longa no começo
+        float hardWait = Mathf.Min(minWait, maxWait); // espera curta no final
+
+        baseWaitTime = Mathf.Lerp(easyWait, hardWait, difficulty01);
+
+        // multiplicador fica 1 (sem random/multiplicação)
+        waitTimeMultiplier = 1f;
     }
 
     // =========================================================
@@ -133,8 +165,8 @@ public class CustomerAI : MonoBehaviour
         {
             if (!cand.TryGetApproach(out var approach)) continue;
             if (!TryBuildCompletePath(approach, out _)) continue;
-
             if (!cand.TryReserve(this)) continue;
+
             seat = cand;
 
             if (mustEnterThroughDoor && doorOutside != null)
@@ -175,7 +207,6 @@ public class CustomerAI : MonoBehaviour
         lastPos = transform.position;
         noProgressTimer = 0f;
         goingToApproachTimer = 0f;
-
         SetState(State.GoingToApproach);
     }
 
@@ -198,8 +229,7 @@ public class CustomerAI : MonoBehaviour
         switch (state)
         {
             case State.GoingToDoor:
-                if (Arrived())
-                    GoToApproach();
+                if (Arrived()) GoToApproach();
                 break;
 
             case State.GoingToApproach:
@@ -232,8 +262,13 @@ public class CustomerAI : MonoBehaviour
         goingToApproachTimer += Time.deltaTime;
 
         float moved = (transform.position - lastPos).sqrMagnitude;
-        if (moved < 0.0004f) noProgressTimer += Time.deltaTime;
-        else { noProgressTimer = 0f; lastPos = transform.position; }
+        if (moved < 0.0004f)
+            noProgressTimer += Time.deltaTime;
+        else
+        {
+            noProgressTimer = 0f;
+            lastPos = transform.position;
+        }
 
         if (agent.isPathStale || agent.pathStatus == NavMeshPathStatus.PathInvalid)
         {
@@ -243,13 +278,16 @@ public class CustomerAI : MonoBehaviour
 
         if (noProgressTimer > 2.0f)
         {
-            if (seat) { seat.Vacate(this); seat = null; }
+            if (seat)
+            {
+                seat.Vacate(this);
+                seat = null;
+            }
             ReserveSeatOrRetry();
             return;
         }
 
-        if (maxTimeGoingToApproach > 0f &&
-            goingToApproachTimer > maxTimeGoingToApproach)
+        if (maxTimeGoingToApproach > 0f && goingToApproachTimer > maxTimeGoingToApproach)
         {
             Debug.LogWarning(
                 $"[CustomerAI] {name} demorou demais para chegar ao APPROACH, forçando SitAtAnchor()."
@@ -263,7 +301,9 @@ public class CustomerAI : MonoBehaviour
             SitAtAnchor();
             if (seat != null) seat.Occupy(this);
 
-            waitTimer = UnityEngine.Random.Range(minWait, maxWait);
+            // tempo fixo já calculado pela dificuldade
+            waitTimer = baseWaitTime;
+
             leaveMood = LeaveMood.None;
             SetState(State.Waiting);
         }
@@ -288,6 +328,7 @@ public class CustomerAI : MonoBehaviour
             {
                 if (eatingFromSpot.placedObject)
                     Destroy(eatingFromSpot.placedObject);
+
                 eatingFromSpot.Clear();
                 eatingFromSpot = null;
             }
@@ -309,16 +350,12 @@ public class CustomerAI : MonoBehaviour
         float tol = Mathf.Max(arriveTolerance, agent.stoppingDistance);
 
         if (!agent.hasPath) return false;
-
-        if (agent.remainingDistance <= tol)
-            return true;
+        if (agent.remainingDistance <= tol) return true;
 
         Vector2 me = rb ? rb.position : (Vector2)transform.position;
         Vector2 end = agent.pathEndPosition;
         float distToEnd = Vector2.Distance(me, end);
-
-        if (distToEnd <= tol * 1.5f)
-            return true;
+        if (distToEnd <= tol * 1.5f) return true;
 
         return false;
     }
@@ -326,6 +363,7 @@ public class CustomerAI : MonoBehaviour
     void SitAtAnchor()
     {
         Vector3 anchorRaw = seat && seat.TryGetAnchor(out var aRaw) ? aRaw : transform.position;
+
         rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
         rb.position = anchorRaw;
@@ -343,7 +381,6 @@ public class CustomerAI : MonoBehaviour
 
         // marca que sentou de verdade
         hasSatDown = true;
-
         OnSatDown?.Invoke(this);
 
         if (anim != null && !anim.enabled)
@@ -355,7 +392,9 @@ public class CustomerAI : MonoBehaviour
         SitAtAnchor();
         if (seat != null) seat.Occupy(this);
 
-        waitTimer = UnityEngine.Random.Range(minWait, maxWait);
+        // tempo fixo já calculado pela dificuldade
+        waitTimer = baseWaitTime;
+
         leaveMood = LeaveMood.None;
         SetState(State.Waiting);
     }
@@ -378,13 +417,16 @@ public class CustomerAI : MonoBehaviour
         var order = GetComponent<CustomerOrder>();
         if (order) order.LimparPedido();
 
-        if (seat != null) seat.Vacate(this);
+        if (seat != null)
+            seat.Vacate(this);
 
         Vector3 depart = transform.position;
+
         if (seat != null && seat.TryGetApproach(out var approachPos))
             depart = approachPos;
 
         WarpBodyAndAgentToNavmesh(depart, 0.8f);
+
         var driver = GetComponent<NavMeshAgent2DDriver>();
         if (driver && !driver.enabled) driver.enabled = true;
 
@@ -414,7 +456,8 @@ public class CustomerAI : MonoBehaviour
     {
         if (exitPoint == null && currentExitPivot == null)
         {
-            if (Arrived()) Destroy(gameObject);
+            if (Arrived())
+                Destroy(gameObject);
             return;
         }
 
@@ -489,7 +532,10 @@ public class CustomerAI : MonoBehaviour
         path = new NavMeshPath();
         var target = SampleOnNavmesh(p, 0.4f, out bool ok);
         if (!ok) return false;
-        if (!agent.CalculatePath(target, path)) return false;
+
+        if (!agent.CalculatePath(target, path))
+            return false;
+
         return path.status == NavMeshPathStatus.PathComplete;
     }
 
@@ -508,6 +554,7 @@ public class CustomerAI : MonoBehaviour
     void WarpBodyAndAgentToNavmesh(Vector3 pos, float maxDist)
     {
         pos.z = 0f;
+
         Vector3 p = pos;
         if (NavMesh.SamplePosition(pos, out var hit, maxDist, NavMesh.AllAreas))
             p = hit.position;
@@ -518,7 +565,11 @@ public class CustomerAI : MonoBehaviour
 
     void OnDestroy()
     {
-        if (seat != null) { seat.Vacate(this); seat = null; }
+        if (seat != null)
+        {
+            seat.Vacate(this);
+            seat = null;
+        }
     }
 
     // =========================================================
@@ -552,10 +603,7 @@ public class CustomerAI : MonoBehaviour
         if (eatingFromSpot.placedObject)
             eatingFromSpot.placedObject.SetActive(false);
 
-        eatTimer = dish.eatTime > 0f
-            ? dish.eatTime
-            : UnityEngine.Random.Range(minEat, maxEat);
-
+        eatTimer = dish.eatTime > 0f ? dish.eatTime : UnityEngine.Random.Range(minEat, maxEat);
         SetState(State.Eating);
         UpdateAnimator();
     }

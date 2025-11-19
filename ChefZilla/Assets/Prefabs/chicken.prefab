@@ -189,7 +189,7 @@ MonoBehaviour:
   dishId: chicken
   displayName: Chicken
   cookTime: 5
-  eatTime: 2
+  eatTime: 3
   points: 25
   coinsReward: 6
 --- !u!114 &8271660227178820370

@@ -8274,6 +8274,11 @@ MonoBehaviour:
   exitPivotBottom: {fileID: 767294969}
   interval: 8
   maxAlive: 7
+  usarDificuldadePorTempo: 1
+  easyInterval: 12
+  hardInterval: 7
+  easyMaxAlive: 3
+  hardMaxAlive: 7
   spawnOnStart: 0
 --- !u!4 &880276450
 Transform:
@@ -10678,7 +10683,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1419850425
 MonoBehaviour:
   m_ObjectHideFlags: 0

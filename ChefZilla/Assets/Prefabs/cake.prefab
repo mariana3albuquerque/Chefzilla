@@ -189,7 +189,7 @@ MonoBehaviour:
   dishId: cake
   displayName: Cake
   cookTime: 6
-  eatTime: 3
+  eatTime: 4
   points: 30
   coinsReward: 10
 --- !u!114 &8271660227178820370

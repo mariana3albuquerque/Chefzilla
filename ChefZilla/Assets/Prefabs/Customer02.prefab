@@ -443,8 +443,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32383985987767b9987f5b129cb65e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minWait: 15
-  maxWait: 15
+  minWait: 10
+  maxWait: 25
   minEat: 4
   maxEat: 7
   arriveTolerance: 0.14
@@ -456,6 +456,9 @@ MonoBehaviour:
   maxTimeGoingToApproach: 6
   angryLeaveSFX: {fileID: 8300000, guid: 5b168dba8f9995a4593763a6606677d8, type: 3}
   angryLeaveVolume: 1
+  difficulty01: 0
+  waitTimeMultiplier: 1
+  baseWaitTime: 8
   debugState: 0
 --- !u!114 &7888573570284715493
 MonoBehaviour:

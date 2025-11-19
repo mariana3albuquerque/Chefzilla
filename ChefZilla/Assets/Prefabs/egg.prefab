@@ -188,7 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dishId: egg
   displayName: Egg
-  cookTime: 5
+  cookTime: 3
   eatTime: 2
   points: 20
   coinsReward: 5
