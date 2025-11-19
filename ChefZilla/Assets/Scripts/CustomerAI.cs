@@ -42,9 +42,9 @@ public class CustomerAI : MonoBehaviour
 
     [Header("Dificuldade do cliente")]
     [Range(0f, 1f)]
-    [SerializeField] float difficulty01 = 0f;          // 0 = começo da partida (mais paciente), 1 = fim (impaciente)
-    [SerializeField] float waitTimeMultiplier = 1f;    // mantido para debug, mas fixo em 1
-    [SerializeField] float baseWaitTime = 8f;          // tempo fixo de espera calculado pela dificuldade
+    [SerializeField] float difficulty01 = 0f;       // 0 = começo da partida (mais paciente), 1 = fim (impaciente)
+    [SerializeField] float waitTimeMultiplier = 1f; // mantido pra debug, mas fixo em 1
+    [SerializeField] float baseWaitTime = 8f;       // tempo fixo de espera calculado pela dificuldade
 
     float waitTimer;
 
@@ -155,6 +155,7 @@ public class CustomerAI : MonoBehaviour
             return;
         }
 
+        // embaralha
         for (int i = 0; i < livres.Count; i++)
         {
             int j = UnityEngine.Random.Range(i, livres.Count);
@@ -237,13 +238,16 @@ public class CustomerAI : MonoBehaviour
                 break;
 
             case State.Waiting:
-                waitTimer -= Time.deltaTime;
+            {
+                float dt = GetGameDeltaTime();
+                waitTimer -= dt;
                 if (waitTimer <= 0f)
                 {
                     leaveMood = LeaveMood.Angry;
                     StartLeaving();
                 }
-                break;
+            }
+            break;
 
             case State.Eating:
                 UpdateEating();
@@ -311,7 +315,8 @@ public class CustomerAI : MonoBehaviour
 
     void UpdateEating()
     {
-        eatTimer -= Time.deltaTime;
+        float dt = GetGameDeltaTime();
+        eatTimer -= dt;
         if (eatTimer > 0f) return;
 
         if (servedDish)
@@ -563,15 +568,6 @@ public class CustomerAI : MonoBehaviour
         agent.Warp(p);
     }
 
-    void OnDestroy()
-    {
-        if (seat != null)
-        {
-            seat.Vacate(this);
-            seat = null;
-        }
-    }
-
     // =========================================================
     // Interface com a mesa
     // =========================================================
@@ -622,5 +618,24 @@ public class CustomerAI : MonoBehaviour
         anim.SetBool("IsEating", isEating);
         anim.SetBool("IsSatisfied", isLeavingHappy);
         anim.SetBool("IsAngry", isLeavingAngry);
+    }
+
+    // =========================================================
+    // Utilidades de tempo (sincroniza com GameTimer)
+    // =========================================================
+    float GetGameDeltaTime()
+    {
+        if (GameTimer.I != null && GameTimer.I.useUnscaledTime)
+            return Time.unscaledDeltaTime;
+        return Time.deltaTime;
+    }
+
+    void OnDestroy()
+    {
+        if (seat != null)
+        {
+            seat.Vacate(this);
+            seat = null;
+        }
     }
 }
