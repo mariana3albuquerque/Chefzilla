@@ -475,6 +475,16 @@ MonoBehaviour:
     icon: {fileID: 3733805612042556432, guid: f436b163e09299641beb1dcdcd5af023, type: 3}
   - id: burger
     icon: {fileID: 731375368619335737, guid: 592911d9b4764ad40ac71379ea9831d8, type: 3}
+  - id: cake
+    icon: {fileID: -6794305457321429515, guid: ba4af81cd75d5c84f8daeb41e546426a, type: 3}
+  - id: chicken
+    icon: {fileID: 5336855417275088078, guid: 201d2c40b12529e4baad6268ce73cecb, type: 3}
+  - id: donuts
+    icon: {fileID: -1418857376321372471, guid: e4806e41184540649b7531a0ce0e9e88, type: 3}
+  - id: egg
+    icon: {fileID: 4646649027328027380, guid: 7571502e035326c4899175094acaced3, type: 3}
+  - id: sandwich
+    icon: {fileID: -5211771596868668710, guid: c51eb3d4df3d45f4292ada078815c4b2, type: 3}
   atrasoDepoisDeSentar: 1.5
   correctServeSFX: {fileID: 8300000, guid: 71e3c30e53b079f40a601937df08b7fa, type: 3}
   sfxVolume: 1
