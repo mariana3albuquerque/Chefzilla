@@ -88,17 +88,25 @@ public class PlayerController2D : MonoBehaviour
     }
 
     void FixedUpdate()
-    {
-        // --- NOVO: durante o cooking não aplica velocidade ---
-        Vector2 effectiveInput = anim.GetBool("isCooking") ? Vector2.zero : input;
+{
+    // Se estiver cozinhando, não anda
+    Vector2 effectiveInput = anim.GetBool("isCooking") ? Vector2.zero : input;
 
-        Vector2 targetVel = effectiveInput * moveSpeed;
-        Vector2 nextVel = Vector2.MoveTowards(rb.linearVelocity, targetVel, acceleration * Time.fixedDeltaTime);
-        rb.linearVelocity = nextVel;
-        
+    // 🔥 pega o multiplicador de velocidade do upgrade
+    float speedMult = 1f;
+    if (KitchenUpgradeManager.I != null)
+        speedMult = KitchenUpgradeManager.I.MoveSpeedMultiplier;
 
-        // Alternativa com MovePosition (se preferir):
-        // Vector2 desiredPos = rb.position + targetVel * Time.fixedDeltaTime;
-        // rb.MovePosition(Vector2.MoveTowards(rb.position, desiredPos, acceleration * Time.fixedDeltaTime));
-    }
+    // Aplica velocidade base * multiplicador
+    Vector2 targetVel = effectiveInput * (moveSpeed * speedMult);
+
+    Vector2 nextVel = Vector2.MoveTowards(
+        rb.linearVelocity,
+        targetVel,
+        acceleration * Time.fixedDeltaTime
+    );
+
+    rb.linearVelocity = nextVel;
+}
+
 }
