@@ -66,15 +66,24 @@ public class StoveStation : MonoBehaviour
 
     float GetCookTime()
     {
-        float t = defaultCookTime;
-        var prefab = GetActiveRecipe();
-        if (prefab)
-        {
+	float t = defaultCookTime;
+	var prefab = GetActiveRecipe();
+	if (prefab)
+	{
             var c = prefab.GetComponent<Cookable>();
-            if (c && c.cookTime > 0f) t = c.cookTime;
-        }
-        return Mathf.Max(0.01f, t);
+	    if (c && c.cookTime > 0f) t = c.cookTime;
+	}
+
+	// aplica o multiplicador global de upgrades
+	float mult = 1f;
+	if (KitchenUpgradeManager.I)
+	    mult = KitchenUpgradeManager.I.GetCookTimeMultiplier();
+
+	t *= mult; // se mult = 0.4, o tempo fica 60% mais rápido
+	return Mathf.Max(0.01f, t);
     }
+
+
 
     System.Collections.IEnumerator CookRoutine()
     {
@@ -144,7 +153,10 @@ public class StoveStation : MonoBehaviour
         {
             if (!progressUI && progressBarPrefab)
             {
-                var go = Instantiate(progressBarPrefab, (spawnPoint ? spawnPoint.position : transform.position), Quaternion.identity);
+                var go = Instantiate(progressBarPrefab,
+                    (spawnPoint ? spawnPoint.position : transform.position),
+                    Quaternion.identity);
+
                 progressUI = go.GetComponent<ProgressBarUI>();
                 if (progressUI) progressUI.AttachTo(spawnPoint ? spawnPoint : transform);
                 progressUI?.Set01(0f);
@@ -168,3 +180,4 @@ public class StoveStation : MonoBehaviour
         if (progressUI) progressUI.gameObject.SetActive(false);
     }
 }
+
