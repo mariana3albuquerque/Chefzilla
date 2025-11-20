@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class SpawnSystemTimeGate : MonoBehaviour
 {
-    [Header("Timer (arraste o ScoreAndCountdownTMP do objeto 'Score')")]
-    public ScoreAndCountdownTMP timer;
+    [Header("Timer (ScoreAndCountdown só p/ referência de UI)")]
+    public ScoreAndCountdownTMP timer;   // agora é só referência visual, lógica vem do GameTimer
 
     [Header("Spawners que serão controlados (auto-preenchido no Reset)")]
     public NPCSpawner[] spawners;
@@ -17,8 +17,10 @@ public class SpawnSystemTimeGate : MonoBehaviour
 
     void Reset()
     {
-        // tenta achar automaticamente
+        // tenta achar automaticamente os spawners
         spawners = GetComponentsInChildren<NPCSpawner>(true);
+
+        // (opcional) tentar achar o ScoreAndCountdownTMP de um objeto "Score"
         if (!timer)
         {
             var scoreObj = GameObject.Find("Score");
@@ -34,9 +36,14 @@ public class SpawnSystemTimeGate : MonoBehaviour
 
     void Update()
     {
-        // se não houver timer, deixa spawns liberados
-        bool allow = timer ? timer.IsRunning : true;
+        // 🕐 Se existir GameTimer, ele é a fonte oficial de tempo.
+        // Se não existir, deixa os spawns liberados.
+        bool allow = true;
 
+        if (GameTimer.I != null)
+            allow = GameTimer.I.Running;
+
+        // nada mudou desde o último frame → não faz nada
         if (allow == lastAllow) return;
         lastAllow = allow;
 

@@ -6,6 +6,7 @@ public class TutorialEndPanel : MonoBehaviour
     [SerializeField] NPCSpawner npcSpawner;            // SpawnSystem (NPCSpawner)
     [SerializeField] ScoreAndCountdownTMP countdown;   // objeto de timer (ScoreAndCountdownTMP)
     [SerializeField] BackgroundMusicController backgroundMusic; // <<< NOVO
+    [SerializeField] GameTimer gameTimer;
 
     [Header("Comportamento")]
     [SerializeField] bool pauseGame = true;
@@ -69,10 +70,15 @@ public class TutorialEndPanel : MonoBehaviour
             Debug.LogWarning("[TutorialEndPanel] NpcSpawner não atribuído.");
 
         // inicia o timer do jogo
-        if (countdown != null)
+        if (gameTimer != null)
         {
-            countdown.ResetTimer();   // volta para 05:00
-            countdown.StartTimer();   // começa a contar
+            gameTimer.ResetTimer();
+            gameTimer.StartTimer();
+        }
+        else if (GameTimer.I != null)
+        {
+            GameTimer.I.ResetTimer();
+            GameTimer.I.StartTimer();
         }
 
         // 🔊 começa a música normal do jogo

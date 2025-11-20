@@ -5,70 +5,69 @@ using TMPro;
 public class ScoreAndCountdownTMP : MonoBehaviour
 {
     [Header("Refs")]
-    public TMP_Text label;                // Detecta automaticamente se vazio
+    public TMP_Text label; // Detecta automaticamente se vazio
 
-    [Header("Timer")]
-    [Min(1)] public int startSeconds = 300;   // 5:00
-    public bool autoStart = true;
-    public bool useUnscaledTime = true;
-
-    float remaining;      // segundos (float)
-    bool running;
-
-    public bool IsRunning => running;
-    public float Remaining => remaining;
-    public int RemainingSeconds => Mathf.CeilToInt(remaining);
+    // último valor que o GameTimer avisou
+    int lastSeconds = -1;
 
     void Reset()
     {
         label = GetComponent<TMP_Text>();
-        if (startSeconds < 1) startSeconds = 300;
     }
 
     void Awake()
     {
         if (!label) label = GetComponent<TMP_Text>();
-        remaining = Mathf.Max(1, startSeconds);
-        Render();
     }
 
     void OnEnable()
     {
-        if (autoStart) StartTimer();
-        else Render();
+        // liga no GameTimer para receber os ticks
+        if (GameTimer.I != null)
+        {
+            HandleTick(GameTimer.I.RemainingSeconds); // valor inicial
+            GameTimer.I.OnTick += HandleTick;
+        }
+        else
+        {
+            HandleTick(0);
+        }
     }
 
-    public void StartTimer()   { running = true; }
-    public void PauseTimer()   { running = false; }
-    public void ResetTimer()   { remaining = Mathf.Max(1, startSeconds); running = false; Render(); }
-    public void RestartTimer() { remaining = Mathf.Max(1, startSeconds); running = true;  Render(); }
-
-    void Update()
+    void OnDisable()
     {
-        TickTimer();
+        if (GameTimer.I != null)
+            GameTimer.I.OnTick -= HandleTick;
+    }
+
+    void HandleTick(int seconds)
+    {
+        lastSeconds = seconds;
         Render();
     }
 
-    void TickTimer()
+    void Update()
     {
-        if (!running) return;
-        if (remaining <= 0f) { running = false; return; }
-
-        float dt = useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
-        remaining -= dt;
-        if (remaining < 0f) remaining = 0f;
-        if (remaining <= 0f) running = false;
+        // atualiza score/moedas mesmo que o segundo não tenha mudado
+        Render();
     }
 
     void Render()
     {
-        int secs = Mathf.CeilToInt(remaining);
-        int m = secs / 60, s = secs % 60;
+        if (!label) return;
 
-        int score = ScoreManager.I    ? ScoreManager.I.Score    : 0;
+        int secs = lastSeconds;
+        if (secs < 0)
+            secs = GameTimer.I != null ? GameTimer.I.RemainingSeconds : 0;
+
+        secs = Mathf.Max(0, secs);
+
+        int m = secs / 60;
+        int s = secs % 60;
+
+        int score = ScoreManager.I ? ScoreManager.I.Score : 0;
         int coins = CurrencyManager.I ? CurrencyManager.I.Coins : 0;
 
-        if (label)
-            label.text = $"Score: {score}   |   Moedas: {coins}   |   Tempo: {m:00}:{s:00}";
+        label.text = $"Score: {score}   |   Moedas: {coins}   |   Tempo: {m:00}:{s:00}";
     }
 }
