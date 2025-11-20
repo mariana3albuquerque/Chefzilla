@@ -27,7 +27,7 @@ public class GameTimer : MonoBehaviour
         I = this;
 
         if (initialSeconds < 1) initialSeconds = 300;
-        Remaining = initialSeconds;   // << já deixa 05:00 carregado
+        Remaining = initialSeconds;   // já deixa 05:00 carregado
         lastBroadcast = -1;
     }
 
@@ -49,12 +49,22 @@ public class GameTimer : MonoBehaviour
     {
         Remaining = Mathf.Max(1, initialSeconds);
         lastBroadcast = -1;
-        NotifyTick();                 // << atualiza UI para 05:00
+        NotifyTick();                 // atualiza UI
     }
 
-    public void StartTimer() { Running = true; }
-    public void Pause() { Running = false; }
-    public void Resume() { Running = true; }
+    // 🔹 AGORA: quando o timer começa, também liga a música normal do jogo
+    public void StartTimer()
+    {
+        Running = true;
+
+        if (backgroundMusic != null)
+        {
+            backgroundMusic.StartNormalMusic();
+        }
+    }
+
+    public void Pause()  { Running = false; }
+    public void Resume() { Running = true;  }
 
     void Update()
     {
@@ -64,7 +74,7 @@ public class GameTimer : MonoBehaviour
         Remaining -= dt;
         if (Remaining < 0f) Remaining = 0f;
 
-        // 🔊 avisa o controlador de música quanto tempo falta
+        // avisa o controlador de música quanto tempo falta (pra trocar pra tensa)
         if (backgroundMusic != null)
             backgroundMusic.UpdateTimeRemaining(Remaining);
 

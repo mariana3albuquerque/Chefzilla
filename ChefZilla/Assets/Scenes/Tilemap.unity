@@ -3885,8 +3885,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c2488f5ac886374a1e69e24e0e020d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialSeconds: 30
-  startOnEnable: 1
+  initialSeconds: 60
+  startOnEnable: 0
   useUnscaledTime: 1
   backgroundMusic: {fileID: 1245697755}
 --- !u!4 &665285907
@@ -10898,7 +10898,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1140870108
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13340,7 +13340,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1419850425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13355,8 +13355,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcSpawner: {fileID: 880276449}
   countdown: {fileID: 1207796702}
-  backgroundMusic: {fileID: 1245697755}
-  gameTimer: {fileID: 0}
   pauseGame: 1
   clearTablesOnStart: 1
   tutorialMusic: {fileID: 1818436627}

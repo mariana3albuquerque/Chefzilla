@@ -141,10 +141,19 @@ public class GameOverPanel : MonoBehaviour
     {
         Debug.Log("[GameOverPanel] Jogar novamente.");
 
+        // Descongela o jogo
         Time.timeScale = 1f;
         AudioListener.pause = false;
         PauseMenu.AllowPause = true;
 
+        // 🔁 Zera score e moedas ANTES de recarregar a cena
+        if (ScoreManager.I != null)
+            ScoreManager.I.ResetScore();
+
+        if (CurrencyManager.I != null)
+            CurrencyManager.I.ResetCoins();
+
+        // Recarrega a cena atual (voltando pro fluxo normal: tela de tutorial etc.)
         var scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.buildIndex);
     }

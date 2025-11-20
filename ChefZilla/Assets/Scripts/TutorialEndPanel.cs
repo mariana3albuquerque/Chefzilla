@@ -3,14 +3,10 @@ using UnityEngine;
 public class TutorialEndPanel : MonoBehaviour
 {
     [Header("Referências")]
-    [SerializeField] NPCSpawner npcSpawner;            // SpawnSystem (NPCSpawner)
-    [SerializeField] ScoreAndCountdownTMP countdown;   // objeto de timer (ScoreAndCountdownTMP)
-    [SerializeField] BackgroundMusicController backgroundMusic; // <<< NOVO
-    [SerializeField] GameTimer gameTimer;
-
-    [Header("Comportamento")]
+    [SerializeField] NPCSpawner npcSpawner;              // SpawnSystem (NPCSpawner)
+    [SerializeField] ScoreAndCountdownTMP countdown;     // HUD de score/tempo (opcional)
     [SerializeField] bool pauseGame = true;
-    [SerializeField] bool clearTablesOnStart = true;   // limpar itens das mesas ao começar o jogo
+    [SerializeField] bool clearTablesOnStart = true;     // limpar itens das mesas ao começar o jogo
     [SerializeField] AudioSource tutorialMusic;
 
     CanvasGroup canvasGroup;
@@ -52,10 +48,11 @@ public class TutorialEndPanel : MonoBehaviour
     {
         Debug.Log("[TutorialEndPanel] Play pressionado");
 
-        // volta o tempo
+        // volta o tempo de jogo
         if (pauseGame)
             Time.timeScale = 1f;
 
+        // para música do tutorial, se tiver
         if (tutorialMusic && tutorialMusic.isPlaying)
             tutorialMusic.Stop();
 
@@ -69,21 +66,15 @@ public class TutorialEndPanel : MonoBehaviour
         else
             Debug.LogWarning("[TutorialEndPanel] NpcSpawner não atribuído.");
 
-        // inicia o timer do jogo
-        if (gameTimer != null)
+        // 🔹 controla o tempo pelo GameTimer
+        if (GameTimer.I != null)
         {
-            gameTimer.ResetTimer();
-            gameTimer.StartTimer();
-        }
-        else if (GameTimer.I != null)
-        {
-            GameTimer.I.ResetTimer();
-            GameTimer.I.StartTimer();
+            GameTimer.I.ResetTimer();   // volta pro tempo inicial (ex: 5:00)
+            GameTimer.I.StartTimer();   // começa a contar AGORA
         }
 
-        // 🔊 começa a música normal do jogo
-        if (backgroundMusic != null)
-            backgroundMusic.StartNormalMusic();
+        // OBS: não chamamos mais countdown.ResetTimer / StartTimer
+        // O ScoreAndCountdownTMP (se estiver na cena) deve apenas ler e exibir GameTimer.I.RemainingSeconds.
 
         // esconde o painel
         HideImmediate();
