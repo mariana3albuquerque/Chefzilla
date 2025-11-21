@@ -9646,6 +9646,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1839843263}
+        m_TargetAssemblyTypeName: PlayerInteractionZone, Assembly-CSharp
+        m_MethodName: CompleteCurrentObjectiveFromUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &871591592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14771,15 +14783,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 274187039596576424, guid: 29e5f4e68cc42926fab49ddf24346b98, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.226
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 274187039596576424, guid: 29e5f4e68cc42926fab49ddf24346b98, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.457
+      value: -1.29
       objectReference: {fileID: 0}
     - target: {fileID: 274187039596576424, guid: 29e5f4e68cc42926fab49ddf24346b98, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.103
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 274187039596576424, guid: 29e5f4e68cc42926fab49ddf24346b98, type: 3}
       propertyPath: m_LocalRotation.w
@@ -15109,7 +15121,6 @@ MonoBehaviour:
   - {fileID: 571418711}
   - {fileID: 1411070331}
   - {fileID: 20480994}
-  - {fileID: 856484167}
   stopHintDistance: 1.1
   turnOffOnlyOnInteract: 1
   tutorialEndPanel: {fileID: 1419850425}
