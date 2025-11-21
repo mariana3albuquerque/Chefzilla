@@ -20,7 +20,7 @@ public class PlayerInteractionZone : MonoBehaviour
     public bool turnOffOnlyOnInteract = true;
 
     [Header("Fim do tutorial")]
-    public TutorialEndPanel tutorialEndPanel;   // <<< painel "Tutorial concluído"
+    public TutorialEndPanel tutorialEndPanel;   // painel "Tutorial concluído"
 
     int currentObj = -1;
     bool hasActiveHint = false;
@@ -187,9 +187,18 @@ public class PlayerInteractionZone : MonoBehaviour
                     return;
                 }
 
-                // ---- GELADEIRA / TABLE (pegar direto) ----
-                if (currentInteractable.type == InteractableType.Fridge ||
-                    currentInteractable.type == InteractableType.Table)
+                // ---- GELADEIRA ----
+                // >>> AQUI TROCAMOS: abrir a geladeira NÃO completa mais o objetivo.
+                if (currentInteractable.type == InteractableType.Fridge)
+                {
+                    PickFrom(currentInteractable);
+                    // NÃO chama CheckObjectiveProgress aqui.
+                    UpdateProximityHint();
+                    return;
+                }
+
+                // ---- INTERACTABLE TIPO TABLE (se existir) ----
+                if (currentInteractable.type == InteractableType.Table)
                 {
                     PickFrom(currentInteractable);
                     CheckObjectiveProgress(currentInteractable.gameObject);
@@ -481,4 +490,17 @@ public class PlayerInteractionZone : MonoBehaviour
         if (interactionHint != null)
             interactionHint.HideHint();
     }
+
+    // >>> NOVO: chamado pelo botão X do painel de upgrades <<<
+    public void CompleteCurrentObjectiveFromUI()
+    {
+        var obj = GetCurrentObjective();
+        if (obj != null)
+        {
+            SetHintActive(obj, false);
+            hasActiveHint = false;
+            AdvanceObjective();
+        }
+    }
 }
+

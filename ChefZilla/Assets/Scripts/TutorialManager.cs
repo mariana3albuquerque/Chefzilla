@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
-    [Header("Referências")]
+    [Header("Referï¿½ncias")]
     [SerializeField] TutorialEndPanel tutorialEndPanel;
 
     bool moved;
@@ -27,7 +27,7 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    // 2) Chamar isso quando pegar comida no fogão
+    // 2) Chamar isso quando pegar comida no fogï¿½o
     public void MarkPickedFood()
     {
         if (finished) return;
@@ -50,7 +50,7 @@ public class TutorialManager : MonoBehaviour
         if (moved && pickedFood && placedFood)
         {
             finished = true;
-            tutorialEndPanel.Show();   // aparece o banner "tutorial concluído"
+            tutorialEndPanel.Show();   // aparece o banner "tutorial concluï¿½do"
         }
     }
 }
