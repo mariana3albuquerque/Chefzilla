@@ -443,8 +443,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32383985987767b9987f5b129cb65e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minWait: 10
-  maxWait: 25
+  minWait: 12
+  maxWait: 26
   minEat: 4
   maxEat: 7
   arriveTolerance: 0.14

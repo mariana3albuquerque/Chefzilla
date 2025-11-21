@@ -3318,7 +3318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c08f66c479cb330bb3d8161b6813ce7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 1
+  price: 35
   multiplierAfterPurchase: 0.4
   button: {fileID: 2079192071}
   label: {fileID: 207048163}
@@ -3334,7 +3334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a3b08b54954d122bf934da3fb56ef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 2
+  price: 20
   multiplierAfterPurchase: 1.5
   button: {fileID: 994862944}
   label: {fileID: 2138882669}
@@ -3885,7 +3885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c2488f5ac886374a1e69e24e0e020d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialSeconds: 60
+  initialSeconds: 300
   startOnEnable: 0
   useUnscaledTime: 1
   backgroundMusic: {fileID: 1245697755}
@@ -9776,8 +9776,8 @@ MonoBehaviour:
   interval: 8
   maxAlive: 7
   usarDificuldadePorTempo: 1
-  easyInterval: 12
-  hardInterval: 7
+  easyInterval: 9
+  hardInterval: 3.5
   easyMaxAlive: 3
   hardMaxAlive: 7
   spawnOnStart: 0
@@ -10551,7 +10551,7 @@ MonoBehaviour:
   triggerCollider: {fileID: 0}
   lockOverlay: {fileID: 2041201111}
   displayName: "Fog\xE3o esquerda"
-  price: 1
+  price: 10
   unlockedAtStart: 0
 --- !u!114 &1033433989
 MonoBehaviour:
@@ -12601,7 +12601,7 @@ MonoBehaviour:
   triggerCollider: {fileID: 0}
   lockOverlay: {fileID: 1901554047}
   displayName: "Fog\xE3o direita"
-  price: 30
+  price: 25
   unlockedAtStart: 0
 --- !u!114 &1378964422
 MonoBehaviour:

@@ -146,12 +146,13 @@ public class GameOverPanel : MonoBehaviour
         AudioListener.pause = false;
         PauseMenu.AllowPause = true;
 
-        // 🔁 Zera score e moedas ANTES de recarregar a cena
-        if (ScoreManager.I != null)
-            ScoreManager.I.ResetScore();
+        // Zera score e moedas
+        ScoreManager.I?.ResetScore();
+        CurrencyManager.I?.ResetCoins();
 
-        if (CurrencyManager.I != null)
-            CurrencyManager.I.ResetCoins();
+        // 🔁 Zera TODOS os upgrades (fogão rápido, chef rápido, etc.)
+        if (KitchenUpgradeManager.I != null)
+            KitchenUpgradeManager.I.ResetAllUpgrades();
 
         // Recarrega a cena atual (voltando pro fluxo normal: tela de tutorial etc.)
         var scene = SceneManager.GetActiveScene();
@@ -166,6 +167,11 @@ public class GameOverPanel : MonoBehaviour
         Time.timeScale = 1f;
         AudioListener.pause = false;
         PauseMenu.AllowPause = true;
+
+        // Se quiser que ao voltar pro menu também tudo esteja zerado:
+        ScoreManager.I?.ResetScore();
+        CurrencyManager.I?.ResetCoins();
+        KitchenUpgradeManager.I?.ResetAllUpgrades();
 
         if (!string.IsNullOrEmpty(menuSceneName))
             SceneManager.LoadScene(menuSceneName);

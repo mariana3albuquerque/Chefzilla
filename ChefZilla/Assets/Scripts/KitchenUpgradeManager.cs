@@ -27,6 +27,7 @@ public class KitchenUpgradeManager : MonoBehaviour
         I = this;
 
         // Se você não quer que esse objeto persista entre cenas, pode comentar a linha abaixo.
+        // Se quiser que persista (menu -> jogo), descomenta.
         // DontDestroyOnLoad(gameObject);
     }
 
@@ -47,5 +48,15 @@ public class KitchenUpgradeManager : MonoBehaviour
     {
         return cookTimeMultiplier;
     }
-}
 
+    // === RESET GERAL DOS UPGRADES (chamado ao recomeçar o jogo) ===
+    public void ResetAllUpgrades()
+    {
+        // volta tudo pro estado inicial da partida
+        cookTimeMultiplier = 1f;
+        moveSpeedMultiplier = 1f;
+
+        // Se depois você criar outros upgrades (mais fogões, etc.)
+        // e guardar flags aqui dentro, zera tudo nesse método também.
+    }
+}
